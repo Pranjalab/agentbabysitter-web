@@ -3,12 +3,69 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Agent Babysitter — remote-control Claude Code from Telegram</title>
-<meta name="description" content="Agent Babysitter watches your Claude Code session and messages your phone on Telegram when work finishes. Reply, send screenshots, check usage — all from the same live session.">
-<link rel="icon" type="image/png" href="assets/mascot.png">
+<meta name="theme-color" content="#0a0d17">
+
+<title>Agent Babysitter — Remote-Control Claude Code from Telegram</title>
+<meta name="description" content="Get a Telegram message when Claude Code finishes a task. Reply from your phone into the same live session, send screenshots, use voice, and check usage.">
+<link rel="canonical" href="https://agentbabysitter.com/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+
+<!-- og:image must be absolute — scrapers don't resolve relative paths — and the
+     declared size has to match the file, or X letterboxes the card. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Agent Babysitter">
+<meta property="og:url" content="https://agentbabysitter.com/">
+<meta property="og:title" content="Agent Babysitter — Remote-Control Claude Code from Telegram">
+<meta property="og:description" content="Get a Telegram message when Claude Code finishes a task. Reply from your phone into the same live session, send screenshots, use voice, and check usage.">
+<meta property="og:image" content="https://agentbabysitter.com/assets/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Agent Babysitter: go live your life, Claude Code keeps working. A Telegram chat shows a task-completed report and a reply going back into the session.">
+<meta property="og:locale" content="en_US">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Agent Babysitter — Remote-Control Claude Code from Telegram">
+<meta name="twitter:description" content="Get a Telegram message when Claude Code finishes a task. Reply from your phone into the same live session, send screenshots, use voice, and check usage.">
+<meta name="twitter:image" content="https://agentbabysitter.com/assets/og.png">
+<meta name="twitter:image:alt" content="Agent Babysitter: go live your life, Claude Code keeps working. A Telegram chat shows a task-completed report and a reply going back into the session.">
+
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Agent Babysitter",
+  "alternateName": "abs",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Linux, macOS",
+  "softwareVersion": "2.0.0",
+  "url": "https://agentbabysitter.com/",
+  "downloadUrl": "https://agentbabysitter.com/install.sh",
+  "codeRepository": "https://github.com/Pranjalab/AgentBabysitter",
+  "license": "https://opensource.org/licenses/MIT",
+  "description": "Agent Babysitter remote-controls and monitors a Claude Code session from Telegram. It messages your phone when a task finishes, takes your reply back into the same live session, and supports screenshots, voice notes, and usage reports.",
+  "image": "https://agentbabysitter.com/assets/og.png",
+  "author": { "@type": "Person", "name": "Pranjal" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "featureList": [
+    "Telegram notifications when a Claude Code task finishes",
+    "Reply from your phone into the same live session",
+    "Send screenshots Claude reads directly",
+    "Voice notes in and out, transcribed and spoken locally",
+    "Check Claude usage limits from Telegram",
+    "PIN-paired private bot with an allowlist",
+    "Multiple projects via profiles"
+  ]
+}
+</script>
 <style>
   :root {
     --bg:      #0a0d17;
