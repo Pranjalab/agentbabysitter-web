@@ -3,377 +3,539 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Agent Babysitter — leave your desk, Claude Code keeps working</title>
+<title>Agent Babysitter — remote-control Claude Code from Telegram</title>
+<meta name="description" content="Agent Babysitter watches your Claude Code session and messages your phone on Telegram when work finishes. Reply, send screenshots, check usage — all from the same live session.">
+<link rel="icon" type="image/png" href="assets/mascot.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Public+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink:    #0d0f13;
-    --ink-2:  #141821;
-    --line:   #232936;
-    --clay:   #d97757;
-    --tg:     #2aabee;
-    --text:   #e9e7e4;
-    --muted:  #868e9d;
-    --dim:    #5d6674;
+    --bg:      #0a0d17;
+    --bg-2:    #0f1320;
+    --bg-3:    #141a2b;
+    --line:    #212842;
+    --line-2:  #2c3450;
 
-    --display: "Bricolage Grotesque", system-ui, sans-serif;
-    --body:    "Public Sans", system-ui, sans-serif;
-    --mono:    "JetBrains Mono", ui-monospace, monospace;
+    --violet:   #8b5cf6;
+    --violet-2: #a78bfa;
+    --tg:       #29a9ea;
+    --green:    #34d399;
+    --orange:   #f5a623;
+    --cyan:     #22d3ee;
+
+    --text:  #eef1f8;
+    --body:  #aab3c8;
+    --muted: #6b7590;
+
+    --sans: "Inter", system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+
+    --maxw: 1120px;
   }
 
   * { box-sizing: border-box; }
-
-  html, body { height: 100%; }
-
+  html { scroll-behavior: smooth; }
   body {
     margin: 0;
-    background: var(--ink);
+    background: var(--bg);
     color: var(--text);
-    font-family: var(--body);
+    font-family: var(--sans);
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    /* Clay bleeds from the terminal side, Telegram blue from the phone side. */
-    background-image:
-      radial-gradient(58rem 26rem at 6% -12%, rgba(217,119,87,.16), transparent 60%),
-      radial-gradient(52rem 24rem at 97% 2%,  rgba(42,171,238,.13), transparent 60%);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  .accent { color: var(--violet-2); }
+
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(50rem 30rem at 78% 6%, rgba(139,92,246,.14), transparent 60%),
+      radial-gradient(40rem 26rem at 12% 30%, rgba(41,169,234,.08), transparent 60%);
   }
 
-  /* One scene: the whole page is meant to be captured in a single frame. */
-  .wrap {
-    max-width: 1240px;
-    margin: 0 auto;
-    padding: 18px 44px 16px;
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
 
-  /* ---- masthead ---- */
-  .masthead {
-    display: flex; align-items: baseline; justify-content: space-between;
-    padding-bottom: 4px;
+  /* ---------- header ---------- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(10,13,23,.72);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
   }
-  .wordmark {
-    font-family: var(--mono); font-size: 13px; letter-spacing: .16em;
-    text-transform: uppercase; color: var(--text);
+  .nav { display: flex; align-items: center; gap: 20px; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 19px; }
+  .brand .mark { width: 36px; height: 36px; flex: none; border-radius: 50%; object-fit: cover; }
+  .brand b { font-weight: 800; }
+  .nav-links { display: flex; gap: 26px; margin-left: auto; font-size: 14px; color: var(--body); }
+  .nav-links a:hover { color: var(--text); }
+  .gh-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--line-2); border-radius: 9px;
+    padding: 8px 14px; font-size: 14px; font-weight: 500;
+    background: var(--bg-2);
   }
-  .wordmark b { color: var(--clay); font-weight: 500; }
-  .wordmark s {
-    text-decoration: none; color: var(--dim); letter-spacing: .1em;
-    margin-left: 10px; font-size: 11px;
-  }
-  .masthead nav { display: flex; gap: 24px; font-size: 12.5px; color: var(--muted); }
-  .masthead nav .lic { font-family: var(--mono); color: var(--dim); }
+  .gh-btn:hover { border-color: var(--violet); }
+  .gh-btn svg { width: 16px; height: 16px; }
 
-  /* ---- hero ---- */
-  .hero { padding: 16px 0 0; }
-  .eyebrow {
-    font-family: var(--mono); font-size: 11px; letter-spacing: .18em;
-    text-transform: uppercase; color: var(--muted); margin: 0 0 11px;
-    display: flex; align-items: center; gap: 11px;
-  }
-  .eyebrow i { display: inline-block; width: 24px; height: 1px; background: var(--line); }
+  /* ---------- hero ---------- */
+  .hero { padding: 92px 0 72px; }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: start; }
+  .hero-grid > * { min-width: 0; }
   h1 {
-    font-family: var(--display);
-    font-size: clamp(32px, 3.3vw, 46px);
-    font-weight: 800; line-height: 1.03; letter-spacing: -.03em;
-    margin: 0; max-width: 24ch;
+    font-size: clamp(34px, 4.2vw, 52px);
+    font-weight: 800; line-height: 1.08; letter-spacing: -.02em; margin: 0;
   }
-  h1 em { font-style: normal; color: var(--muted); font-weight: 400; }
-  .standfirst {
-    margin: 13px 0 0; max-width: 68ch;
-    font-size: 14.5px; line-height: 1.55; color: #b9bfca;
+  .lede {
+    margin: 26px 0 0; max-width: 40ch;
+    font-size: 17px; color: var(--body);
   }
-  .standfirst code {
-    font-family: var(--mono); font-size: .87em; color: var(--clay);
-    background: rgba(217,119,87,.09); border: 1px solid rgba(217,119,87,.22);
-    border-radius: 4px; padding: 1px 5px;
+  .lede b { color: var(--text); font-weight: 600; }
+
+  .icon-row { display: flex; flex-wrap: wrap; gap: 20px 16px; margin: 42px 0 0; }
+  .icon-item { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 72px; text-align: center; }
+  .icon-item .ic { width: 26px; height: 26px; }
+  .icon-item span { font-size: 11.5px; color: var(--body); line-height: 1.25; }
+
+  .install { margin: 42px 0 0; }
+  .install-card {
+    background: var(--bg-2); border: 1px solid var(--line-2);
+    border-radius: 12px; padding: 20px 22px;
   }
-  /* The paste-me command is the first action on the page, so it gets the weight:
-     a clay-edged card, the whole line selectable, a copy affordance. */
-  .install { margin: 14px 0 0; }
-  .install-cmd {
+  .install-card .head {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--muted); margin-bottom: 14px; font-family: var(--mono);
+  }
+  .install-card .head .dollar { color: var(--green); }
+  .cmd-line {
     display: flex; align-items: center; gap: 12px;
-    font-family: var(--mono); font-size: 14px;
-    background: var(--ink-2);
-    border: 1px solid rgba(217,119,87,.4);
-    border-radius: 9px; padding: 13px 14px 13px 16px;
-    box-shadow: 0 0 0 3px rgba(217,119,87,.06);
+    background: #070a12; border: 1px solid var(--line);
+    border-radius: 9px; padding: 12px 14px;
   }
-  .install-cmd .p { color: var(--clay); }
-  .install-cmd code { color: var(--text); flex: 1; white-space: nowrap; }
-  .install-cmd .copy {
-    font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
-    text-transform: uppercase; color: var(--clay);
-    background: rgba(217,119,87,.1); border: 1px solid rgba(217,119,87,.35);
-    border-radius: 6px; padding: 5px 11px; cursor: pointer;
-    transition: background .15s;
+  .cmd-line { min-width: 0; }
+  .cmd-line code {
+    font-family: var(--mono); font-size: 14px; color: var(--text);
+    flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap;
   }
-  .install-cmd .copy:hover { background: rgba(217,119,87,.2); }
-  .install-alt {
-    margin: 8px 2px 0;
-    font-family: var(--mono); font-size: 11.5px; color: var(--dim);
-    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  .cmd-line .tok-flag { color: var(--violet-2); }
+  .copy-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--sans); font-size: 12px; color: var(--body);
+    background: transparent; border: 1px solid var(--line-2);
+    border-radius: 7px; padding: 6px 11px; cursor: pointer; flex: none;
   }
-  .install-alt code { color: var(--muted); }
-  .install-alt .sep { opacity: .5; }
+  .copy-btn:hover { color: var(--text); border-color: var(--violet); }
+  .copy-btn svg { width: 13px; height: 13px; }
+  .install-note { margin: 11px 2px 0; font-size: 13px; color: var(--muted); }
+  .install-note code { font-family: var(--mono); color: var(--violet-2); font-size: .92em; }
 
-  /* ---- the bridge: the one thing this page is remembered by ---- */
-  .bridge {
-    margin: 20px 0 0;
-    display: grid; grid-template-columns: 1fr 140px 1fr;
-    align-items: stretch;
+  .platforms { display: flex; flex-wrap: wrap; gap: 12px; margin: 30px 0 0; }
+  .plat {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--line); border-radius: 9px;
+    padding: 8px 13px; font-size: 13px; color: var(--body); background: var(--bg-2);
   }
-  .panel {
-    background: var(--ink-2); border: 1px solid var(--line);
-    border-radius: 11px; overflow: hidden;
+  .plat svg { width: 15px; height: 15px; }
+
+  /* ---------- hero visual ---------- */
+  .stage { position: relative; min-height: 400px; }
+  .card {
+    background: var(--bg-2); border: 1px solid var(--line-2);
+    border-radius: 13px; overflow: hidden;
+    box-shadow: 0 24px 60px -30px rgba(0,0,0,.8);
   }
-  .panel-bar {
+  .term { position: absolute; left: 0; top: 8px; z-index: 1; width: 296px; }
+  .term .bar {
     display: flex; align-items: center; gap: 7px;
-    padding: 9px 13px; border-bottom: 1px solid var(--line);
-    font-family: var(--mono); font-size: 10px; letter-spacing: .12em;
-    text-transform: uppercase; color: var(--muted);
+    padding: 10px 14px; border-bottom: 1px solid var(--line);
+    font-size: 12px; color: var(--body);
   }
-  .panel-bar .dot { width: 6px; height: 6px; border-radius: 50%; background: #2f3542; }
-  .panel-bar .who { margin-left: auto; letter-spacing: .08em; }
-  .term { border-top: 2px solid var(--clay); }
-  .term .who { color: var(--clay); }
-  .chat { border-top: 2px solid var(--tg); }
-  .chat .who { color: var(--tg); }
+  .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .dot.r { background: #ff5f57; } .dot.y { background: #febc2e; } .dot.g { background: #28c840; }
+  .term .bar .title { margin-left: 8px; color: var(--muted); }
+  .term-body { padding: 15px 16px; font-family: var(--mono); font-size: 12.5px; line-height: 1.75; }
+  .term-body .p { color: var(--green); }
+  .term-body .dim { color: var(--muted); }
+  .term-body .ok { color: var(--green); }
+  .task-box {
+    background: #0a0f1c; border: 1px solid var(--line);
+    border-radius: 8px; padding: 11px 12px; margin: 8px 0;
+  }
+  .bar-progress { height: 5px; border-radius: 3px; background: #1b2137; margin-top: 8px; overflow: hidden; }
+  .bar-progress i { display: block; height: 100%; width: 62%; background: linear-gradient(90deg, var(--violet), var(--violet-2)); }
+  .cursor { display: inline-block; width: 7px; height: 15px; background: var(--text); vertical-align: -2px; animation: blink 1.1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
 
-  .panel-body { padding: 11px 13px 11px; font-family: var(--mono); font-size: 11.5px; line-height: 1.7; }
-  .panel-body .dim  { color: #59616f; }
-  .panel-body .ok   { color: #6fbf8b; }
-  .panel-body .clay { color: var(--clay); }
-  .panel-body .cur  { background: var(--clay); color: var(--ink); }
-  /* What arrives from the phone shows up inside the terminal, in Telegram's blue.
-     The two colours meeting in one pane is the "same session" claim, made literal. */
-  .panel-body .in   { color: var(--tg); }
-  .panel-body .ts   { color: #4a5261; }
+  .connector {
+    position: absolute; z-index: 5; left: 55%; top: 38%;
+    transform: translate(-50%,-50%);
+    width: 72px; height: 72px; border-radius: 50%;
+    box-shadow: 0 0 44px rgba(139,92,246,.6);
+  }
+  .connector img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
 
-  /* the seam — runs unbroken, clay to blue. The label sits above it. */
-  .seam { position: relative; text-align: center; }
-  .seam .rail {
-    position: absolute; top: 50%; left: -1px; right: -1px; height: 1px;
-    background: linear-gradient(90deg, var(--clay), var(--tg));
+  .phone {
+    position: absolute; z-index: 3; right: 0; top: 22px;
+    width: 210px; border-radius: 28px; padding: 8px;
+    background: #05070d; border: 1px solid var(--line-2);
+    box-shadow: 0 30px 70px -28px rgba(0,0,0,.9);
   }
-  .seam .rail::before, .seam .rail::after {
-    content: ""; position: absolute; top: -2px;
-    width: 5px; height: 5px; border-radius: 50%;
+  .phone-screen { background: var(--bg); border-radius: 22px; overflow: hidden; }
+  .phone-top {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 12px 8px; border-bottom: 1px solid var(--line);
   }
-  .seam .rail::before { left: -2px;  background: var(--clay); }
-  .seam .rail::after  { right: -2px; background: var(--tg); }
-  .seam .label {
-    position: absolute; left: 0; right: 0; top: calc(50% - 24px);
-    font-family: var(--mono); font-size: 10px; letter-spacing: .16em;
-    text-transform: uppercase; color: var(--text);
-  }
-  .seam .sub {
-    position: absolute; left: 0; right: 0; top: calc(50% + 11px);
-    font-size: 10.5px; color: var(--dim);
+  .phone-top .av { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg,var(--violet),var(--tg)); flex: none; }
+  .phone-top .nm { font-weight: 600; font-size: 12px; }
+  .phone-top .on { color: var(--tg); font-size: 10px; }
+  .chat { padding: 12px 11px 14px; display: flex; flex-direction: column; gap: 9px; }
+  .msg { max-width: 84%; border-radius: 12px; padding: 8px 10px; font-size: 11.5px; line-height: 1.4; }
+  .msg.bot { background: var(--bg-3); border: 1px solid var(--line); align-self: flex-start; }
+  .msg.me { background: rgba(41,169,234,.16); border: 1px solid rgba(41,169,234,.4); align-self: flex-end; }
+  .msg .t { display: block; margin-top: 4px; font-size: 9px; color: var(--muted); font-family: var(--mono); }
+  .msg .hd { font-weight: 600; margin-bottom: 3px; }
+  .msg ul { margin: 3px 0 0; padding-left: 15px; color: var(--body); }
+  .voice-msg { display: flex; align-items: center; gap: 8px; }
+  .voice-msg .play { width: 22px; height: 22px; border-radius: 50%; background: var(--tg); display: grid; place-items: center; flex: none; }
+  .voice-msg .play svg { width: 9px; height: 9px; }
+  .wave { flex: 1; height: 14px; background: repeating-linear-gradient(90deg, var(--tg) 0 2px, transparent 2px 4px); opacity: .55; border-radius: 2px; }
+  .shot {
+    height: 52px; border-radius: 6px; margin-top: 3px;
+    background-color: #0d1424; border: 1px solid var(--line);
+    background-image: repeating-linear-gradient(180deg, #1a2138 0 1px, transparent 1px 7px);
   }
 
-  .chat .panel-body { display: flex; flex-direction: column; gap: 8px; font-family: var(--body); }
-  .bubble {
-    border-radius: 11px; padding: 9px 11px; font-family: var(--body);
-    font-size: 12px; line-height: 1.45; max-width: 90%;
+  .handnote {
+    position: absolute; z-index: 4; left: 2%; top: 76%;
+    font-family: var(--mono); font-size: 12px; color: var(--violet-2);
+    transform: rotate(-5deg); white-space: nowrap; opacity: .8;
   }
-  .from-bot { background: #1c222d; border: 1px solid #262d3a; }
-  .from-me  { background: rgba(42,171,238,.15); border: 1px solid rgba(42,171,238,.32); margin-left: auto; }
-  .bubble .t { display: block; margin-top: 4px; font-size: 9.5px; color: var(--dim); font-family: var(--mono); }
+  .handnote em { font-style: italic; }
 
-  /* ---- columns ---- */
-  .cols {
-    margin: 20px 0 0;
-    display: grid; grid-template-columns: 1fr 1fr;
-    border: 1px solid var(--line); border-radius: 11px; overflow: hidden;
+  /* ---------- section shell ---------- */
+  section.block { padding: 46px 0; }
+  .panel {
+    background: linear-gradient(180deg, var(--bg-2), rgba(15,19,32,.4));
+    border: 1px solid var(--line); border-radius: 22px;
+    padding: 60px 56px;
   }
-  .col { padding: 15px 22px 15px; }
-  .col + .col { border-left: 1px solid var(--line); }
-  .col h2 {
-    font-family: var(--mono); font-size: 10px; letter-spacing: .16em;
-    text-transform: uppercase; margin: 0 0 12px; font-weight: 500;
-  }
-  .col-does h2 { color: var(--clay); }
-  .col-doesnt h2 { color: var(--muted); }
-  .col ul { margin: 0; padding: 0; list-style: none; }
-  .col li {
-    font-size: 12.5px; line-height: 1.45; padding: 3px 0 3px 18px;
-    position: relative; color: #b9bfca;
-  }
-  .col li b { color: var(--text); font-weight: 600; }
-  .col-does li::before {
-    content: ""; position: absolute; left: 0; top: 12px;
-    width: 6px; height: 6px; border-radius: 50%; background: var(--clay);
-  }
-  .col-doesnt li { color: var(--muted); }
-  .col-doesnt li::before {
-    content: ""; position: absolute; left: 0; top: 14px;
-    width: 7px; height: 1px; background: #3d4453;
-  }
-  .col-doesnt li b { color: #9aa2b0; }
+  .sec-title { text-align: center; font-size: clamp(24px,3vw,32px); font-weight: 800; letter-spacing: -.02em; margin: 0 0 48px; }
 
-  .foot {
-    margin-top: auto; padding-top: 10px;
-    display: flex; justify-content: space-between; align-items: baseline;
-    font-size: 11.5px; color: var(--dim);
+  .cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+  .fcard {
+    background: var(--bg); border: 1px solid var(--line);
+    border-radius: 14px; padding: 28px 26px; transition: border-color .18s, transform .18s;
   }
-  .foot .mono { font-family: var(--mono); }
+  .fcard:hover { border-color: var(--line-2); transform: translateY(-2px); }
+  .fcard .ic { width: 28px; height: 28px; margin-bottom: 18px; }
+  .fcard h3 { font-size: 16px; font-weight: 700; margin: 0 0 9px; }
+  .fcard p { font-size: 14px; color: var(--body); margin: 0; line-height: 1.55; }
+
+  .how-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 56px; align-items: center; }
+  .how-grid > * { min-width: 0; }
+  .steps { display: flex; flex-direction: column; gap: 28px; }
+  .step { display: flex; gap: 15px; }
+  .step .num {
+    width: 30px; height: 30px; flex: none; border-radius: 50%;
+    border: 1px solid var(--violet); color: var(--violet-2);
+    display: grid; place-items: center; font-size: 14px; font-weight: 700; font-family: var(--mono);
+  }
+  .step h4 { margin: 3px 0 4px; font-size: 15px; font-weight: 700; }
+  .step p { margin: 0; font-size: 13.5px; color: var(--body); }
+
+  .diagram {
+    background: var(--bg); border: 1px solid var(--line); border-radius: 16px;
+    padding: 40px 26px; position: relative;
+  }
+  .flow { display: flex; align-items: flex-start; justify-content: space-between; gap: 4px; }
+  .node { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; flex: none; width: 76px; }
+  .node .bubble { width: 52px; height: 52px; border-radius: 15px; display: grid; place-items: center; border: 1px solid var(--line-2); background: var(--bg-2); }
+  .node.mascot .bubble { border-color: var(--violet); box-shadow: 0 0 26px rgba(139,92,246,.4); padding: 0; overflow: hidden; background: var(--bg); }
+  .node .bubble svg { width: 26px; height: 26px; }
+  .node.mascot .bubble img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .node .lbl { font-size: 12px; color: var(--body); line-height: 1.2; }
+  .node .lbl b { color: var(--text); font-weight: 600; }
+  .flow .arrow { color: var(--muted); flex: 1; padding-top: 22px; }
+  .flow .arrow svg { width: 100%; max-width: 40px; height: 12px; }
+  .flow-cap { text-align: center; font-size: 11.5px; color: var(--muted); font-family: var(--mono); }
+  .flow-cap.top { margin: 0 0 18px; }
+  .flow-cap.bot { margin: 18px 0 0; }
+
+  .foot-panel { display: grid; grid-template-columns: 1.2fr 1fr; gap: 44px; align-items: center; }
+  .foot-panel > * { min-width: 0; }
+  .foot-panel h3 { font-size: 21px; font-weight: 800; margin: 0 0 8px; }
+  .foot-panel p { margin: 0; font-size: 14px; color: var(--body); max-width: 46ch; }
+  .foot-heart { width: 54px; height: 54px; margin-bottom: 4px; }
+  .foot-actions { text-align: right; }
+  .foot-actions .q { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .foot-actions .sub { font-size: 13.5px; color: var(--body); margin-bottom: 16px; }
+  .btn-row { display: flex; gap: 12px; justify-content: flex-end; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    border-radius: 10px; padding: 11px 18px; font-size: 14px; font-weight: 600;
+    border: 1px solid var(--line-2); background: var(--bg-2);
+  }
+  .btn svg { width: 16px; height: 16px; }
+  .btn.primary { background: var(--violet); border-color: var(--violet); color: #fff; }
+  .btn.primary:hover { background: var(--violet-2); }
+  .btn.ghost:hover { border-color: var(--violet); }
+  .colophon { text-align: center; padding: 26px 0 40px; font-size: 13px; color: var(--muted); }
+  .colophon .hh { color: #f2557a; }
 
   @media (max-width: 900px) {
-    .wrap { padding: 18px 20px 22px; min-height: 0; }
-    .hero { padding-top: 22px; }
-    .bridge { grid-template-columns: 1fr; gap: 14px; }
-    .seam {
-      display: flex; flex-direction: column; align-items: center;
-      gap: 6px; padding: 2px 0;
-    }
-    /* Stacked, a centred rail would run straight through the label. Flow them. */
-    .seam .rail {
-      position: relative; top: auto; left: auto; right: auto; order: 2;
-      width: 1px; height: 24px;
-      background: linear-gradient(180deg, var(--clay), var(--tg));
-    }
-    .seam .rail::before { left: -2px; top: -2px; }
-    .seam .rail::after  { left: -2px; right: auto; top: auto; bottom: -2px; }
-    .seam .label, .seam .sub { position: relative; top: auto; left: auto; right: auto; }
-    .seam .label { order: 1; }
-    .seam .sub   { order: 3; }
-    .cols { grid-template-columns: 1fr; }
-    .col + .col { border-left: 0; border-top: 1px solid var(--line); }
-    .install-cmd { font-size: 12px; gap: 8px; padding: 11px 11px 11px 13px; }
-    .install-cmd code { white-space: normal; word-break: break-all; }
-    .foot { margin-top: 26px; flex-direction: column; gap: 8px; }
+    .nav-links { display: none; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .stage { min-height: 0; margin-top: 8px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+    .term { position: static; width: 100%; max-width: 360px; }
+    .phone { position: static; width: 100%; max-width: 280px; right: auto; top: auto; }
+    .connector, .handnote { display: none; }
+    .cards { grid-template-columns: 1fr; }
+    .how-grid { grid-template-columns: 1fr; gap: 26px; }
+    .foot-panel { grid-template-columns: 1fr; }
+    .foot-actions { text-align: left; }
+    .btn-row { justify-content: flex-start; }
+    .panel { padding: 30px 20px; }
   }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <header class="masthead">
-    <div class="wordmark">agent<b>babysitter</b><s>agentbabysitter.com</s></div>
-    <nav>
-      <span>Telegram</span>
-      <span>Voice</span>
-      <span>Profiles</span>
-      <span class="lic">MIT</span>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <img class="mark" src="assets/mascot.png" alt="Agent Babysitter mascot">
+      <span>Agent <b class="accent">Babysitter</b></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it Works</a>
+      <a href="https://github.com/Pranjalab/AgentBabysitter#%EF%B8%8F-commands">Commands</a>
+      <a href="https://github.com/Pranjalab/AgentBabysitter/blob/main/SECURITY.md">Security</a>
+      <a href="https://github.com/Pranjalab/AgentBabysitter#-faq">FAQ</a>
     </nav>
-  </header>
+    <a class="gh-btn" href="https://github.com/Pranjalab/AgentBabysitter">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      GitHub
+    </a>
+  </div>
+</header>
 
-  <section class="hero">
-    <p class="eyebrow"><i></i> A companion for Claude Code</p>
+<a id="top"></a>
 
-    <h1>Leave your desk.<br>Claude Code <em>keeps working.</em></h1>
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Leave your desk.<br>Claude Code keeps working.<br>We <span class="accent">message you</span> when it's done.</h1>
+      <p class="lede">Agent Babysitter watches your Claude Code session and notifies you on Telegram. <b>Reply, send screenshots, check usage, and keep steering the same live session.</b></p>
 
-    <p class="standfirst">
-      You kick off a ten-minute task and then sit there — not because the work needs you,
-      but because you won't know when it lands. Start Claude with <code>abs</code> instead of
-      <code>claude</code>: the report comes to your phone, and your reply goes back into the
-      same session.
-    </p>
-
-    <div class="install">
-      <div class="install-cmd">
-        <span class="p">$</span>
-        <code>curl -fsSL agentbabysitter.com/install | bash</code>
-        <button class="copy" type="button" aria-label="Copy install command">copy</button>
-      </div>
-      <div class="install-alt">
-        <span>or</span>
-        <code>pipx install agent-babysitter</code>
-        <span class="sep">·</span>
-        <span>then run <code>abs</code></span>
-      </div>
-    </div>
-  </section>
-
-  <section class="bridge">
-    <div class="panel term">
-      <div class="panel-bar">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-        <span class="who">terminal</span>
-      </div>
-      <div class="panel-body">
-        <div><span class="clay">$</span> abs</div>
-        <div class="ok">✓ Bot @yourbot paired to this machine</div>
-        <div class="dim">  reports on · profile default</div>
-        <div style="margin-top:7px"><span class="clay">&gt;</span> fix the failing auth test</div>
-        <div class="dim">  stale token fixture — patched</div>
-        <div class="ok">  ✓ 47 passed</div>
-        <div class="dim">→ reported <span class="ts">12:41</span></div>
-        <div class="in">← yes, and rerun the suite <span class="ts">12:43</span></div>
-        <div class="ok">  ✓ 48 passed</div>
-        <div class="dim">→ reported <span class="ts">12:47</span></div>
-        <div class="dim">  waiting… <span class="cur">&nbsp;</span></div>
-      </div>
-    </div>
-
-    <div class="seam">
-      <div class="rail"></div>
-      <div class="label">one session</div>
-      <div class="sub">not a copy</div>
-    </div>
-
-    <div class="panel chat">
-      <div class="panel-bar">
-        <span class="dot"></span>
-        <span class="who">telegram</span>
-      </div>
-      <div class="panel-body">
-        <div class="bubble from-bot">
-          Auth test passes now — it was asserting on a stale token fixture.
-          Two other tests touch that fixture; want me to update them too?
-          <span class="t">12:41</span>
+      <div class="icon-row">
+        <div class="icon-item">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          <span>Smart<br>Notifications</span>
         </div>
-        <div class="bubble from-me">
-          yes, and rerun the suite
-          <span class="t">12:43 ✓✓</span>
+        <div class="icon-item">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span>Reply<br>Anywhere</span>
         </div>
-        <div class="bubble from-bot">
-          All 48 pass. Nothing else touches the fixture.
-          <span class="t">12:47</span>
+        <div class="icon-item">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          <span>Send<br>Screenshots</span>
+        </div>
+        <div class="icon-item">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3"/></svg>
+          <span>Voice<br>Both Ways</span>
+        </div>
+        <div class="icon-item">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg>
+          <span>Check<br>Usage</span>
+        </div>
+        <div class="icon-item">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+          <span>Private<br>&amp; Secure</span>
         </div>
       </div>
-    </div>
-  </section>
 
-  <section class="cols">
-    <div class="col col-does">
-      <h2>What it does</h2>
-      <ul>
-        <li><b>Reports when done.</b> A short summary lands on your phone — what happened, what needs deciding.</li>
-        <li><b>Takes the reply back.</b> Answer in plain English; it arrives as if you'd typed it at the desk.</li>
-        <li><b>Shows your limits.</b> Tap <b>/usage</b> and your subscription window comes to the chat, not the browser.</li>
-        <li><b>Speaks and listens.</b> Send a voice note, ask for a voice answer. Both run on your machine.</li>
-      </ul>
-    </div>
-    <div class="col col-doesnt">
-      <h2>What it won't do</h2>
-      <ul>
-        <li><b>Slash commands, except /usage.</b> Over this bridge they arrive as plain text, and nothing runs them.</li>
-        <li><b>Switch models mid-session.</b> Set it at launch — <b>abs --model opus</b>. Asking nicely doesn't help.</li>
-        <li><b>Interrupt a running task.</b> Messages are read between turns, not during one.</li>
-        <li><b>Sandbox anything.</b> Only your paired account can reach the bot — but inside it, Claude has full command power.</li>
-      </ul>
-    </div>
-  </section>
+      <div class="install">
+        <div class="install-card">
+          <div class="head"><span class="dollar">$</span> Get started in seconds</div>
+          <div class="cmd-line">
+            <code>curl -fsSL https://agentbabysitter.com/install.sh | <span class="tok-flag">bash</span></code>
+            <button class="copy-btn" type="button" data-copy="curl -fsSL https://agentbabysitter.com/install.sh | bash">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <p class="install-note">Installs and sets up <code>abs</code>. Then just run <code>abs</code> to start. Prefer Python? <code>pipx install agent-babysitter</code></p>
+        </div>
+      </div>
 
-  <footer class="foot">
-    <span>Glue over Anthropic's official Telegram plugin. Your <span class="mono">CLAUDE.md</span> stays untouched.</span>
-    <span class="mono">MIT</span>
-  </footer>
+      <div class="platforms">
+        <span class="plat"><svg viewBox="0 0 24 24" fill="#a78bfa"><path d="M12 2a5 5 0 0 0-5 5c0 2 1 3 1 5 0 1-1 2-1 4 0 3 2 6 5 6s5-3 5-6c0-2-1-3-1-4 0-2 1-3 1-5a5 5 0 0 0-5-5Z"/></svg> Linux + macOS</span>
+        <span class="plat"><svg viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10Z"/></svg> Works over SSH</span>
+        <span class="plat"><svg viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> No server required</span>
+      </div>
+    </div>
 
-</div>
+    <div class="stage">
+      <div class="card term">
+        <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="title">Claude Code Session</span></div>
+        <div class="term-body">
+          <div><span class="p">$</span> abs</div>
+          <div class="dim">Claude Code v1.0.60</div>
+          <div class="task-box">
+            <div>🤖 Working on your task…</div>
+            <div class="dim">Implementing feature…</div>
+            <div class="bar-progress"><i></i></div>
+          </div>
+          <div class="ok">✓ Task completed!</div>
+          <div class="dim">• 4 files changed</div>
+          <div class="dim">• 128 additions</div>
+          <div class="dim">• 0 errors</div>
+          <div style="margin-top:6px"><span class="p">&gt;</span> <span class="cursor"></span></div>
+        </div>
+      </div>
+
+      <div class="connector"><img src="assets/mascot.png" alt=""></div>
+
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="phone-top">
+            <span class="av"></span>
+            <div><div class="nm">Agent Babysitter Bot</div><div class="on">online</div></div>
+          </div>
+          <div class="chat">
+            <div class="msg bot">
+              <div class="hd">🎉 Task completed 🎉</div>
+              <ul><li>4 files changed</li><li>128 additions</li><li>0 errors</li></ul>
+              <div style="margin-top:5px">What would you like me to do next?</div>
+              <span class="t">09:41</span>
+            </div>
+            <div class="msg me">Looks great! Now add tests for the new feature.<span class="t">09:42</span></div>
+            <div class="msg bot">Got it! Working on it… 💪<span class="t">09:42</span></div>
+            <div class="msg bot voice-msg"><span class="play"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span><span class="wave"></span><span style="font-size:9px;color:var(--muted)">0:08</span></div>
+            <div class="msg bot" style="max-width:92%"><div class="shot"></div><span class="t">09:44</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="block" id="features">
+  <div class="wrap">
+    <div class="panel">
+      <h2 class="sec-title">Everything you need, <span class="accent">right in Telegram</span></h2>
+      <div class="cards">
+        <div class="fcard">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          <h3>Know When It's Done</h3>
+          <p>Get a summary when Claude finishes a task, so you always know what happened.</p>
+        </div>
+        <div class="fcard">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <h3>Reply to Steer It</h3>
+          <p>Reply from your phone and it goes straight back into the same live session.</p>
+        </div>
+        <div class="fcard">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          <h3>Send Screenshots</h3>
+          <p>Attach images and Claude reads them directly. No more terminal copy-paste.</p>
+        </div>
+        <div class="fcard">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3"/></svg>
+          <h3>Voice, Both Ways</h3>
+          <p>Send voice notes. Get spoken replies. Everything processed locally.</p>
+        </div>
+        <div class="fcard">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg>
+          <h3>Check Usage</h3>
+          <p>Tap <code style="font-family:var(--mono);color:var(--violet-2)">/usage</code> to see your Claude subscription limits and reset times.</p>
+        </div>
+        <div class="fcard">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <h3>Multi-Project</h3>
+          <p>Use multiple profiles (bots) to manage different projects side by side.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="how">
+  <div class="wrap">
+    <div class="panel">
+      <div class="how-grid">
+        <div>
+          <h2 class="sec-title" style="text-align:left;margin-bottom:24px">How it <span class="accent">works</span></h2>
+          <div class="steps">
+            <div class="step"><div class="num">1</div><div><h4>You run abs instead of claude.</h4><p>Agent Babysitter starts Claude Code with Telegram connected.</p></div></div>
+            <div class="step"><div class="num">2</div><div><h4>Claude works as usual.</h4><p>It runs your tasks in the same live session.</p></div></div>
+            <div class="step"><div class="num">3</div><div><h4>You get notified.</h4><p>When a task finishes, you get a summary on Telegram.</p></div></div>
+            <div class="step"><div class="num">4</div><div><h4>You reply, send images, or ask.</h4><p>Your message is delivered back to the same session.</p></div></div>
+          </div>
+        </div>
+        <div class="diagram">
+          <div class="flow-cap top">Replies, images, voice, commands →</div>
+          <div class="flow">
+            <div class="node">
+              <div class="bubble"><svg viewBox="0 0 24 24" fill="none" stroke="#aab3c8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></div>
+              <div class="lbl"><b>You</b></div>
+            </div>
+            <div class="arrow"><svg viewBox="0 0 40 12" fill="none" stroke="#8b5cf6" stroke-width="1.6"><path d="M2 6h32M30 2l5 4-5 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="node">
+              <div class="bubble" style="border-color:rgba(41,169,234,.5)"><svg viewBox="0 0 24 24" fill="#29a9ea"><path d="M21.9 4.3 2.9 11.6c-1.1.5-1.1 1.6-.2 1.9l4.9 1.5 1.8 5.6c.2.6.4.6.9.4l2.7-2 4.7 3.5c.8.5 1.4.2 1.6-.8L23 5.3c.3-1.2-.4-1.6-1.1-1Z"/></svg></div>
+              <div class="lbl"><b>Telegram</b></div>
+            </div>
+            <div class="arrow"><svg viewBox="0 0 40 12" fill="none" stroke="#8b5cf6" stroke-width="1.6"><path d="M2 6h32M30 2l5 4-5 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="node mascot">
+              <div class="bubble"><img src="assets/mascot.png" alt=""></div>
+              <div class="lbl"><b>Agent<br>Babysitter</b></div>
+            </div>
+            <div class="arrow"><svg viewBox="0 0 40 12" fill="none" stroke="#8b5cf6" stroke-width="1.6"><path d="M2 6h32M30 2l5 4-5 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="node">
+              <div class="bubble"><svg viewBox="0 0 24 24" fill="none" stroke="#aab3c8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></div>
+              <div class="lbl"><b>Claude<br>Code</b></div>
+            </div>
+          </div>
+          <div class="flow-cap bot">← Task summaries, notifications, usage</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="panel foot-panel">
+      <div>
+        <svg class="foot-heart" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/><path d="m8 12 2.5 2.5L16 9"/></svg>
+        <h3>Open source. Built for <span style="color:var(--green)">the community</span>.</h3>
+        <p>Agent Babysitter is open source under the MIT License. Use it, improve it, share it.</p>
+      </div>
+      <div class="foot-actions">
+        <div class="q">Found a bug or have an idea?</div>
+        <div class="sub">Open an issue or submit a pull request.</div>
+        <div class="btn-row">
+          <a class="btn ghost" href="https://github.com/Pranjalab/AgentBabysitter"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg> View on GitHub</a>
+          <a class="btn primary" href="https://github.com/Pranjalab/AgentBabysitter/blob/main/CONTRIBUTING.md"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg> Contribute</a>
+        </div>
+      </div>
+    </div>
+    <div class="colophon">MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users</div>
+  </div>
+</section>
+
 <script>
-  document.querySelector('.copy')?.addEventListener('click', function () {
-    const cmd = this.previousElementSibling.textContent.trim();
-    navigator.clipboard?.writeText(cmd).then(() => {
-      const was = this.textContent;
-      this.textContent = 'copied';
-      setTimeout(() => { this.textContent = was; }, 1400);
+  document.querySelectorAll('.copy-btn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      navigator.clipboard && navigator.clipboard.writeText(b.dataset.copy).then(function () {
+        var label = b.querySelector('span');
+        var was = label.textContent;
+        label.textContent = 'Copied';
+        setTimeout(function () { label.textContent = was; }, 1400);
+      });
     });
   });
 </script>
