@@ -155,6 +155,15 @@
     </div>
 
     <div class="sblock">
+      <h2>Enforced controls <span class="accent">(defense in depth)</span></h2>
+      <ul class="plist">
+        <li><b>A remote kill ladder that doesn't trust the model.</b> Send any of these from Telegram <em>as a whole message</em> and the session hook acts on it itself — so they work even if the model is prompt-injected: <code>ABS MUTE</code>/<code>ABS UNMUTE</code> (mute / resume reports), <code>ABS OFF</code> (cut inbound + outbound; session keeps working), <code>ABS STOP</code> (halt at the next step), <code>ABS EXIT</code> (close the session, confirms if mid-task), <code>ABS BLOCK</code> (lock the bot out until a terminal <code>abs setup</code>).</li>
+        <li><b>A destructive-command guard.</b> When a turn is driven from Telegram, a <code>PreToolUse</code> hook blocks a small, high-confidence set of dangerous commands — <code>rm -rf</code>, <code>git push --force</code>, <code>reset --hard</code>, <code>DROP</code>/<code>TRUNCATE</code>, <code>DELETE</code> without <code>WHERE</code>, reads of <code>.env</code>/keys — and tells you to run them at the terminal. From the terminal, nothing is blocked. Opt out: <code>abs config guard off</code>.</li>
+        <li class="warn"><b>Honest limit — this is defense-in-depth, not a sandbox.</b> A determined, compromised model could obfuscate a command to slip past the pattern match, so the guard raises the floor, it isn't a wall. Claude Code's own permission system remains the real boundary.</li>
+      </ul>
+    </div>
+
+    <div class="sblock">
       <h2>What this does <span class="accent">not</span> protect against</h2>
       <ul class="plist">
         <li class="warn"><b>Telegram sees your messages.</b> Bot chats aren't end-to-end encrypted. Voice is transcribed and synthesized <em>locally</em>, but the audio still travels over Telegram. Don't use this for work where that matters.</li>
