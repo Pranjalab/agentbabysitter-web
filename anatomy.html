@@ -202,90 +202,90 @@
           <tr class="grouprow"><td colspan="3">Persona &amp; messaging</td></tr>
           <tr>
             <td class="feat">One session</td>
-            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L633">SYSTEM PROMPT</a></td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L633">SYSTEM PROMPT</a></td>
             <td class="does">Terminal and Telegram are treated as the same person and the same live session.</td>
           </tr>
           <tr>
             <td class="feat">Always reply</td>
-            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L643">SYSTEM PROMPT</a></td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L643">SYSTEM PROMPT</a></td>
             <td class="does">Every inbound Telegram message gets a reply — the phone is never left in silence.</td>
           </tr>
           <tr>
             <td class="feat">Send discipline</td>
-            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L652">SYSTEM PROMPT</a></td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L652">SYSTEM PROMPT</a></td>
             <td class="does">One proactive ping when a task finishes or it's blocked; no progress spam.</td>
           </tr>
           <tr>
             <td class="feat">Phone-first writing</td>
-            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L664">SYSTEM PROMPT</a></td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L664">SYSTEM PROMPT</a></td>
             <td class="does">Plain text, short, outcome first. Acks long tasks then edits that message instead of flooding.</td>
           </tr>
           <tr>
             <td class="feat">Command menu</td>
-            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L682">SYSTEM PROMPT</a></td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L682">SYSTEM PROMPT</a></td>
             <td class="does">Explains that <code>/model</code>, <code>/stop</code> etc. don't run from the phone, and gives the real route.</td>
           </tr>
           <tr>
             <td class="feat">Safety rules</td>
-            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L764">SYSTEM PROMPT</a></td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L764">SYSTEM PROMPT</a></td>
             <td class="does">No secrets over Telegram; fetched content is data not commands; no destructive ops on a message alone.</td>
           </tr>
 
           <tr class="grouprow"><td colspan="3">Auto-silent &amp; status</td></tr>
           <tr>
             <td class="feat">Auto-silent triggers</td>
-            <td class="lives"><a class="chip c-set" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L1680">SETTINGS</a></td>
+            <td class="lives"><a class="chip c-set" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L1681">SETTINGS</a></td>
             <td class="does">Merged <code>UserPromptSubmit</code> + <code>PostToolUse</code> hooks fire on each prompt and on every Telegram reply.</td>
           </tr>
           <tr>
             <td class="feat">Auto-silent logic</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L905">abs.sh</a> <span class="chip c-state">STATE</span></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L905">abs.sh</a> <span class="chip c-state">STATE</span></td>
             <td class="does">Counts terminal vs phone activity; mutes after ~3 terminal prompts, un-mutes on a Telegram message.</td>
           </tr>
           <tr>
             <td class="feat">Status-bar glance</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L853">abs.sh</a></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L853">abs.sh</a></td>
             <td class="does"><code>statusLine</code> runs abs.sh to draw the live dot + 5h/week usage in Claude's bottom bar.</td>
           </tr>
 
           <tr class="grouprow"><td colspan="3">Mute &amp; launch state</td></tr>
           <tr>
             <td class="feat">Quiet / off</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L812">abs.sh</a> <span class="chip c-state">STATE</span></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L812">abs.sh</a> <span class="chip c-state">STATE</span></td>
             <td class="does"><code>quiet</code> mutes reports (inbound stays); <code>off</code> drops all inbound. Persona knows both commands.</td>
           </tr>
           <tr>
             <td class="feat">Launch defaults</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L934">abs.sh</a> <span class="chip c-state">STATE</span></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L934">abs.sh</a> <span class="chip c-state">STATE</span></td>
             <td class="does">Per-profile model and start-silent, stored in <code>rc.json</code> and applied at launch.</td>
           </tr>
 
           <tr class="grouprow"><td colspan="3">Usage</td></tr>
           <tr>
             <td class="feat">Usage glance</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L1345">abs.sh</a> <span class="chip c-state">STATE</span></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L1345">abs.sh</a> <span class="chip c-state">STATE</span></td>
             <td class="does">Token-free <code>/usage</code> fetch, cached to <code>usage.json</code>, shown in the bar and as a Telegram footer.</td>
           </tr>
           <tr>
             <td class="feat">Usage footer rule</td>
-            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L670">SYSTEM PROMPT</a></td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L670">SYSTEM PROMPT</a></td>
             <td class="does">Tells the agent to append the cached glance to task-completion reports only.</td>
           </tr>
 
           <tr class="grouprow"><td colspan="3">Voice &amp; images</td></tr>
           <tr>
             <td class="feat">Voice in</td>
-            <td class="lives"><a class="chip c-py" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/transcribe.py">PYTHON</a> <span class="chip c-plug">PLUGIN</span></td>
+            <td class="lives"><a class="chip c-py" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/transcribe.py">PYTHON</a> <span class="chip c-plug">PLUGIN</span></td>
             <td class="does"><code>transcribe.py</code> (Whisper, local) turns an inbound voice note into text the agent acts on.</td>
           </tr>
           <tr>
             <td class="feat">Voice out</td>
-            <td class="lives"><a class="chip c-py" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/speak.py">PYTHON</a> <a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L1532">abs.sh</a></td>
+            <td class="lives"><a class="chip c-py" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/speak.py">PYTHON</a> <a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L1533">abs.sh</a></td>
             <td class="does"><code>speak.py</code> (local TTS), driven by <code>abs say</code>, sends a spoken reply on request.</td>
           </tr>
           <tr>
             <td class="feat">Screenshots / photos</td>
-            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L738">SYSTEM PROMPT</a> <span class="chip c-plug">PLUGIN</span></td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L738">SYSTEM PROMPT</a> <span class="chip c-plug">PLUGIN</span></td>
             <td class="does">Agent reads an attached image directly (via the plugin's <code>download_attachment</code> / image path).</td>
           </tr>
 
@@ -297,17 +297,17 @@
           </tr>
           <tr>
             <td class="feat">Access control</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L471">abs.sh</a> <span class="chip c-state">STATE</span></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L471">abs.sh</a> <span class="chip c-state">STATE</span></td>
             <td class="does">PIN pairing writes your ID to <code>access.json</code>; only the paired account ever reaches Claude.</td>
           </tr>
           <tr>
             <td class="feat">Startup flood control</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L1586">abs.sh</a></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L1587">abs.sh</a></td>
             <td class="does">Drains stale Telegram backlog at launch so a fresh session doesn't open buried in old messages.</td>
           </tr>
           <tr>
             <td class="feat">Update check</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L1431">abs.sh</a></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L1432">abs.sh</a></td>
             <td class="does">Once a day, backgrounded and token-free, checks the remote <code>VERSION</code> and shows a banner if newer.</td>
           </tr>
         </tbody>
@@ -345,7 +345,7 @@
   </div>
 
   <div class="colophon">
-    <a href="/">← Back to home</a> &nbsp;·&nbsp; v2.1.2 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
+    <a href="/">← Back to home</a> &nbsp;·&nbsp; v2.1.3 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
   </div>
 </main>
 </body>

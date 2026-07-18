@@ -182,7 +182,7 @@ speak.py        <span class="cmt"># text        → voice note</span>
 <span class="cmt"># your runtime state, owner-only (never in git)</span>
 ~/.abs/          <span class="cmt"># rc.json, access.json, usage.json …</span></pre></div>
         <p>The agent's behaviour isn't in a config file — it's the system prompt abs appends at launch, built in <code>build_prompt()</code>.</p>
-        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh</a>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh</a>
       </section>
 
       <section class="doc" id="model">
@@ -193,14 +193,14 @@ speak.py        <span class="cmt"># text        → voice note</span>
 abs config model <span class="fl">--clear</span>       <span class="cmt"># back to Claude Code's default</span>
 abs <span class="fl">--model</span> sonnet           <span class="cmt"># just this session</span></pre></div>
         <p>To change how the default is stored or applied, the logic is in <code>cmd_config()</code> (stores it) and <code>cmd_run()</code> (passes <code>--model</code> at launch).</p>
-        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L934"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · cmd_config</a>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L934"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · cmd_config</a>
       </section>
 
       <section class="doc" id="persona">
         <div class="kick">How-to</div>
         <h3>Rewrite the persona &amp; tone</h3>
         <p>How abs talks to you — when it messages, how short it keeps things, its safety rules — is one block of text appended to the session as a system prompt. Edit the heredoc in <code>build_prompt()</code> and it takes effect on the next launch. Nothing is compiled; it's plain English.</p>
-        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L629"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · build_prompt</a>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L629"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · build_prompt</a>
       </section>
 
       <section class="doc" id="voice">
@@ -213,8 +213,8 @@ transcribe.py &lt;file.oga&gt;
 <span class="cmt"># in:  text  →  out: a voice note sent to Telegram</span>
 speak.py "the text to speak"</pre></div>
         <p>abs only ever calls these two files, so swapping engines never touches the main script.</p>
-        <a class="src multi" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/transcribe.py"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> transcribe.py</a>
-        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/speak.py"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> speak.py</a>
+        <a class="src multi" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/transcribe.py"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> transcribe.py</a>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/speak.py"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> speak.py</a>
       </section>
 
       <section class="doc" id="silent">
@@ -223,7 +223,7 @@ speak.py "the text to speak"</pre></div>
         <p>Auto-silent trips after a set number of back-to-back terminal prompts. Want it to hold on longer, or mute sooner? Change one constant.</p>
         <div class="code"><pre>readonly SILENT_STREAK=<span class="fl">3</span>    <span class="cmt"># prompts at the terminal before it mutes</span></pre></div>
         <p>The counting itself lives in <code>cmd_silent_hook()</code> just below — that's where a Telegram message resets the streak.</p>
-        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L65"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · SILENT_STREAK</a>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L65"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · SILENT_STREAK</a>
       </section>
 
       <section class="doc" id="command">
@@ -234,15 +234,15 @@ speak.py "the text to speak"</pre></div>
 
 <span class="cmt"># in main()'s case block:</span>
 hello) cmd_hello ;;</pre></div>
-        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L1792"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · main</a>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L1793"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · main</a>
       </section>
 
       <section class="doc" id="statusbar">
         <div class="kick">How-to</div>
         <h3>Change what the status bar shows</h3>
         <p>The bottom-bar dot and usage are rendered by <code>cmd_statusline()</code>; the <code>5h / week</code> glance itself is formatted in <code>usage_glance_str()</code>. Edit either to change the text, order, or what's shown.</p>
-        <a class="src multi" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L853"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · cmd_statusline</a>
-        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L1345"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> usage_glance_str</a>
+        <a class="src multi" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L853"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · cmd_statusline</a>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.3/abs.sh#L1345"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> usage_glance_str</a>
       </section>
 
     </div>
@@ -260,7 +260,7 @@ hello) cmd_hello ;;</pre></div>
   </div>
 
   <div class="colophon">
-    <a href="/">← Back to home</a> &nbsp;·&nbsp; v2.1.2 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
+    <a href="/">← Back to home</a> &nbsp;·&nbsp; v2.1.3 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
   </div>
 </main>
 </body>
