@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0d17">
+
+<title>Security — Agent Babysitter</title>
+<meta name="description" content="Only you can message your bot. How Agent Babysitter enforces that with PIN pairing and an allowlist — and the few things it deliberately does not protect against.">
+<link rel="canonical" href="https://agentbabysitter.com/security.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Agent Babysitter">
+<meta property="og:url" content="https://agentbabysitter.com/security.html">
+<meta property="og:title" content="Security — Agent Babysitter">
+<meta property="og:description" content="Only you can message your bot. How it's enforced, and what it deliberately does not protect against.">
+<meta property="og:image" content="https://agentbabysitter.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Security — Agent Babysitter">
+<meta name="twitter:description" content="Only you can message your bot. How it's enforced, and what it deliberately does not protect against.">
+<meta name="twitter:image" content="https://agentbabysitter.com/assets/og.png">
+
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg:#0a0d17; --bg-2:#0f1320; --bg-3:#141a2b; --line:#212842; --line-2:#2c3450;
+    --violet:#8b5cf6; --violet-2:#a78bfa; --tg:#29a9ea; --green:#34d399; --orange:#f5a623; --cyan:#22d3ee;
+    --text:#eef1f8; --body:#aab3c8; --muted:#6b7590;
+    --sans:"Inter", system-ui, sans-serif; --mono:"JetBrains Mono", ui-monospace, monospace; --maxw:1120px;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.5; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  a { color:inherit; text-decoration:none; }
+  .accent { color:var(--violet-2); }
+  body::before { content:""; position:fixed; inset:0; z-index:-2; pointer-events:none; background:radial-gradient(60rem 40rem at 82% -6%, rgba(139,92,246,.10), transparent 60%); }
+  .orb { position:fixed; border-radius:50%; filter:blur(72px); z-index:-1; pointer-events:none; }
+  .orb-1 { width:420px; height:420px; background:rgba(139,92,246,.20); top:-120px; right:2%; }
+  .orb-2 { width:320px; height:320px; background:rgba(41,169,234,.13); bottom:6%; left:-120px; }
+  .wrap { max-width:var(--maxw); margin:0 auto; padding:0 24px; }
+
+  header { position:sticky; top:0; z-index:50; background:rgba(10,13,23,.72); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+  .nav { display:flex; align-items:center; gap:20px; height:64px; }
+  .brand { display:flex; align-items:center; gap:10px; font-weight:700; font-size:19px; }
+  .brand .mark { width:36px; height:36px; flex:none; border-radius:50%; object-fit:cover; }
+  .brand b { font-weight:800; }
+  .nav-links { display:flex; gap:24px; margin-left:auto; font-size:14px; color:var(--body); }
+  .nav-links a:hover { color:var(--text); }
+  .gh-btn { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line-2); border-radius:9px; padding:8px 14px; font-size:14px; font-weight:500; background:var(--bg-2); }
+  .gh-btn:hover { border-color:var(--violet); }
+  .gh-btn svg { width:16px; height:16px; }
+
+  main { padding:60px 0 40px; }
+  .crumb { font-size:13px; color:var(--muted); font-family:var(--mono); margin-bottom:16px; }
+  .crumb a:hover { color:var(--violet-2); }
+  h1 { font-size:clamp(28px,3.6vw,40px); font-weight:800; letter-spacing:-.02em; margin:0 0 12px; line-height:1.1; }
+  .sub { color:var(--body); font-size:16px; max-width:66ch; margin:0; }
+  .sub b { color:var(--text); font-weight:600; }
+
+  .banner {
+    display:flex; align-items:center; gap:14px; margin:26px 0 8px;
+    background:linear-gradient(180deg, rgba(52,211,153,.09), rgba(52,211,153,.02));
+    border:1px solid rgba(52,211,153,.28); border-radius:14px; padding:18px 22px;
+  }
+  .banner svg { width:26px; height:26px; flex:none; color:var(--green); }
+  .banner p { margin:0; font-size:15.5px; color:var(--text); font-weight:600; }
+  .banner b { color:var(--green); }
+
+  .sblock { margin-top:36px; }
+  .sblock h2 { font-size:20px; font-weight:800; letter-spacing:-.01em; margin:0 0 16px; }
+  .plist { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px; }
+  .plist li {
+    background:linear-gradient(180deg, var(--bg-2), rgba(15,19,32,.35));
+    border:1px solid var(--line); border-radius:13px; padding:16px 18px;
+    font-size:14px; color:var(--body); line-height:1.55;
+  }
+  .plist li b { color:var(--text); font-weight:600; }
+  .plist code, .sub code { font-family:var(--mono); font-size:.88em; color:var(--violet-2); background:rgba(139,92,246,.08); padding:1px 5px; border-radius:4px; }
+
+  .warn { border-color:rgba(245,166,35,.28); background:linear-gradient(180deg, rgba(245,166,35,.06), rgba(245,166,35,.015)); }
+  .warn b { color:#f7c46b; }
+  .warn code { color:#f5a623; background:rgba(245,166,35,.1); }
+
+  .report {
+    margin-top:34px; background:var(--bg-2); border:1px solid var(--line); border-radius:14px;
+    padding:22px 24px; font-size:14px; color:var(--body);
+  }
+  .report h3 { margin:0 0 6px; font-size:16px; color:var(--text); }
+  .report a { color:var(--violet-2); }
+  .report a:hover { text-decoration:underline; }
+
+  .colophon { text-align:center; padding:34px 0 44px; font-size:13px; color:var(--muted); border-top:1px solid var(--line); margin-top:54px; }
+  .colophon a:hover { color:var(--violet-2); }
+  .colophon .hh { color:#f2557a; }
+  @media (max-width:900px) { .nav-links { display:none; } }
+</style>
+</head>
+<body>
+<div class="orb orb-1"></div><div class="orb orb-2"></div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="/">
+      <img class="mark" src="assets/mascot.png" alt="Agent Babysitter mascot">
+      <span>Agent <b class="accent">Babysitter</b></span>
+    </a>
+    <nav class="nav-links">
+      <a href="features.html">Features</a>
+      <a href="docs.html">Docs</a>
+      <a href="security.html">Security</a>
+      <a href="faq.html">FAQ</a>
+    </nav>
+    <a class="gh-btn" href="https://github.com/Pranjalab/AgentBabysitter">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      GitHub
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="crumb"><a href="/">home</a> / security</div>
+    <h1>Security</h1>
+    <p class="sub">Agent Babysitter connects a Telegram bot to a machine where Claude Code can run commands. That's powerful, so it's worth being precise about who can reach it — and the few things it deliberately does <b>not</b> protect against.</p>
+
+    <div class="banner">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+      <p>The core of the model, stated plainly: <b>a stranger who finds your bot cannot do anything.</b></p>
+    </div>
+
+    <div class="sblock">
+      <h2>Only you can message your bot</h2>
+      <ul class="plist">
+        <li><b>Pairing writes your Telegram user ID to an allowlist.</b> Every inbound message is checked against it; anyone not on the list is dropped <em>before</em> Claude ever sees it — no reply, no pairing offer, nothing.</li>
+        <li><b>Numeric IDs can't be spoofed.</b> Telegram user IDs are permanent, so changing a display name or username can't sneak anyone onto your allowlist.</li>
+        <li><b>Pairing is inverted on purpose.</b> Your <em>terminal</em> generates the PIN and waits for it — unknown senders are never answered. The PIN comes from <code>/dev/urandom</code>, drops look-alike characters, expires in 5 minutes, and only counts from a private chat.</li>
+      </ul>
+    </div>
+
+    <div class="sblock">
+      <h2>How your secrets are protected</h2>
+      <ul class="plist">
+        <li><b>The bot token never appears in <code>ps</code>.</b> Every API call pipes the URL through <code>curl -K -</code> so the token stays out of the process's argument list. <em>(Verified: a canary token wasn't visible in <code>ps</code> during a live call.)</em></li>
+        <li><b>Files are owner-only.</b> The script runs <code>umask 077</code>; the token and allowlist are <code>600</code>, their directories <code>700</code>. Writes go through a temp file and <code>mv</code>, so a crash can't leave a half-written token.</li>
+        <li><b>Claude is told the rules.</b> The injected prompt forbids sending secrets over Telegram, treats fetched content as data not commands, and requires terminal confirmation for anything destructive.</li>
+      </ul>
+    </div>
+
+    <div class="sblock">
+      <h2>What this does <span class="accent">not</span> protect against</h2>
+      <ul class="plist">
+        <li class="warn"><b>Telegram sees your messages.</b> Bot chats aren't end-to-end encrypted. Voice is transcribed and synthesized <em>locally</em>, but the audio still travels over Telegram. Don't use this for work where that matters.</li>
+        <li class="warn"><b>Your bot token is a credential.</b> It lives in plaintext protected by file permissions, not encryption. If it leaks, revoke it in <a href="https://t.me/BotFather" style="color:#f5a623">@BotFather</a> and run <code>abs setup</code> again.</li>
+        <li class="warn"><b>Anyone with your unlocked phone can instruct Claude.</b> The allowlist authenticates a Telegram <em>account</em>, not a person. Lock your phone.</li>
+        <li class="warn"><b>It is not a sandbox.</b> Within your paired account, Claude has whatever power Claude Code gives it. The allowlist decides <em>who</em> can reach the session, not <em>what</em> it can do — that boundary is Claude Code's own permission system.</li>
+        <li class="warn"><b><code>reset</code>, not <code>setup</code>, clears the allowlist.</b> Re-running <code>abs setup</code> <em>adds</em> to it. To revoke access for everyone, run <code>abs reset</code>.</li>
+      </ul>
+    </div>
+
+    <div class="report">
+      <h3>Reporting a vulnerability</h3>
+      Found something? Open an issue at <a href="https://github.com/Pranjalab/AgentBabysitter/issues">github.com/Pranjalab/AgentBabysitter/issues</a>, or for anything sensitive, describe it privately rather than in a public issue. The full threat model lives in <a href="https://github.com/Pranjalab/AgentBabysitter/blob/main/SECURITY.md">SECURITY.md</a>.
+    </div>
+  </div>
+
+  <div class="colophon">
+    <a href="/">← Back to home</a> &nbsp;·&nbsp; v2.1.4 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
+  </div>
+</main>
+</body>
+</html>

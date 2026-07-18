@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0d17">
+
+<title>FAQ — Agent Babysitter</title>
+<meta name="description" content="Common questions about Agent Babysitter — does it expose your code, is voice local, does it work over SSH, can you stop Claude remotely, and which platforms are supported.">
+<link rel="canonical" href="https://agentbabysitter.com/faq.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Agent Babysitter">
+<meta property="og:url" content="https://agentbabysitter.com/faq.html">
+<meta property="og:title" content="FAQ — Agent Babysitter">
+<meta property="og:description" content="Common questions — code privacy, local voice, SSH, stopping Claude remotely, supported platforms.">
+<meta property="og:image" content="https://agentbabysitter.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FAQ — Agent Babysitter">
+<meta name="twitter:description" content="Common questions — code privacy, local voice, SSH, stopping Claude remotely, supported platforms.">
+<meta name="twitter:image" content="https://agentbabysitter.com/assets/og.png">
+
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg:#0a0d17; --bg-2:#0f1320; --bg-3:#141a2b; --line:#212842; --line-2:#2c3450;
+    --violet:#8b5cf6; --violet-2:#a78bfa; --tg:#29a9ea; --green:#34d399; --orange:#f5a623; --cyan:#22d3ee;
+    --text:#eef1f8; --body:#aab3c8; --muted:#6b7590;
+    --sans:"Inter", system-ui, sans-serif; --mono:"JetBrains Mono", ui-monospace, monospace; --maxw:1120px;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.5; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  a { color:inherit; text-decoration:none; }
+  .accent { color:var(--violet-2); }
+  body::before { content:""; position:fixed; inset:0; z-index:-2; pointer-events:none; background:radial-gradient(60rem 40rem at 82% -6%, rgba(139,92,246,.10), transparent 60%); }
+  .orb { position:fixed; border-radius:50%; filter:blur(72px); z-index:-1; pointer-events:none; }
+  .orb-1 { width:420px; height:420px; background:rgba(139,92,246,.20); top:-120px; right:2%; }
+  .orb-2 { width:320px; height:320px; background:rgba(41,169,234,.13); bottom:6%; left:-120px; }
+  .wrap { max-width:820px; margin:0 auto; padding:0 24px; }
+
+  header { position:sticky; top:0; z-index:50; background:rgba(10,13,23,.72); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+  .nav-wrap { max-width:var(--maxw); margin:0 auto; padding:0 24px; }
+  .nav { display:flex; align-items:center; gap:20px; height:64px; }
+  .brand { display:flex; align-items:center; gap:10px; font-weight:700; font-size:19px; }
+  .brand .mark { width:36px; height:36px; flex:none; border-radius:50%; object-fit:cover; }
+  .brand b { font-weight:800; }
+  .nav-links { display:flex; gap:24px; margin-left:auto; font-size:14px; color:var(--body); }
+  .nav-links a:hover { color:var(--text); }
+  .gh-btn { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line-2); border-radius:9px; padding:8px 14px; font-size:14px; font-weight:500; background:var(--bg-2); }
+  .gh-btn:hover { border-color:var(--violet); }
+  .gh-btn svg { width:16px; height:16px; }
+
+  main { padding:60px 0 40px; }
+  .crumb { font-size:13px; color:var(--muted); font-family:var(--mono); margin-bottom:16px; }
+  .crumb a:hover { color:var(--violet-2); }
+  h1 { font-size:clamp(28px,3.6vw,40px); font-weight:800; letter-spacing:-.02em; margin:0 0 12px; line-height:1.1; }
+  .sub { color:var(--body); font-size:16px; margin:0 0 30px; }
+
+  .faq { display:flex; flex-direction:column; gap:12px; }
+  details {
+    background:linear-gradient(180deg, var(--bg-2), rgba(15,19,32,.35));
+    border:1px solid var(--line); border-radius:13px; overflow:hidden;
+    transition:border-color .15s;
+  }
+  details[open] { border-color:var(--line-2); }
+  summary {
+    list-style:none; cursor:pointer; padding:18px 20px; font-size:15.5px; font-weight:600;
+    color:var(--text); display:flex; align-items:center; gap:12px;
+  }
+  summary::-webkit-details-marker { display:none; }
+  summary .chevron { margin-left:auto; flex:none; color:var(--muted); transition:transform .2s; }
+  summary .chevron svg { width:16px; height:16px; display:block; }
+  details[open] summary .chevron { transform:rotate(90deg); color:var(--violet-2); }
+  .answer { padding:0 20px 18px; font-size:14.5px; color:var(--body); line-height:1.6; }
+  .answer p { margin:0; }
+  .answer a { color:var(--violet-2); }
+  .answer a:hover { text-decoration:underline; }
+  .answer code { font-family:var(--mono); font-size:.9em; color:var(--violet-2); background:rgba(139,92,246,.08); padding:1px 5px; border-radius:4px; }
+  .answer .tag { display:inline-block; font-size:12px; font-weight:700; font-family:var(--mono); padding:1px 7px; border-radius:5px; margin-right:8px; }
+  .tag.yes { color:var(--green); background:rgba(52,211,153,.12); }
+  .tag.no  { color:#f7869e; background:rgba(242,85,122,.12); }
+  .tag.soon{ color:var(--orange); background:rgba(245,166,35,.12); }
+
+  .more { margin-top:34px; text-align:center; font-size:14px; color:var(--body); }
+  .more a { color:var(--violet-2); }
+  .more a:hover { text-decoration:underline; }
+
+  .colophon { text-align:center; padding:34px 0 44px; font-size:13px; color:var(--muted); border-top:1px solid var(--line); margin-top:44px; }
+  .colophon a:hover { color:var(--violet-2); }
+  .colophon .hh { color:#f2557a; }
+  @media (max-width:900px) { .nav-links { display:none; } }
+</style>
+</head>
+<body>
+<div class="orb orb-1"></div><div class="orb orb-2"></div>
+
+<header>
+  <div class="nav-wrap nav">
+    <a class="brand" href="/">
+      <img class="mark" src="assets/mascot.png" alt="Agent Babysitter mascot">
+      <span>Agent <b class="accent">Babysitter</b></span>
+    </a>
+    <nav class="nav-links">
+      <a href="features.html">Features</a>
+      <a href="docs.html">Docs</a>
+      <a href="security.html">Security</a>
+      <a href="faq.html">FAQ</a>
+    </nav>
+    <a class="gh-btn" href="https://github.com/Pranjalab/AgentBabysitter">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      GitHub
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="crumb"><a href="/">home</a> / faq</div>
+    <h1>Questions, answered</h1>
+    <p class="sub">The things people ask before they trust a bot with their terminal.</p>
+
+    <div class="faq">
+      <details open>
+        <summary>Does it expose my code?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p><span class="tag no">NO</span>It's your own private bot, and only your paired account can reach it. One honest caveat: Telegram itself sees the messages (they're not end-to-end encrypted), so don't use it for work where that matters.</p></div>
+      </details>
+
+      <details>
+        <summary>Can anyone else message my bot?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p><span class="tag no">NO</span>Unpaired accounts are dropped before Claude ever sees them. See <a href="security.html">Security</a> for exactly how the allowlist works.</p></div>
+      </details>
+
+      <details>
+        <summary>Does voice processing stay local?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p><span class="tag yes">YES</span>Transcription and speech both run on your machine — no cloud speech vendor is involved. The audio still travels over Telegram, like any message.</p></div>
+      </details>
+
+      <details>
+        <summary>Can I run multiple projects at once?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p><span class="tag yes">YES</span>One bot per project, via profiles — <code>abs --profile work</code>. Each runs its own session and reports to the same phone without fighting over messages.</p></div>
+      </details>
+
+      <details>
+        <summary>Does it work over SSH or on a server?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p><span class="tag yes">YES</span>Telegram polls outbound, so no public IP, open port, or webhook is needed. Run it in <code>tmux</code> on a VPS or home box and close the laptop.</p></div>
+      </details>
+
+      <details>
+        <summary>Does it require a server?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p><span class="tag no">NO</span>It runs anywhere Claude Code runs — a laptop, over SSH, or a headless box. A server is just one option, not a requirement.</p></div>
+      </details>
+
+      <details>
+        <summary>Can I stop Claude remotely?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p><span class="tag soon">NOT YET</span>Messages are read between turns, so you can steer the next step but not interrupt the current one.</p></div>
+      </details>
+
+      <details>
+        <summary>Which platforms are supported?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p>Linux and macOS, both tested — including macOS's ancient bash 3.2, with no Homebrew or GNU coreutils needed. Windows via WSL should work but is untested; reports welcome.</p></div>
+      </details>
+    </div>
+
+    <p class="more">Still curious? The <a href="docs.html">docs</a> map every feature to its source, or ask in a <a href="https://github.com/Pranjalab/AgentBabysitter/issues">GitHub issue</a>.</p>
+  </div>
+
+  <div class="colophon">
+    <a href="/">← Back to home</a> &nbsp;·&nbsp; v2.1.4 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
+  </div>
+</main>
+</body>
+</html>
