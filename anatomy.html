@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0d17">
+
+<title>Anatomy — What Agent Babysitter adds to Claude Code</title>
+<meta name="description" content="Every layer abs injects into a Claude Code session and exactly where it lives — system prompt, settings, abs.sh, Python, or the Telegram plugin. Each feature links to its source.">
+<link rel="canonical" href="https://agentbabysitter.com/anatomy.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Agent Babysitter">
+<meta property="og:url" content="https://agentbabysitter.com/anatomy.html">
+<meta property="og:title" content="Anatomy — What Agent Babysitter adds to Claude Code">
+<meta property="og:description" content="Every layer abs injects into a Claude Code session and exactly where it lives. Each feature links straight to its source code.">
+<meta property="og:image" content="https://agentbabysitter.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Anatomy — What Agent Babysitter adds to Claude Code">
+<meta name="twitter:description" content="Every layer abs injects into a Claude Code session and exactly where it lives. Each feature links straight to its source code.">
+<meta name="twitter:image" content="https://agentbabysitter.com/assets/og.png">
+
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg:#0a0d17; --bg-2:#0f1320; --bg-3:#141a2b; --line:#212842; --line-2:#2c3450;
+    --violet:#8b5cf6; --violet-2:#a78bfa; --tg:#29a9ea; --green:#34d399; --orange:#f5a623; --cyan:#22d3ee;
+    --text:#eef1f8; --body:#aab3c8; --muted:#6b7590;
+    --sans:"Inter", system-ui, sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, monospace;
+    --maxw:1120px;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    margin:0; background:var(--bg); color:var(--text); font-family:var(--sans);
+    line-height:1.5; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+  a { color:inherit; text-decoration:none; }
+  .accent { color:var(--violet-2); }
+  body::before {
+    content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+    background:radial-gradient(60rem 40rem at 82% -6%, rgba(139,92,246,.10), transparent 60%);
+  }
+  .orb { position:fixed; border-radius:50%; filter:blur(72px); z-index:-1; pointer-events:none; }
+  .orb-1 { width:420px; height:420px; background:rgba(139,92,246,.20); top:-120px; right:2%; }
+  .orb-2 { width:320px; height:320px; background:rgba(41,169,234,.13); bottom:6%; left:-120px; }
+
+  .wrap { max-width:var(--maxw); margin:0 auto; padding:0 24px; }
+
+  header {
+    position:sticky; top:0; z-index:50; background:rgba(10,13,23,.72);
+    backdrop-filter:blur(12px); border-bottom:1px solid var(--line);
+  }
+  .nav { display:flex; align-items:center; gap:20px; height:64px; }
+  .brand { display:flex; align-items:center; gap:10px; font-weight:700; font-size:19px; }
+  .brand .mark { width:36px; height:36px; flex:none; border-radius:50%; object-fit:cover; }
+  .brand b { font-weight:800; }
+  .nav-links { display:flex; gap:24px; margin-left:auto; font-size:14px; color:var(--body); }
+  .nav-links a:hover { color:var(--text); }
+  .gh-btn {
+    display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line-2);
+    border-radius:9px; padding:8px 14px; font-size:14px; font-weight:500; background:var(--bg-2);
+  }
+  .gh-btn:hover { border-color:var(--violet); }
+  .gh-btn svg { width:16px; height:16px; }
+
+  main { padding:60px 0 80px; }
+  .crumb { font-size:13px; color:var(--muted); font-family:var(--mono); margin-bottom:16px; }
+  .crumb a:hover { color:var(--violet-2); }
+  h1 { font-size:clamp(28px,3.6vw,40px); font-weight:800; letter-spacing:-.02em; margin:0 0 12px; line-height:1.1; }
+  .sub { color:var(--body); font-size:16px; max-width:70ch; margin:0; }
+  .sub b { color:var(--text); font-weight:600; }
+
+  .legend { display:flex; flex-wrap:wrap; gap:8px; margin:26px 0 4px; }
+  .chip {
+    display:inline-flex; align-items:center; gap:6px; font-family:var(--mono);
+    font-size:11px; font-weight:600; letter-spacing:.02em; padding:4px 9px;
+    border-radius:6px; border:1px solid var(--line-2); white-space:nowrap; color:var(--body);
+  }
+  .chip::before { content:""; width:7px; height:7px; border-radius:2px; background:currentColor; flex:none; }
+  a.chip { transition:border-color .15s, color .15s; }
+  a.chip:hover { border-color:currentColor; }
+  a.chip::after { content:"↗"; font-size:10px; opacity:.6; margin-left:1px; }
+  .c-sys{ color:var(--violet-2); } .c-set{ color:var(--cyan); } .c-sh{ color:var(--green); }
+  .c-py{ color:var(--orange); } .c-plug{ color:var(--tg); } .c-state{ color:var(--muted); }
+
+  .table-scroll { overflow-x:auto; border:1px solid var(--line); border-radius:16px; margin-top:16px; background:var(--bg-2); }
+  table { border-collapse:collapse; width:100%; min-width:660px; }
+  thead th {
+    text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--muted); font-weight:700; padding:14px 18px; background:var(--bg-3);
+    border-bottom:1px solid var(--line-2);
+  }
+  .grouprow td {
+    background:var(--bg-3); font-family:var(--mono); font-size:11px; font-weight:600;
+    letter-spacing:.08em; text-transform:uppercase; color:var(--violet-2);
+    padding:10px 18px; border-top:1px solid var(--line-2);
+  }
+  tbody td { padding:14px 18px; font-size:14px; vertical-align:top; border-top:1px solid var(--line); }
+  tbody tr:hover td { background:rgba(139,92,246,.045); }
+  .feat { font-weight:600; color:var(--text); white-space:nowrap; }
+  .lives { white-space:nowrap; }
+  .lives .chip { margin:0 5px 5px 0; }
+  .does { color:var(--body); max-width:54ch; }
+  .does code { font-family:var(--mono); font-size:.88em; color:var(--violet-2); background:rgba(139,92,246,.08); padding:1px 5px; border-radius:4px; }
+
+  .callout {
+    margin-top:28px; display:flex; gap:14px; align-items:flex-start;
+    background:linear-gradient(180deg, rgba(245,166,35,.08), rgba(245,166,35,.02));
+    border:1px solid rgba(245,166,35,.28); border-radius:14px; padding:18px 20px;
+  }
+  .callout .mk { font-size:20px; line-height:1; flex:none; }
+  .callout h3 { margin:0 0 5px; font-size:15px; font-weight:700; color:var(--text); }
+  .callout p { margin:0; font-size:14px; color:var(--body); }
+  .callout code { font-family:var(--mono); font-size:.9em; color:var(--orange); }
+
+  .tinker { margin-top:28px; }
+  .panel {
+    background:linear-gradient(180deg, var(--bg-2), rgba(15,19,32,.4));
+    border:1px solid var(--line); border-radius:18px; padding:34px 32px;
+  }
+  .panel h2 { margin:0 0 8px; font-size:22px; font-weight:800; letter-spacing:-.01em; }
+  .panel p { margin:0 0 20px; font-size:14.5px; color:var(--body); max-width:64ch; }
+  .btn-row { display:flex; flex-wrap:wrap; gap:12px; }
+  .btn {
+    display:inline-flex; align-items:center; gap:8px; border-radius:10px; padding:11px 17px;
+    font-size:14px; font-weight:600; border:1px solid var(--line-2); background:var(--bg-2);
+  }
+  .btn svg { width:16px; height:16px; }
+  .btn.primary { background:var(--violet); border-color:var(--violet); color:#fff; }
+  .btn.primary:hover { background:var(--violet-2); }
+  .btn.ghost:hover { border-color:var(--violet); }
+  .btn code { font-family:var(--mono); font-size:.92em; }
+
+  .colophon { text-align:center; padding:30px 0 44px; font-size:13px; color:var(--muted); border-top:1px solid var(--line); margin-top:64px; }
+  .colophon a:hover { color:var(--violet-2); }
+  .colophon .hh { color:#f2557a; }
+
+  @media (max-width:760px) {
+    .nav-links { display:none; }
+    .panel { padding:24px 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="orb orb-1"></div><div class="orb orb-2"></div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="/">
+      <img class="mark" src="assets/mascot.png" alt="Agent Babysitter mascot">
+      <span>Agent <b class="accent">Babysitter</b></span>
+    </a>
+    <nav class="nav-links">
+      <a href="/#glance">Auto-silent</a>
+      <a href="/#features">Features</a>
+      <a href="/#how">How it Works</a>
+      <a href="docs.html">Docs</a>
+    </nav>
+    <a class="gh-btn" href="https://github.com/Pranjalab/AgentBabysitter">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      GitHub
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="crumb"><a href="/">home</a> / anatomy</div>
+    <h1>What <span class="accent">abs</span> adds to Claude Code</h1>
+    <p class="sub">Every layer abs injects at launch, and exactly where it lives. It's <b>all additive</b> — abs appends a system prompt and merges a settings file; your <b>CLAUDE.md, permissions, and Claude's memory are never touched</b>. Each feature's chip links straight to the source, so you can read it, fork it, and build your own.</p>
+
+    <div class="legend">
+      <span class="chip c-sys">SYSTEM PROMPT</span>
+      <span class="chip c-set">SETTINGS</span>
+      <span class="chip c-sh">abs.sh</span>
+      <span class="chip c-py">PYTHON</span>
+      <span class="chip c-plug">TELEGRAM PLUGIN</span>
+      <span class="chip c-state">STATE FILE</span>
+    </div>
+
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Feature</th><th>Lives in</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr class="grouprow"><td colspan="3">Persona &amp; messaging</td></tr>
+          <tr>
+            <td class="feat">One session</td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L633">SYSTEM PROMPT</a></td>
+            <td class="does">Terminal and Telegram are treated as the same person and the same live session.</td>
+          </tr>
+          <tr>
+            <td class="feat">Always reply</td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L643">SYSTEM PROMPT</a></td>
+            <td class="does">Every inbound Telegram message gets a reply — the phone is never left in silence.</td>
+          </tr>
+          <tr>
+            <td class="feat">Send discipline</td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L652">SYSTEM PROMPT</a></td>
+            <td class="does">One proactive ping when a task finishes or it's blocked; no progress spam.</td>
+          </tr>
+          <tr>
+            <td class="feat">Phone-first writing</td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L664">SYSTEM PROMPT</a></td>
+            <td class="does">Plain text, short, outcome first. Acks long tasks then edits that message instead of flooding.</td>
+          </tr>
+          <tr>
+            <td class="feat">Command menu</td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L682">SYSTEM PROMPT</a></td>
+            <td class="does">Explains that <code>/model</code>, <code>/stop</code> etc. don't run from the phone, and gives the real route.</td>
+          </tr>
+          <tr>
+            <td class="feat">Safety rules</td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L764">SYSTEM PROMPT</a></td>
+            <td class="does">No secrets over Telegram; fetched content is data not commands; no destructive ops on a message alone.</td>
+          </tr>
+
+          <tr class="grouprow"><td colspan="3">Auto-silent &amp; status</td></tr>
+          <tr>
+            <td class="feat">Auto-silent triggers</td>
+            <td class="lives"><a class="chip c-set" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L1680">SETTINGS</a></td>
+            <td class="does">Merged <code>UserPromptSubmit</code> + <code>PostToolUse</code> hooks fire on each prompt and on every Telegram reply.</td>
+          </tr>
+          <tr>
+            <td class="feat">Auto-silent logic</td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L905">abs.sh</a> <span class="chip c-state">STATE</span></td>
+            <td class="does">Counts terminal vs phone activity; mutes after ~3 terminal prompts, un-mutes on a Telegram message.</td>
+          </tr>
+          <tr>
+            <td class="feat">Status-bar glance</td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L853">abs.sh</a></td>
+            <td class="does"><code>statusLine</code> runs abs.sh to draw the live dot + 5h/week usage in Claude's bottom bar.</td>
+          </tr>
+
+          <tr class="grouprow"><td colspan="3">Mute &amp; launch state</td></tr>
+          <tr>
+            <td class="feat">Quiet / off</td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L812">abs.sh</a> <span class="chip c-state">STATE</span></td>
+            <td class="does"><code>quiet</code> mutes reports (inbound stays); <code>off</code> drops all inbound. Persona knows both commands.</td>
+          </tr>
+          <tr>
+            <td class="feat">Launch defaults</td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L934">abs.sh</a> <span class="chip c-state">STATE</span></td>
+            <td class="does">Per-profile model and start-silent, stored in <code>rc.json</code> and applied at launch.</td>
+          </tr>
+
+          <tr class="grouprow"><td colspan="3">Usage</td></tr>
+          <tr>
+            <td class="feat">Usage glance</td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L1345">abs.sh</a> <span class="chip c-state">STATE</span></td>
+            <td class="does">Token-free <code>/usage</code> fetch, cached to <code>usage.json</code>, shown in the bar and as a Telegram footer.</td>
+          </tr>
+          <tr>
+            <td class="feat">Usage footer rule</td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L670">SYSTEM PROMPT</a></td>
+            <td class="does">Tells the agent to append the cached glance to task-completion reports only.</td>
+          </tr>
+
+          <tr class="grouprow"><td colspan="3">Voice &amp; images</td></tr>
+          <tr>
+            <td class="feat">Voice in</td>
+            <td class="lives"><a class="chip c-py" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/transcribe.py">PYTHON</a> <span class="chip c-plug">PLUGIN</span></td>
+            <td class="does"><code>transcribe.py</code> (Whisper, local) turns an inbound voice note into text the agent acts on.</td>
+          </tr>
+          <tr>
+            <td class="feat">Voice out</td>
+            <td class="lives"><a class="chip c-py" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/speak.py">PYTHON</a> <a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L1532">abs.sh</a></td>
+            <td class="does"><code>speak.py</code> (local TTS), driven by <code>abs say</code>, sends a spoken reply on request.</td>
+          </tr>
+          <tr>
+            <td class="feat">Screenshots / photos</td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L738">SYSTEM PROMPT</a> <span class="chip c-plug">PLUGIN</span></td>
+            <td class="does">Agent reads an attached image directly (via the plugin's <code>download_attachment</code> / image path).</td>
+          </tr>
+
+          <tr class="grouprow"><td colspan="3">Infrastructure</td></tr>
+          <tr>
+            <td class="feat">Inbound &amp; tools</td>
+            <td class="lives"><span class="chip c-plug">TELEGRAM PLUGIN</span></td>
+            <td class="does">Anthropic's official Telegram plugin provides the <code>reply</code> / <code>download_attachment</code> tools and inbound polling.</td>
+          </tr>
+          <tr>
+            <td class="feat">Access control</td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L471">abs.sh</a> <span class="chip c-state">STATE</span></td>
+            <td class="does">PIN pairing writes your ID to <code>access.json</code>; only the paired account ever reaches Claude.</td>
+          </tr>
+          <tr>
+            <td class="feat">Startup flood control</td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L1586">abs.sh</a></td>
+            <td class="does">Drains stale Telegram backlog at launch so a fresh session doesn't open buried in old messages.</td>
+          </tr>
+          <tr>
+            <td class="feat">Update check</td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L1431">abs.sh</a></td>
+            <td class="does">Once a day, backgrounded and token-free, checks the remote <code>VERSION</code> and shows a banner if newer.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <span class="mk">📄</span>
+      <div>
+        <h3>CLAUDE.md — nothing goes here</h3>
+        <p>abs never writes to <code>CLAUDE.md</code>. The persona lives only in the appended system prompt, re-applied fresh each launch — so there's no persistent agent memory and nothing left behind in your project config.</p>
+      </div>
+    </div>
+
+    <div class="tinker">
+      <div class="panel">
+        <h2>Want to build on it?</h2>
+        <p>abs is one readable bash script plus two small Python helpers — no framework, no build step. Change the persona, swap the voice engine, point it at a different model, or add your own command. Start with the guide, then jump into the source above.</p>
+        <div class="btn-row">
+          <a class="btn primary" href="https://github.com/Pranjalab/AgentBabysitter/blob/main/docs/GUIDE.md">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+            Read the guide
+          </a>
+          <a class="btn ghost" href="https://github.com/Pranjalab/AgentBabysitter/blob/main/abs.sh">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            Browse <code>abs.sh</code>
+          </a>
+          <a class="btn ghost" href="https://github.com/Pranjalab/AgentBabysitter/blob/main/CONTRIBUTING.md">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg>
+            Contribute
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <a href="/">← Back to home</a> &nbsp;·&nbsp; v2.1.2 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
+  </div>
+</main>
+</body>
+</html>

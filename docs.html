@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0d17">
+
+<title>Docs — Build on Agent Babysitter</title>
+<meta name="description" content="Make abs your own. Swap the model, change the persona, replace the voice engine, tune auto-silent, or add a command — each how-to points at the exact file and function to edit.">
+<link rel="canonical" href="https://agentbabysitter.com/docs.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Agent Babysitter">
+<meta property="og:url" content="https://agentbabysitter.com/docs.html">
+<meta property="og:title" content="Docs — Build on Agent Babysitter">
+<meta property="og:description" content="Make abs your own. Each how-to points at the exact file and function to edit.">
+<meta property="og:image" content="https://agentbabysitter.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Docs — Build on Agent Babysitter">
+<meta name="twitter:description" content="Make abs your own. Each how-to points at the exact file and function to edit.">
+<meta name="twitter:image" content="https://agentbabysitter.com/assets/og.png">
+
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg:#0a0d17; --bg-2:#0f1320; --bg-3:#141a2b; --line:#212842; --line-2:#2c3450;
+    --violet:#8b5cf6; --violet-2:#a78bfa; --tg:#29a9ea; --green:#34d399; --orange:#f5a623; --cyan:#22d3ee;
+    --text:#eef1f8; --body:#aab3c8; --muted:#6b7590;
+    --sans:"Inter", system-ui, sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, monospace;
+    --maxw:1120px;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.5; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  a { color:inherit; text-decoration:none; }
+  .accent { color:var(--violet-2); }
+  body::before { content:""; position:fixed; inset:0; z-index:-2; pointer-events:none; background:radial-gradient(60rem 40rem at 82% -6%, rgba(139,92,246,.10), transparent 60%); }
+  .orb { position:fixed; border-radius:50%; filter:blur(72px); z-index:-1; pointer-events:none; }
+  .orb-1 { width:420px; height:420px; background:rgba(139,92,246,.20); top:-120px; right:2%; }
+  .orb-2 { width:320px; height:320px; background:rgba(41,169,234,.13); bottom:6%; left:-120px; }
+  .wrap { max-width:var(--maxw); margin:0 auto; padding:0 24px; }
+
+  header { position:sticky; top:0; z-index:50; background:rgba(10,13,23,.72); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+  .nav { display:flex; align-items:center; gap:20px; height:64px; }
+  .brand { display:flex; align-items:center; gap:10px; font-weight:700; font-size:19px; }
+  .brand .mark { width:36px; height:36px; flex:none; border-radius:50%; object-fit:cover; }
+  .brand b { font-weight:800; }
+  .nav-links { display:flex; gap:24px; margin-left:auto; font-size:14px; color:var(--body); }
+  .nav-links a:hover { color:var(--text); }
+  .gh-btn { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line-2); border-radius:9px; padding:8px 14px; font-size:14px; font-weight:500; background:var(--bg-2); }
+  .gh-btn:hover { border-color:var(--violet); }
+  .gh-btn svg { width:16px; height:16px; }
+
+  main { padding:60px 0 40px; }
+  .crumb { font-size:13px; color:var(--muted); font-family:var(--mono); margin-bottom:16px; }
+  .crumb a:hover { color:var(--violet-2); }
+  h1 { font-size:clamp(28px,3.6vw,40px); font-weight:800; letter-spacing:-.02em; margin:0 0 12px; line-height:1.1; }
+  .sub { color:var(--body); font-size:16px; max-width:68ch; margin:0; }
+  .sub b { color:var(--text); font-weight:600; }
+  .sub code { font-family:var(--mono); font-size:.9em; color:var(--violet-2); }
+
+  .jump { display:flex; flex-wrap:wrap; gap:8px; margin:26px 0 6px; }
+  .jump a {
+    font-family:var(--mono); font-size:12px; font-weight:500; color:var(--body);
+    padding:5px 11px; border-radius:7px; border:1px solid var(--line-2); background:var(--bg-2);
+    transition:border-color .15s, color .15s;
+  }
+  .jump a:hover { border-color:var(--violet); color:var(--text); }
+
+  .cards { display:flex; flex-direction:column; gap:18px; margin-top:20px; }
+  .doc {
+    background:linear-gradient(180deg, var(--bg-2), rgba(15,19,32,.35));
+    border:1px solid var(--line); border-radius:16px; padding:26px 28px; scroll-margin-top:80px;
+  }
+  .doc .kick { font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:9px; }
+  .doc h3 { margin:0 0 10px; font-size:19px; font-weight:700; letter-spacing:-.01em; }
+  .doc p { margin:0 0 14px; font-size:14.5px; color:var(--body); max-width:64ch; }
+  .doc p:last-child { margin-bottom:0; }
+  .doc code { font-family:var(--mono); font-size:.88em; color:var(--violet-2); background:rgba(139,92,246,.08); padding:1px 5px; border-radius:4px; }
+
+  .code {
+    background:#070a12; border:1px solid var(--line); border-radius:9px;
+    padding:13px 15px; margin:0 0 14px; overflow-x:auto;
+  }
+  .code pre { margin:0; font-family:var(--mono); font-size:13px; line-height:1.7; color:var(--text); white-space:pre; }
+  .code .cmt { color:var(--muted); }
+  .code .fl { color:var(--violet-2); }
+
+  .src {
+    display:inline-flex; align-items:center; gap:7px; font-size:13px; font-weight:600;
+    color:var(--green); font-family:var(--mono);
+  }
+  .src:hover { color:#5eead4; }
+  .src svg { width:14px; height:14px; }
+  .src.multi { margin-right:16px; }
+
+  .foot-panel {
+    margin-top:26px; background:linear-gradient(180deg, var(--bg-2), rgba(15,19,32,.4));
+    border:1px solid var(--line); border-radius:18px; padding:30px 32px;
+    display:flex; flex-wrap:wrap; align-items:center; gap:16px; justify-content:space-between;
+  }
+  .foot-panel h2 { margin:0 0 4px; font-size:20px; font-weight:800; }
+  .foot-panel p { margin:0; font-size:14px; color:var(--body); }
+  .btn { display:inline-flex; align-items:center; gap:8px; border-radius:10px; padding:11px 17px; font-size:14px; font-weight:600; border:1px solid var(--line-2); background:var(--bg-2); }
+  .btn svg { width:16px; height:16px; }
+  .btn.primary { background:var(--violet); border-color:var(--violet); color:#fff; }
+  .btn.primary:hover { background:var(--violet-2); }
+
+  .colophon { text-align:center; padding:30px 0 44px; font-size:13px; color:var(--muted); border-top:1px solid var(--line); margin-top:56px; }
+  .colophon a:hover { color:var(--violet-2); }
+  .colophon .hh { color:#f2557a; }
+
+  @media (max-width:760px) { .nav-links { display:none; } .doc { padding:22px 20px; } .foot-panel { padding:24px 20px; } }
+</style>
+</head>
+<body>
+<div class="orb orb-1"></div><div class="orb orb-2"></div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="/">
+      <img class="mark" src="assets/mascot.png" alt="Agent Babysitter mascot">
+      <span>Agent <b class="accent">Babysitter</b></span>
+    </a>
+    <nav class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="anatomy.html">Anatomy</a>
+      <a href="https://github.com/Pranjalab/AgentBabysitter/blob/main/docs/GUIDE.md">Guide</a>
+    </nav>
+    <a class="gh-btn" href="https://github.com/Pranjalab/AgentBabysitter">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      GitHub
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="crumb"><a href="/">home</a> / docs</div>
+    <h1>Build on <span class="accent">abs</span></h1>
+    <p class="sub">abs is <b>one readable bash script</b> plus two small Python helpers — no framework, no build step. Make it yours: swap the model, rewrite the persona, replace the voice engine, or add a command. Every how-to below ends with the <b>exact file and function</b> to edit. New here? Start with the <a class="accent" href="anatomy.html">anatomy map</a>.</p>
+
+    <div class="jump">
+      <a href="#map">Project map</a>
+      <a href="#model">Swap the model</a>
+      <a href="#persona">Change the persona</a>
+      <a href="#voice">Replace voice</a>
+      <a href="#silent">Tune auto-silent</a>
+      <a href="#command">Add a command</a>
+      <a href="#statusbar">Status bar</a>
+    </div>
+
+    <div class="cards">
+
+      <section class="doc" id="map">
+        <div class="kick">Orientation</div>
+        <h3>The whole project, in four places</h3>
+        <p>There's very little to learn. Everything abs does lives in one of these:</p>
+        <div class="code"><pre><span class="cmt"># the program — commands, persona, hooks, usage, all of it</span>
+abs.sh
+
+<span class="cmt"># voice, both directions (local, no cloud)</span>
+transcribe.py   <span class="cmt"># voice note  → text</span>
+speak.py        <span class="cmt"># text        → voice note</span>
+
+<span class="cmt"># your runtime state, owner-only (never in git)</span>
+~/.abs/          <span class="cmt"># rc.json, access.json, usage.json …</span></pre></div>
+        <p>The agent's behaviour isn't in a config file — it's the system prompt abs appends at launch, built in <code>build_prompt()</code>.</p>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh</a>
+      </section>
+
+      <section class="doc" id="model">
+        <div class="kick">How-to</div>
+        <h3>Point it at a different model</h3>
+        <p>Set a default model per profile, applied on every launch. An explicit <code>abs --model …</code> on the command line always wins for that one session.</p>
+        <div class="code"><pre>abs config model opus        <span class="cmt"># default for this profile</span>
+abs config model <span class="fl">--clear</span>       <span class="cmt"># back to Claude Code's default</span>
+abs <span class="fl">--model</span> sonnet           <span class="cmt"># just this session</span></pre></div>
+        <p>To change how the default is stored or applied, the logic is in <code>cmd_config()</code> (stores it) and <code>cmd_run()</code> (passes <code>--model</code> at launch).</p>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L934"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · cmd_config</a>
+      </section>
+
+      <section class="doc" id="persona">
+        <div class="kick">How-to</div>
+        <h3>Rewrite the persona &amp; tone</h3>
+        <p>How abs talks to you — when it messages, how short it keeps things, its safety rules — is one block of text appended to the session as a system prompt. Edit the heredoc in <code>build_prompt()</code> and it takes effect on the next launch. Nothing is compiled; it's plain English.</p>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L629"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · build_prompt</a>
+      </section>
+
+      <section class="doc" id="voice">
+        <div class="kick">How-to</div>
+        <h3>Replace the voice engine</h3>
+        <p>Voice is two standalone scripts with a dead-simple contract. Keep the same in/out and you can drop in any engine — a different Whisper size, a cloud STT, another TTS voice.</p>
+        <div class="code"><pre><span class="cmt"># in:  an audio file path  →  out: transcript on stdout</span>
+transcribe.py &lt;file.oga&gt;
+
+<span class="cmt"># in:  text  →  out: a voice note sent to Telegram</span>
+speak.py "the text to speak"</pre></div>
+        <p>abs only ever calls these two files, so swapping engines never touches the main script.</p>
+        <a class="src multi" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/transcribe.py"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> transcribe.py</a>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/speak.py"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> speak.py</a>
+      </section>
+
+      <section class="doc" id="silent">
+        <div class="kick">How-to</div>
+        <h3>Tune how fast it goes quiet</h3>
+        <p>Auto-silent trips after a set number of back-to-back terminal prompts. Want it to hold on longer, or mute sooner? Change one constant.</p>
+        <div class="code"><pre>readonly SILENT_STREAK=<span class="fl">3</span>    <span class="cmt"># prompts at the terminal before it mutes</span></pre></div>
+        <p>The counting itself lives in <code>cmd_silent_hook()</code> just below — that's where a Telegram message resets the streak.</p>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L65"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · SILENT_STREAK</a>
+      </section>
+
+      <section class="doc" id="command">
+        <div class="kick">How-to</div>
+        <h3>Add your own command</h3>
+        <p>Commands are a plain <code>case</code> in <code>main()</code>. Write a <code>cmd_yours()</code> function, add one line to the dispatch, and <code>abs yours</code> works. No registration, no plugin system.</p>
+        <div class="code"><pre>cmd_hello() { ok "hi from $PROFILE"; }
+
+<span class="cmt"># in main()'s case block:</span>
+hello) cmd_hello ;;</pre></div>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L1792"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · main</a>
+      </section>
+
+      <section class="doc" id="statusbar">
+        <div class="kick">How-to</div>
+        <h3>Change what the status bar shows</h3>
+        <p>The bottom-bar dot and usage are rendered by <code>cmd_statusline()</code>; the <code>5h / week</code> glance itself is formatted in <code>usage_glance_str()</code>. Edit either to change the text, order, or what's shown.</p>
+        <a class="src multi" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L853"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · cmd_statusline</a>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.2/abs.sh#L1345"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> usage_glance_str</a>
+      </section>
+
+    </div>
+
+    <div class="foot-panel">
+      <div>
+        <h2>Built something good?</h2>
+        <p>Open a PR — new engines, commands, and platforms are all welcome.</p>
+      </div>
+      <a class="btn primary" href="https://github.com/Pranjalab/AgentBabysitter/blob/main/CONTRIBUTING.md">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg>
+        Contributing guide
+      </a>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <a href="/">← Back to home</a> &nbsp;·&nbsp; v2.1.2 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
+  </div>
+</main>
+</body>
+</html>
