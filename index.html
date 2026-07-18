@@ -46,7 +46,7 @@
   "alternateName": "abs",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Linux, macOS",
-  "softwareVersion": "2.0.0",
+  "softwareVersion": "2.1.2",
   "url": "https://agentbabysitter.com/",
   "downloadUrl": "https://agentbabysitter.com/install.sh",
   "codeRepository": "https://github.com/Pranjalab/AgentBabysitter",
@@ -58,6 +58,8 @@
   "featureList": [
     "Telegram notifications when a Claude Code task finishes",
     "Reply from your phone into the same live session",
+    "Auto-silent: mutes reports while you are at the desk, resumes when you step away",
+    "Live status dot and usage glance in Claude Code's status bar",
     "Send screenshots Claude reads directly",
     "Voice notes in and out, transcribed and spoken locally",
     "Check Claude usage limits from Telegram",
@@ -296,6 +298,66 @@
   }
   .handnote em { font-style: italic; }
 
+  /* ---------- terminal status line (hero mock) ---------- */
+  .term-status {
+    display: flex; align-items: center; gap: 7px;
+    margin-top: 11px; padding-top: 10px; border-top: 1px solid var(--line);
+    font-size: 10.5px; color: var(--muted); white-space: nowrap; overflow: hidden;
+  }
+  .term-status .tdot { width: 7px; height: 7px; border-radius: 50%; flex: none;
+    background: var(--green); box-shadow: 0 0 7px rgba(52,211,153,.85); }
+  .term-status .sep { color: var(--line-2); }
+  .term-status b { color: var(--body); font-weight: 600; }
+
+  /* ---------- auto-silent / status-glance band ---------- */
+  .glance-copy .lead { font-size: 15px; color: var(--body); margin: 0 0 26px; max-width: 44ch; }
+  .glance-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 18px; }
+  .glance-list li { display: flex; gap: 13px; font-size: 14px; color: var(--body); line-height: 1.5; }
+  .glance-list li b { color: var(--text); font-weight: 600; }
+  .glance-list .gi { width: 20px; height: 20px; flex: none; margin-top: 1px; }
+
+  .statusbar-demo { display: flex; flex-direction: column; gap: 15px; }
+  .sb-window {
+    background: var(--bg-2); border: 1px solid var(--line-2); border-radius: 13px;
+    overflow: hidden; box-shadow: 0 24px 60px -30px rgba(0,0,0,.8);
+  }
+  .sb-window .bar {
+    display: flex; align-items: center; gap: 7px;
+    padding: 10px 14px; border-bottom: 1px solid var(--line);
+  }
+  .sb-window .bar .title { margin-left: 8px; font-size: 12px; color: var(--muted); font-family: var(--mono); }
+  .sb-body { padding: 16px 16px 14px; font-family: var(--mono); font-size: 12.5px; line-height: 1.85; }
+  .sb-body .p { color: var(--green); }
+  .sb-body .dim { color: var(--muted); }
+  .sb-strip {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    flex-wrap: nowrap; white-space: nowrap; overflow-x: auto;
+    margin-top: 13px; padding: 10px 12px;
+    background: #070a12; border: 1px solid var(--line); border-radius: 8px;
+    font-size: 11.5px; color: var(--body);
+  }
+  .sb-strip .sb-handle { color: var(--body); }
+  .sb-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex: none;
+    background: var(--green); box-shadow: 0 0 8px rgba(52,211,153,.9);
+    animation: sbpulse 7s ease-in-out infinite;
+  }
+  .sb-state::after { content: " · silent"; color: var(--muted); opacity: 0; animation: sbstate 7s ease-in-out infinite; }
+  .sb-right b { color: var(--text); font-weight: 600; }
+  .sb-sep { color: var(--line-2); }
+  @keyframes sbpulse {
+    0%, 42%  { background: var(--green); box-shadow: 0 0 8px rgba(52,211,153,.9); }
+    54%, 92% { background: #6b7590; box-shadow: none; }
+    100%     { background: var(--green); box-shadow: 0 0 8px rgba(52,211,153,.9); }
+  }
+  @keyframes sbstate { 0%, 46% { opacity: 0; } 56%, 90% { opacity: 1; } 100% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .sb-dot { animation: none; }
+    .sb-state::after { animation: none; opacity: 0; }
+  }
+  .sb-caption { font-size: 12.5px; color: var(--muted); text-align: center; line-height: 1.5; }
+  .sb-caption b { color: var(--body); font-weight: 600; }
+
   /* ---------- section shell ---------- */
   section.block { padding: 46px 0; }
   .panel {
@@ -392,6 +454,7 @@
       <span>Agent <b class="accent">Babysitter</b></span>
     </a>
     <nav class="nav-links">
+      <a href="#glance">Auto-silent</a>
       <a href="#features">Features</a>
       <a href="#how">How it Works</a>
       <a href="https://github.com/Pranjalab/AgentBabysitter#%EF%B8%8F-commands">Commands</a>
@@ -458,6 +521,7 @@
           <div class="dim">• 128 additions</div>
           <div class="dim">• 0 errors</div>
           <div style="margin-top:6px"><span class="p">&gt;</span> <span class="cursor"></span></div>
+          <div class="term-status"><span class="tdot"></span> abs@pranBot <span class="sep">·</span> 5h <b>1%</b> <span class="sep">·</span> week <b>8%</b></div>
         </div>
       </div>
 
@@ -515,6 +579,56 @@
   </div>
 </section>
 
+<section class="block" id="glance">
+  <div class="wrap">
+    <div class="panel">
+      <div class="how-grid">
+        <div class="glance-copy">
+          <h2 class="sec-title" style="text-align:left;margin-bottom:14px">It knows when you're <span class="accent">at your desk</span></h2>
+          <p class="lead">No pings while you're working — reports come back the moment you step away. You never flip a switch.</p>
+          <ul class="glance-list">
+            <li>
+              <svg class="gi" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13.73 21a2 2 0 0 1-3.46 0"/><path d="M18.63 13A17.9 17.9 0 0 1 18 8"/><path d="M6.26 6.26A5.86 5.86 0 0 0 6 8c0 7-3 9-3 9h14"/><path d="M18 8a6 6 0 0 0-9.33-5"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
+              <span><b>Silent while you work.</b> A few prompts at the terminal and it stops pinging you.</span>
+            </li>
+            <li>
+              <svg class="gi" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+              <span><b>Back on when you leave.</b> Message it from Telegram, or just walk away — reports resume on their own.</span>
+            </li>
+            <li>
+              <svg class="gi" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5" fill="#34d399" stroke="none"/></svg>
+              <span><b>A dot shows the mode.</b> Green when reporting, gray when muted — right in Claude's bar.</span>
+            </li>
+            <li>
+              <svg class="gi" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg>
+              <span><b>Usage at a glance.</b> Your 5-hour and weekly limits, in the bar and on every report.</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <div class="statusbar-demo">
+            <div class="sb-window">
+              <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="title">Claude Code</span></div>
+              <div class="sb-body">
+                <div><span class="p">&gt;</span> refactor the auth module <span class="dim">— running…</span></div>
+                <div class="dim">esc to interrupt · ⇧⇥ auto-accept edits</div>
+                <div class="sb-strip">
+                  <span class="sb-dot"></span>
+                  <span class="sb-handle">abs@pranBot<span class="sb-state"></span></span>
+                  <span class="sb-sep">·</span> 5h&nbsp;<b>1%</b>
+                  <span class="sb-sep">·</span> week&nbsp;<b>8%</b>
+                  <span class="sb-sep">·</span> resets 4h 47m
+                </div>
+              </div>
+            </div>
+            <div class="sb-caption">Watch the dot — <b>green</b> while it's reporting, <b>gray</b> the moment it goes quiet.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="block" id="features">
   <div class="wrap">
     <div class="panel">
@@ -542,8 +656,8 @@
         </div>
         <div class="fcard">
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg>
-          <h3>Check Usage</h3>
-          <p>Tap <code style="font-family:var(--mono);color:var(--violet-2)">/usage</code> to see your Claude subscription limits and reset times.</p>
+          <h3>Check Usage Anywhere</h3>
+          <p>Tap <code style="font-family:var(--mono);color:var(--violet-2)">/usage</code> in Telegram for your full Claude limits — the same numbers glance live in your terminal's status bar.</p>
         </div>
         <div class="fcard">
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -615,7 +729,7 @@
         </div>
       </div>
     </div>
-    <div class="colophon">MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users</div>
+    <div class="colophon">v2.1.2 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users</div>
   </div>
 </section>
 
