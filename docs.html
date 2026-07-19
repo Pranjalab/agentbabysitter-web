@@ -411,8 +411,8 @@
           </tr>
           <tr>
             <td class="feat">Update check</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.4/abs.sh#L1434">abs.sh</a></td>
-            <td class="does">Once a day, backgrounded and token-free, checks the remote <code>VERSION</code> and shows a banner if newer.</td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.5.0/abs.sh#L1882">abs.sh</a></td>
+            <td class="does">On every launch, token-free, checks the remote <code>VERSION</code> and offers to update-and-relaunch on a <code>y/N</code> prompt; declining just launches.</td>
           </tr>
         </tbody>
       </table>
@@ -528,6 +528,7 @@ hello) cmd_hello ;;</pre></div>
           <tr><td class="cmd-name">abs quiet on|off</td><td class="does">Mute / unmute reports — inbound still works.</td></tr>
           <tr><td class="cmd-name">abs off | on</td><td class="does">Drop / re-enable all inbound Telegram.</td></tr>
           <tr><td class="cmd-name">abs say "text"</td><td class="does">Speak it and send as a voice note.</td></tr>
+          <tr><td class="cmd-name">abs update</td><td class="does">Update abs in place to the latest release.</td></tr>
           <tr><td class="cmd-name">abs reset</td><td class="does">Remove this profile's token, allowlist, and state.</td></tr>
           <tr><td class="cmd-name">abs version</td><td class="does">Print the installed version.</td></tr>
           <tr><td class="cmd-name">abs help</td><td class="does">The full list.</td></tr>
