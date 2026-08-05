@@ -1,3 +1,11 @@
 .DS_Store
 node_modules/
 *.log
+
+# Secrets. This repo is public and published to GitHub Pages — anything
+# committed here is world-readable and stays in the history after deletion.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
