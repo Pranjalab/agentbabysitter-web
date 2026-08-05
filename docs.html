@@ -467,7 +467,10 @@ abs <span class="fl">--model</span> sonnet           <span class="cmt"># just th
       <section class="doc" id="voice">
         <div class="kick">How-to</div>
         <h3>Replace the voice engine</h3>
-        <p>Voice is two standalone scripts with a dead-simple contract. Keep the same in/out and you can drop in any engine — a different Whisper size, a cloud STT, another TTS voice.</p>
+        <p>Voice is opt-in. Install it whenever you want it — you don't need a dev checkout any more, and an installed <code>abs</code> keeps its engines in <code>~/.abs/voice</code>:</p>
+        <div class="code"><pre>abs voice setup     <span class="cmt"># install the speech engines</span>
+abs voice status    <span class="cmt"># what's installed, what's missing, how to fix it</span></pre></div>
+        <p>Underneath, it's two standalone scripts with a dead-simple contract. Keep the same in/out and you can drop in any engine — a different Whisper size, a cloud STT, another TTS voice.</p>
         <div class="code"><pre><span class="cmt"># in:  an audio file path  →  out: transcript on stdout</span>
 transcribe.py &lt;file.oga&gt;
 
@@ -528,6 +531,8 @@ hello) cmd_hello ;;</pre></div>
           <tr><td class="cmd-name">abs quiet on|off</td><td class="does">Mute / unmute reports — inbound still works.</td></tr>
           <tr><td class="cmd-name">abs off | on</td><td class="does">Drop / re-enable all inbound Telegram.</td></tr>
           <tr><td class="cmd-name">abs say "text"</td><td class="does">Speak it and send as a voice note.</td></tr>
+          <tr><td class="cmd-name">abs voice setup</td><td class="does">Install the speech engines. Opt-in, and no longer needs a dev checkout.</td></tr>
+          <tr><td class="cmd-name">abs voice status</td><td class="does">What's installed, what's missing, and the command that fixes it.</td></tr>
           <tr><td class="cmd-name">abs update</td><td class="does">Update abs in place to the latest release.</td></tr>
           <tr><td class="cmd-name">abs reset</td><td class="does">Remove this profile's token, allowlist, and state.</td></tr>
           <tr><td class="cmd-name">abs version</td><td class="does">Print the installed version.</td></tr>
