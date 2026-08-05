@@ -496,6 +496,16 @@
   @media (max-width: 900px) {
     .cmd-cols { grid-template-columns: 1fr; }
   }
+
+  /* The flow row needs 328px — four 76px nodes plus their gaps — but the card
+     only offers ~246px at 390px wide, so it pushed the whole page sideways.
+     Stack it rather than shrink the icons to something unreadable. */
+  @media (max-width: 560px) {
+    .flow { flex-direction: column; align-items: center; gap: 6px; }
+    .node { flex-direction: row; width: auto; max-width: 100%; gap: 12px; text-align: left; }
+    .flow .arrow { flex: none; padding: 0; height: 24px; display: grid; place-items: center; }
+    .flow .arrow svg { width: 24px; max-width: 24px; transform: rotate(90deg); }
+  }
 </style>
 </head>
 <body>
