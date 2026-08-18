@@ -5,21 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0a0d17">
 
-<title>Security — Agent Babysitter</title>
-<meta name="description" content="Only you can message your bot. How Agent Babysitter enforces that with PIN pairing and an allowlist — and the few things it deliberately does not protect against.">
-<link rel="canonical" href="https://agentbabysitter.com/security.html">
+<title>Releases — Agent Babysitter</title>
+<meta name="description" content="Every Agent Babysitter release you can install, and the exact command for each. Install the current version, or pin an older one if a release does not suit your machine.">
+<link rel="canonical" href="https://agentbabysitter.com/releases.html">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Agent Babysitter">
-<meta property="og:url" content="https://agentbabysitter.com/security.html">
-<meta property="og:title" content="Security — Agent Babysitter">
-<meta property="og:description" content="Only you can message your bot. How it's enforced, and what it deliberately does not protect against.">
+<meta property="og:url" content="https://agentbabysitter.com/releases.html">
+<meta property="og:title" content="Releases — Agent Babysitter">
+<meta property="og:description" content="Every release you can install, and the exact command for each — including how to pin an older one.">
 <meta property="og:image" content="https://agentbabysitter.com/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Security — Agent Babysitter">
-<meta name="twitter:description" content="Only you can message your bot. How it's enforced, and what it deliberately does not protect against.">
+<meta name="twitter:title" content="Releases — Agent Babysitter">
+<meta name="twitter:description" content="Every release you can install, and the exact command for each — including how to pin an older one.">
 <meta name="twitter:image" content="https://agentbabysitter.com/assets/og.png">
 
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
@@ -129,6 +129,32 @@
   .colophon a:hover { color:var(--violet-2); }
   .colophon .hh { color:#f2557a; }
   @media (max-width:900px) { .nav-links { display:none; } .nav-menu { display: block; margin-left: auto; } .gh-btn { display: none; } }
+
+  /* ---- releases ------------------------------------------------------- */
+  .rel { border:1px solid var(--line); border-radius:14px; background:var(--bg-2); padding:24px 24px 22px; margin:0 0 20px; }
+  .rel.current { border-color:var(--violet); background:linear-gradient(180deg, rgba(139,92,246,.07), transparent 60%), var(--bg-2); }
+  .rel-top { display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 14px; margin-bottom:6px; }
+  .rel-ver { font-family:var(--mono); font-size:26px; font-weight:600; color:var(--text); letter-spacing:-.01em; }
+  .rel-tag { font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; padding:4px 9px; border-radius:999px; }
+  .rel-tag.now { color:#0a0d17; background:var(--violet-2); }
+  .rel-tag.prev { color:var(--body); background:var(--bg-3); border:1px solid var(--line-2); }
+  .rel-date { font-family:var(--mono); font-size:12px; color:var(--muted); margin-left:auto; }
+  .rel h3 { margin:0 0 10px; font-size:19px; color:var(--text); font-weight:650; letter-spacing:-.01em; }
+  .rel p { margin:0 0 14px; color:var(--body); line-height:1.7; max-width:64ch; }
+  .rel ul { margin:0 0 16px; padding-left:20px; color:var(--body); line-height:1.7; }
+  .rel ul li { margin-bottom:5px; }
+  .rel-cmd { background:var(--bg-3); border:1px solid var(--line); border-radius:10px; padding:13px 15px; overflow-x:auto; }
+  .rel-cmd code { font-family:var(--mono); font-size:13px; color:var(--text); white-space:pre; }
+  .rel-note { font-size:14px; color:var(--muted); margin:12px 0 0; line-height:1.65; }
+  .rel-note b { color:var(--body); font-weight:600; }
+  .warnbox { border:1px solid var(--line-2); border-left:3px solid var(--orange); border-radius:0 12px 12px 0; background:var(--bg-2); padding:18px 20px; margin:0 0 30px; }
+  .warnbox h3 { margin:0 0 8px; font-size:16px; color:var(--orange); font-weight:650; }
+  .warnbox p { margin:0; color:var(--body); line-height:1.7; font-size:15px; max-width:70ch; }
+  .warnbox code { font-family:var(--mono); font-size:.9em; color:var(--text); }
+  .relhelp { margin:34px 0 0; padding-top:24px; border-top:1px solid var(--line); }
+  .relhelp h2 { font-size:20px; color:var(--text); margin:0 0 10px; letter-spacing:-.01em; }
+  .relhelp p { color:var(--body); line-height:1.7; max-width:70ch; margin:0 0 14px; }
+  .relhelp code { font-family:var(--mono); font-size:.9em; color:var(--text); background:var(--bg-3); padding:2px 6px; border-radius:5px; }
 </style>
 </head>
 <body>
@@ -169,60 +195,60 @@
   </div>
 </header>
 
+
 <main>
   <div class="wrap">
-    <div class="crumb"><a href="/">home</a> / security</div>
-    <h1>Security</h1>
-    <p class="sub">Agent Babysitter connects a Telegram bot to a machine where Claude Code can run commands. That's powerful, so it's worth being precise about who can reach it — and the few things it deliberately does <b>not</b> protect against.</p>
+    <div class="crumb"><a href="/">home</a> / releases</div>
+    <h1>Releases</h1>
+    <p class="sub">Install the current version, or pin an older one. Every release stays installable — if something in a new version does not suit your machine, you are never stuck on it.</p>
 
-    <div class="banner">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
-      <p>The core of the model, stated plainly: <b>a stranger who finds your bot cannot do anything.</b></p>
+    <div class="warnbox">
+      <h3>Pinning is a one-way street until you undo it</h3>
+      <p>A pinned install does <b>not</b> update itself. It stays where you put it until you re-run the plain install command, which always brings you back to the current release. That is deliberate: if you dropped back because something broke, an automatic update would put you right back into it.</p>
     </div>
 
-    <div class="sblock">
-      <h2>Only you can message your bot</h2>
-      <ul class="plist">
-        <li><b>Pairing writes your Telegram user ID to an allowlist.</b> Every inbound message is checked against it; anyone not on the list is dropped <em>before</em> Claude ever sees it — no reply, no pairing offer, nothing.</li>
-        <li><b>Numeric IDs can't be spoofed.</b> Telegram user IDs are permanent, so changing a display name or username can't sneak anyone onto your allowlist.</li>
-        <li><b>Pairing is inverted on purpose.</b> Your <em>terminal</em> generates the PIN and waits for it — unknown senders are never answered. The PIN comes from <code>/dev/urandom</code>, drops look-alike characters, expires in 5 minutes, and only counts from a private chat.</li>
+    <div class="rel current">
+      <div class="rel-top">
+        <span class="rel-ver">3.3.0</span>
+        <span class="rel-tag now">Current</span>
+        <span class="rel-date">18 Aug 2026</span>
+      </div>
+      <h3>The first release that launches cleanly on macOS</h3>
+      <p>Eight releases in one day, and the reason for all of them: three versions running crashed on every macOS launch. That is fixed, and the test suite now runs bash 3.2 — the shell macOS actually ships — so the whole class of bug cannot come back unnoticed.</p>
+      <ul>
+        <li><b>Voice by default</b> where the machine can speak, using Kokoro — 82M parameters, runs on the CPU, a note in seconds.</li>
+        <li><b>Choose your voice by ear.</b> <code>abs voice samples</code> sends one voice note per voice, so you pick by listening rather than by reading names.</li>
+        <li><b>The daemon needs no git clone.</b> A <code>curl</code> install is now a full install — the always-on daemon, sandboxes, and starting a session from your phone.</li>
+        <li><b>The status bar colours your remaining context</b>, and your usage numbers are attached to reports automatically instead of when the model remembers.</li>
       </ul>
+      <div class="rel-cmd"><code>curl -fsSL https://agentbabysitter.com/install.sh | bash</code></div>
+      <p class="rel-note">Already installed? Just run <b>abs</b> — it offers you the update itself.</p>
     </div>
 
-    <div class="sblock">
-      <h2>How your secrets are protected</h2>
-      <ul class="plist">
-        <li><b>The bot token never appears in <code>ps</code>.</b> Every API call pipes the URL through <code>curl -K -</code> so the token stays out of the process's argument list. <em>(Verified: a canary token wasn't visible in <code>ps</code> during a live call.)</em></li>
-        <li><b>Files are owner-only.</b> The script runs <code>umask 077</code>; the token and allowlist are <code>600</code>, their directories <code>700</code>. Writes go through a temp file and <code>mv</code>, so a crash can't leave a half-written token.</li>
-        <li><b>Claude is told the rules.</b> The injected prompt forbids sending secrets over Telegram, treats fetched content as data not commands, and requires terminal confirmation for anything destructive.</li>
-      </ul>
+    <div class="rel">
+      <div class="rel-top">
+        <span class="rel-ver">2.5.1</span>
+        <span class="rel-tag prev">Previous</span>
+        <span class="rel-date">22 Jul 2026</span>
+      </div>
+      <h3>The last release before the always-on daemon</h3>
+      <p>The 2.x line, complete and stable: pairing, notifications, replying from your phone, screenshots, voice in and out, usage reports, profiles and the remote kill ladder. What it does not have is the v3 layer — no background daemon, no sandboxes, and no starting a session from Telegram with nothing running.</p>
+      <p>Pick this one if a v3 feature gets in your way and you would rather have the smaller, quieter tool.</p>
+      <div class="rel-cmd"><code>ABS_REF=v2.5.1 curl -fsSL https://agentbabysitter.com/install.sh | bash</code></div>
+      <p class="rel-note">The installer will tell you it is a pinned install, and how to get back.</p>
     </div>
 
-    <div class="sblock">
-      <h2>Enforced controls <span class="accent">(defense in depth)</span></h2>
-      <ul class="plist">
-        <li><b>A remote kill ladder that doesn't trust the model.</b> Send any of these from Telegram <em>as a whole message</em> and the session hook acts on it itself — so they work even if the model is prompt-injected: <code>ABS MUTE</code>/<code>ABS UNMUTE</code> (mute / resume reports), <code>ABS OFF</code> (cut inbound + outbound; session keeps working), <code>ABS STOP</code> (halt at the next step), <code>ABS EXIT</code> (close the session, confirms if mid-task), <code>ABS BLOCK</code> (lock the bot out until a terminal <code>abs setup</code>).</li>
-        <li><b>A destructive-command guard.</b> When a turn is driven from Telegram, a <code>PreToolUse</code> hook blocks a small, high-confidence set of dangerous commands — <code>rm -rf</code>, <code>git push --force</code>, <code>reset --hard</code>, <code>DROP</code>/<code>TRUNCATE</code>, <code>DELETE</code> without <code>WHERE</code>, reads of <code>.env</code>/keys — and tells you to run them at the terminal. From the terminal, nothing is blocked. Opt out: <code>abs config guard off</code>.</li>
-        <li class="warn"><b>Honest limit — this is defense-in-depth, not a sandbox.</b> A determined, compromised model could obfuscate a command to slip past the pattern match, so the guard raises the floor, it isn't a wall. Claude Code's own permission system remains the real boundary.</li>
-      </ul>
-    </div>
+    <div class="relhelp">
+      <h2>Going back to current</h2>
+      <p>Run the plain install command again. It always installs the current release and clears the pin:</p>
+      <p><code>curl -fsSL https://agentbabysitter.com/install.sh | bash</code></p>
 
-    <div class="sblock">
-      <h2>What this does <span class="accent">not</span> protect against</h2>
-      <ul class="plist">
-        <li class="warn"><b>Telegram sees your messages.</b> Bot chats aren't end-to-end encrypted. Voice is transcribed and synthesized <em>locally</em>, but the audio still travels over Telegram. Don't use this for work where that matters.</li>
-        <li class="warn"><b>Your bot token is a credential.</b> It lives in plaintext protected by file permissions, not encryption. If it leaks, revoke it in <a href="https://t.me/BotFather" style="color:#f5a623">@BotFather</a> and run <code>abs setup</code> again.</li>
-        <li class="warn"><b>Anyone with your unlocked phone can instruct Claude.</b> The allowlist authenticates a Telegram <em>account</em>, not a person. Lock your phone.</li>
-        <li class="warn"><b>It is not a sandbox.</b> Within your paired account, Claude has whatever power Claude Code gives it. The allowlist decides <em>who</em> can reach the session, not <em>what</em> it can do — that boundary is Claude Code's own permission system.</li>
-        <li class="warn"><b><code>reset</code>, not <code>setup</code>, clears the allowlist.</b> Re-running <code>abs setup</code> <em>adds</em> to it. To revoke access for everyone, run <code>abs reset</code>.</li>
-        <li class="warn"><b>The conversation log is a second copy of everything.</b> With the log on (the default), your messages, abs's replies, and the tools it ran are written to <code>~/.abs/&lt;profile&gt;/log/</code> — local, <code>600</code>, never uploaded. Control chars are stripped and secrets are scrubbed <em>best-effort</em> (Telegram/OpenAI/GitHub/AWS/Google/Slack keys, JWTs, PEM keys, <code>key=</code>/<code>password=</code> pairs, URL passwords) — but an unrecognised secret shape can still land there, and home-dir backups pick it up. Turn it off with <code>abs config log off</code>, delete it with <code>abs log --clear</code>.</li>
-        <li class="warn"><b>The install chain is trust-by-HTTPS.</b> <code>install.sh</code> fetches <code>abs.sh</code> (and can run Bun's and Claude Code's own <code>curl | bash</code> installers) over HTTPS with no checksum — standard for this class of tool. A cloned-checkout install skips the download. The on-launch update check compares versions with GitHub and, on an interactive terminal, offers to update — but only after you answer <code>y</code> to a prompt (default is no); it never updates without asking (opt out: <code>abs config update-check off</code>).</li>
-      </ul>
-    </div>
+      <h2>Any other version</h2>
+      <p>Any tag in the repository works with <code>ABS_REF</code>. The full list is on <a href="https://github.com/Pranjalab/AgentBabysitter/releases">GitHub</a>, and every change is written up in <a href="https://github.com/Pranjalab/AgentBabysitter/blob/main/CHANGELOG.md">CHANGELOG.md</a>.</p>
+      <p>Two exceptions worth naming: <code>v3.0.1</code> and <code>v3.0.2</code> crash on macOS at launch. If you are on a Mac and want an older version, use <code>v2.5.1</code>.</p>
 
-    <div class="report">
-      <h3>Reporting a vulnerability</h3>
-      Found something? Open an issue at <a href="https://github.com/Pranjalab/AgentBabysitter/issues">github.com/Pranjalab/AgentBabysitter/issues</a>, or for anything sensitive, describe it privately rather than in a public issue. The full threat model lives in <a href="https://github.com/Pranjalab/AgentBabysitter/blob/main/SECURITY.md">SECURITY.md</a>.
+      <h2>Something broken?</h2>
+      <p>Drop back to 2.5.1 to keep working, then <a href="https://github.com/Pranjalab/AgentBabysitter/issues">open an issue</a> — knowing which version you fell back from is genuinely useful.</p>
     </div>
   </div>
 
