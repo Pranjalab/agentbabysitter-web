@@ -147,6 +147,11 @@
   .rel-cmd code { font-family:var(--mono); font-size:13px; color:var(--text); white-space:pre; }
   .rel-note { font-size:14px; color:var(--muted); margin:12px 0 0; line-height:1.65; }
   .rel-note b { color:var(--body); font-weight:600; }
+  /* A caveat that belongs to one release, sitting inside its card. Amber and
+     rule-marked like .warnbox so the two read as the same kind of note, but
+     tighter, because it is a paragraph in a card rather than a banner. */
+  .rel-warn { border-left:3px solid var(--orange); background:rgba(245,166,35,.05); border-radius:0 8px 8px 0; padding:12px 14px; margin:14px 0 0; font-size:14px; color:var(--body); line-height:1.65; max-width:70ch; }
+  .rel-warn b { color:var(--orange); font-weight:650; }
   .warnbox { border:1px solid var(--line-2); border-left:3px solid var(--orange); border-radius:0 12px 12px 0; background:var(--bg-2); padding:18px 20px; margin:0 0 30px; }
   .warnbox h3 { margin:0 0 8px; font-size:16px; color:var(--orange); font-weight:650; }
   .warnbox p { margin:0; color:var(--body); line-height:1.7; font-size:15px; max-width:70ch; }
@@ -241,8 +246,8 @@
         <li><b>The daemon needs no git clone.</b> A <code>curl</code> install is now a full install — the always-on daemon, sandboxes, and starting a session from your phone.</li>
         <li><b>The status bar colours your remaining context</b>, and your usage numbers are attached to reports automatically instead of when the model remembers.</li>
       </ul>
+      <p class="rel-warn"><b>Known issue on macOS.</b> The status bar is wrong on this version: no context percentage at all, no weekday beside the weekly limit, and a raw date instead of a countdown on the five-hour one. It is fixed in 3.6.0. This tag is here so you can step back if something <i>else</i> in 3.6.0 does not suit you — not because it is a good choice on a Mac. On Linux it is unaffected.</p>
       <div class="rel-cmd"><code>curl -fsSL https://agentbabysitter.com/install.sh | ABS_REF=v3.5.3 bash</code></div>
-      <p class="rel-note">On a Mac, prefer 3.6.0 — this one has the status-bar bugs above.</p>
     </div>
 
     <div class="rel">
