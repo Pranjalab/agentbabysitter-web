@@ -209,12 +209,31 @@
 
     <div class="rel current">
       <div class="rel-top">
-        <span class="rel-ver">3.5.3</span>
+        <span class="rel-ver">3.6.0</span>
         <span class="rel-tag now">Current</span>
+        <span class="rel-date">19 Aug 2026</span>
+      </div>
+      <h3>The status bar tells the truth on a Mac</h3>
+      <p>On macOS the bar had been quietly wrong for weeks: no context percentage at all, no weekday beside the weekly limit, and a raw date where Linux showed a countdown. One cause did most of it. The bar reads its numbers from Claude Code directly, through a helper that wraps commands in a timeout — and macOS ships no <code>timeout</code>, so that helper fell back to its own watchdog, which ran the read in the background. A background command's input is redirected to nowhere unless you say otherwise. It read nothing, on every frame, on every Mac.</p>
+      <p>Shipped as a beta first and run on a real MacBook before this tag existed, because tests that only simulate a Mac are not the same as a Mac.</p>
+      <ul>
+        <li><b>Context, limits and resets are back on macOS</b> — and they come free from Claude Code's own render data rather than from polling, which is faster and spends none of your usage.</li>
+        <li><b>Reset times are computed without <code>date</code></b>, so they read identically on every platform instead of depending on which flavour of the tool you have.</li>
+        <li><b>The name on the bar follows your Claude account</b> and rechecks while the session runs, so switching accounts changes it within a minute. Pin your own with <code>abs config label &lt;name&gt;</code>.</li>
+        <li><b>Installing a pinned version actually works now.</b> The documented command put the variable on the wrong side of the pipe and silently installed the current release — including for anyone rolling back after a bad one. See below for the correct form.</li>
+      </ul>
+      <div class="rel-cmd"><code>curl -fsSL https://agentbabysitter.com/install.sh | bash</code></div>
+      <p class="rel-note">Already installed? Just run <b>abs</b> — it offers you the update itself.</p>
+    </div>
+
+    <div class="rel">
+      <div class="rel-top">
+        <span class="rel-ver">3.5.3</span>
+        <span class="rel-tag prev">Previous</span>
         <span class="rel-date">18 Aug 2026</span>
       </div>
       <h3>Voice when it helps, text when it doesn't</h3>
-      <p>A short reply now arrives as text alone; a long one arrives as a voice note and the text. A brief answer is quicker to read than to listen to, and a long one is the other way round — reading it on a phone is work, hearing it is not.</p>
+      <p>A short reply arrives as text alone; a long one arrives as a voice note and the text. A brief answer is quicker to read than to listen to, and a long one is the other way round — reading it on a phone is work, hearing it is not.</p>
       <p>It builds on 3.3.0, which was the release that finally launched cleanly on macOS after three that did not. The test suite runs bash 3.2 now — the shell macOS actually ships — so that whole class of bug cannot come back unnoticed.</p>
       <ul>
         <li><b>Voice by default</b> where the machine can speak, using Kokoro — 82M parameters, runs on the CPU, a note in seconds.</li>
@@ -222,8 +241,8 @@
         <li><b>The daemon needs no git clone.</b> A <code>curl</code> install is now a full install — the always-on daemon, sandboxes, and starting a session from your phone.</li>
         <li><b>The status bar colours your remaining context</b>, and your usage numbers are attached to reports automatically instead of when the model remembers.</li>
       </ul>
-      <div class="rel-cmd"><code>curl -fsSL https://agentbabysitter.com/install.sh | bash</code></div>
-      <p class="rel-note">Already installed? Just run <b>abs</b> — it offers you the update itself.</p>
+      <div class="rel-cmd"><code>curl -fsSL https://agentbabysitter.com/install.sh | ABS_REF=v3.5.3 bash</code></div>
+      <p class="rel-note">On a Mac, prefer 3.6.0 — this one has the status-bar bugs above.</p>
     </div>
 
     <div class="rel">
@@ -235,7 +254,7 @@
       <h3>The last release before the always-on daemon</h3>
       <p>The 2.x line, complete and stable: pairing, notifications, replying from your phone, screenshots, voice in and out, usage reports, profiles and the remote kill ladder. What it does not have is the v3 layer — no background daemon, no sandboxes, and no starting a session from Telegram with nothing running.</p>
       <p>Pick this one if a v3 feature gets in your way and you would rather have the smaller, quieter tool.</p>
-      <div class="rel-cmd"><code>ABS_REF=v2.5.1 curl -fsSL https://agentbabysitter.com/install.sh | bash</code></div>
+      <div class="rel-cmd"><code>curl -fsSL https://agentbabysitter.com/install.sh | ABS_REF=v2.5.1 bash</code></div>
       <p class="rel-note">The installer will tell you it is a pinned install, and how to get back.</p>
     </div>
 
@@ -246,6 +265,7 @@
 
       <h2>Any other version</h2>
       <p>Any tag in the repository works with <code>ABS_REF</code>. The full list is on <a href="https://github.com/Pranjalab/AgentBabysitter/releases">GitHub</a>, and every change is written up in <a href="https://github.com/Pranjalab/AgentBabysitter/blob/main/CHANGELOG.md">CHANGELOG.md</a>.</p>
+      <p>Note where <code>ABS_REF</code> goes: <strong>after</strong> the pipe, immediately before <code>bash</code>. Put it in front of <code>curl</code> instead and it lands in curl's environment, never reaches the shell that does the installing, and you quietly get the current release. The last line the installer prints names the version and the ref it came from, so you can always check.</p>
       <p>One gap worth knowing about: <code>v3.0.1</code> and <code>v3.0.2</code> were withdrawn, because both crash on macOS at launch. They are the releases 3.3.0 exists to replace. Between 2.5.1 and 3.3.0 there is nothing to fall back to.</p>
 
       <h2>Something broken?</h2>
@@ -254,7 +274,7 @@
   </div>
 
   <div class="colophon">
-    <a href="/">← Back to home</a> &nbsp;·&nbsp; v3.5.3 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
+    <a href="/">← Back to home</a> &nbsp;·&nbsp; v3.6.0 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
   </div>
 </main>
 </body>
