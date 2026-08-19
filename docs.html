@@ -513,16 +513,21 @@ abs <span class="fl">--model</span> sonnet           <span class="cmt"># just th
       <section class="doc" id="voice">
         <div class="kick">How-to</div>
         <h3>Replace the voice engine</h3>
-        <p>Voice is opt-in. Install it whenever you want it — you don't need a dev checkout any more, and an installed <code>abs</code> keeps its engines in <code>~/.abs/voice</code>:</p>
-        <div class="code"><pre>abs voice setup     <span class="cmt"># install the speech engines</span>
-abs voice status    <span class="cmt"># what's installed, what's missing, how to fix it</span></pre></div>
-        <p>Underneath, it's two standalone scripts with a dead-simple contract. Keep the same in/out and you can drop in any engine — a different Whisper size, a cloud STT, another TTS voice.</p>
+        <p><b>Installing</b> voice is opt-in — it's a few GB of models, so nothing downloads until you ask. Once installed, replies go out <b>as a voice note by default</b> wherever the machine can speak. You don't need a dev checkout any more; an installed <code>abs</code> keeps its engines in <code>~/.abs/voice</code>:</p>
+        <div class="code"><pre>abs voice setup       <span class="cmt"># install the speech engines</span>
+abs voice status      <span class="cmt"># what's installed, what's missing, how to fix it</span>
+abs voice samples     <span class="cmt"># one voice note per voice — choose by ear</span></pre></div>
+        <p>The speaking engine is <b>Kokoro</b>: 82M parameters, built for the CPU, a note in seconds on a laptop. The alternative wants a GPU and is the only one that can clone a voice from a reference clip, so it's a separate opt-in:</p>
+        <div class="code"><pre>abs voice setup --chatterbox         <span class="cmt"># adds the GPU engine, for cloning</span>
+abs config voice-sample &lt;clip&gt;       <span class="cmt"># point it at your reference audio</span></pre></div>
+        <p>Underneath, it's standalone scripts with a dead-simple contract. Keep the same in/out and you can drop in any engine — a different Whisper size, a cloud STT, another TTS voice.</p>
         <div class="code"><pre><span class="cmt"># in:  an audio file path  →  out: transcript on stdout</span>
 transcribe.py &lt;file.oga&gt;
 
 <span class="cmt"># in:  text  →  out: a voice note sent to Telegram</span>
-speak.py "the text to speak"</pre></div>
-        <p>abs only ever calls these two files, so swapping engines never touches the main script.</p>
+speak_kokoro.py "the text to speak"     <span class="cmt"># CPU, the default</span>
+speak.py "the text to speak"            <span class="cmt"># chatterbox, for cloning</span></pre></div>
+        <p>abs only ever calls these files, so swapping engines never touches the main script.</p>
         <a class="src multi" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.4/transcribe.py"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> transcribe.py</a>
         <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v2.1.4/speak.py"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> speak.py</a>
       </section>
@@ -565,24 +570,66 @@ hello) cmd_hello ;;</pre></div>
           <table>
             <thead><tr><th>Command</th><th>What it does</th></tr></thead>
             <tbody>
+          <tr><td class="cmd-name" colspan="2" style="padding-top:18px"><b>Everyday</b></td></tr>
           <tr><td class="cmd-name">abs</td><td class="does">Start a session — first run walks you through bot setup.</td></tr>
           <tr><td class="cmd-name">abs --model opus</td><td class="does">Any Claude Code flag is passed straight through.</td></tr>
           <tr><td class="cmd-name">abs status</td><td class="does">What's paired, the inbound state, and whether it's live.</td></tr>
           <tr><td class="cmd-name">abs usage</td><td class="does">Your Claude limits — in the terminal and on Telegram.</td></tr>
           <tr><td class="cmd-name">abs profiles</td><td class="does">List your bots and which are currently in use.</td></tr>
-          <tr><td class="cmd-name">abs config model &lt;name&gt;</td><td class="does">Default model for new sessions (<b>--clear</b> to unset).</td></tr>
-          <tr><td class="cmd-name">abs config silent on|off</td><td class="does">Whether new sessions start muted.</td></tr>
-          <tr><td class="cmd-name">abs config statusline on|off</td><td class="does">The bottom-bar mute/active dot + usage glance.</td></tr>
-          <tr><td class="cmd-name">abs config usage-refresh &lt;min&gt;</td><td class="does">How often the usage glance refreshes.</td></tr>
           <tr><td class="cmd-name">abs quiet on|off</td><td class="does">Mute / unmute reports — inbound still works.</td></tr>
           <tr><td class="cmd-name">abs off | on</td><td class="does">Drop / re-enable all inbound Telegram.</td></tr>
+          <tr><td class="cmd-name">abs exit</td><td class="does">End the running session. Restart with <b>abs</b>.</td></tr>
+          <tr><td class="cmd-name">abs send "text"</td><td class="does">Send plain text to your chat — works even if the Telegram plugin is down. <b>abs send -</b> reads stdin.</td></tr>
           <tr><td class="cmd-name">abs say "text"</td><td class="does">Speak it and send as a voice note.</td></tr>
-          <tr><td class="cmd-name">abs voice setup</td><td class="does">Install the speech engines. Opt-in, and no longer needs a dev checkout.</td></tr>
-          <tr><td class="cmd-name">abs voice status</td><td class="does">What's installed, what's missing, and the command that fixes it.</td></tr>
-          <tr><td class="cmd-name">abs update</td><td class="does">Update abs in place to the latest release.</td></tr>
+          <tr><td class="cmd-name">abs log</td><td class="does">Your local conversation backup. <b>--list</b> the days kept, <b>--date</b> one of them, <b>--clear</b> to delete.</td></tr>
+          <tr><td class="cmd-name">abs doctor</td><td class="does">Diagnose the install, read-only — dependencies, plugin, pairing, and the daemon stack.</td></tr>
+          <tr><td class="cmd-name">abs update</td><td class="does">Update abs in place to the latest release, and verify it landed.</td></tr>
           <tr><td class="cmd-name">abs reset</td><td class="does">Remove this profile's token, allowlist, and state.</td></tr>
-          <tr><td class="cmd-name">abs version</td><td class="does">Print the installed version.</td></tr>
-          <tr><td class="cmd-name">abs help</td><td class="does">The full list.</td></tr>
+          <tr><td class="cmd-name">abs version | help</td><td class="does">The installed version; the full list.</td></tr>
+
+          <tr><td class="cmd-name" colspan="2" style="padding-top:22px"><b>Voice</b></td></tr>
+          <tr><td class="cmd-name">abs voice setup</td><td class="does">Install the local speech engines. Opt-in, and no longer needs a dev checkout.</td></tr>
+          <tr><td class="cmd-name">abs voice setup --chatterbox</td><td class="does">Add the GPU engine. Slower, and the only one that can clone a voice.</td></tr>
+          <tr><td class="cmd-name">abs voice status</td><td class="does">What's installed, what's missing, and the command that fixes it.</td></tr>
+          <tr><td class="cmd-name">abs voice samples</td><td class="does">Sends one voice note per voice, so you choose by ear rather than by name.</td></tr>
+          <tr><td class="cmd-name">abs config kokoro-voice &lt;id&gt;</td><td class="does">Which voice speaks. <b>--clear</b> for the default.</td></tr>
+          <tr><td class="cmd-name">abs config engine kokoro|chatterbox</td><td class="does">Which engine backs <b>abs say</b>. Absent = whichever is installed.</td></tr>
+          <tr><td class="cmd-name">abs config voice-sample &lt;file&gt;</td><td class="does">Clone a voice from a reference clip. Needs chatterbox.</td></tr>
+          <tr><td class="cmd-name">abs config voice-offer done|reset</td><td class="does">The one-time "pick a voice" offer — mark it answered, or ask again.</td></tr>
+
+          <tr><td class="cmd-name" colspan="2" style="padding-top:22px"><b>How replies arrive</b></td></tr>
+          <tr><td class="cmd-name">abs config reply-text on|off</td><td class="does">Send replies as text. On by default.</td></tr>
+          <tr><td class="cmd-name">abs config reply-voice on|off</td><td class="does">Send replies as a voice note. <b>On by default</b> wherever the machine can speak.</td></tr>
+          <tr><td class="cmd-name">abs config reply text|both|voice|auto</td><td class="does">The mode directly. <b>auto</b> hands the choice back to the machine.</td></tr>
+          <tr><td class="cmd-name">abs config voice-first on|off</td><td class="does">In mode <b>both</b>: the note first, then the same words as text. On by default.</td></tr>
+          <tr><td class="cmd-name">abs config voice-words &lt;n&gt;</td><td class="does">How long a reply must be before it's spoken. Default 150 — a short answer is quicker to read than to hear.</td></tr>
+          <tr><td class="cmd-name">abs config footer on|off</td><td class="does">Attach your usage and remaining context to replies. On by default.</td></tr>
+
+          <tr><td class="cmd-name" colspan="2" style="padding-top:22px"><b>Session defaults</b></td></tr>
+          <tr><td class="cmd-name">abs config model &lt;name&gt;</td><td class="does">Default model for new sessions (<b>--clear</b> to unset).</td></tr>
+          <tr><td class="cmd-name">abs config silent on|off</td><td class="does">Whether new sessions start muted.</td></tr>
+          <tr><td class="cmd-name">abs config auto-silent on|off</td><td class="does">Pause reports while you're driving the terminal. On by default.</td></tr>
+          <tr><td class="cmd-name">abs config statusline on|off</td><td class="does">The bottom-bar dots, usage, remaining context and version.</td></tr>
+          <tr><td class="cmd-name">abs config label &lt;name&gt;</td><td class="does">The name before the colon in the bar. It follows your Claude account unless you pin one.</td></tr>
+          <tr><td class="cmd-name">abs config usage-refresh &lt;min&gt;</td><td class="does">How often the usage glance refreshes. Default 5.</td></tr>
+          <tr><td class="cmd-name">abs config guard on|off</td><td class="does">Block destructive commands on Telegram-driven turns. On by default.</td></tr>
+          <tr><td class="cmd-name">abs config ack on|off</td><td class="does">A 👀 on your Telegram message the moment it lands.</td></tr>
+          <tr><td class="cmd-name">abs config log on|off</td><td class="does">Back up the conversation locally under <b>~/.abs</b>.</td></tr>
+          <tr><td class="cmd-name">abs config start-menu on|off</td><td class="does">The resume-first picker on interactive launch.</td></tr>
+          <tr><td class="cmd-name">abs config update-check on|off</td><td class="does">The on-launch "update now?" prompt.</td></tr>
+
+          <tr><td class="cmd-name" colspan="2" style="padding-top:22px"><b>The always-on layer (v3)</b><br><span class="does" style="font-weight:400">A <b>curl</b> install fetches this for you — no git clone. <b>abs src status</b> says whether it's there.</span></td></tr>
+          <tr><td class="cmd-name">abs src install | status | path</td><td class="does">Fetch the v3 source into <b>~/.abs/src</b>. This is what turns a curl install into a full one.</td></tr>
+          <tr><td class="cmd-name">abs daemon install | start | stop</td><td class="does">The daemon that polls your idle bots, so a session can be started when nothing is running.</td></tr>
+          <tr><td class="cmd-name">abs daemon status | logs</td><td class="does">Whether it's alive, and what it's been doing.</td></tr>
+          <tr><td class="cmd-name">abs sessions</td><td class="does">List engine sessions. <b>--json</b> for scripts.</td></tr>
+          <tr><td class="cmd-name">abs attach [profile]</td><td class="does">Attach to a running session.</td></tr>
+          <tr><td class="cmd-name">abs project add | list | rm &lt;dir&gt;</td><td class="does">Register the projects the <b>ABS START</b> flow offers you from Telegram.</td></tr>
+          <tr><td class="cmd-name">abs config workspace-root &lt;dir&gt;</td><td class="does">Where a remote "New folder" start creates it. Your home directory by default.</td></tr>
+          <tr><td class="cmd-name">abs start new-bot</td><td class="does">Provision a brand-new bot and profile, then launch it.</td></tr>
+          <tr><td class="cmd-name">abs sandbox build | create | list</td><td class="does">Docker sandbox sessions — each with one dedicated host folder and nothing else.</td></tr>
+          <tr><td class="cmd-name">abs sandbox start | stop | destroy</td><td class="does">Run, pause, or remove one.</td></tr>
+          <tr><td class="cmd-name">abs start sandbox [name]</td><td class="does">Run a Claude session inside a sandbox container.</td></tr>
             </tbody>
           </table>
         </div>
