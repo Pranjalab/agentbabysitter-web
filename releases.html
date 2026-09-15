@@ -214,8 +214,34 @@
 
     <div class="rel current">
       <div class="rel-top">
-        <span class="rel-ver">3.6.0</span>
+        <span class="rel-ver">3.6.2</span>
         <span class="rel-tag now">Current</span>
+        <span class="rel-date">16 Sep 2026</span>
+      </div>
+      <h3>The text behind the voice note, and a shape for updates</h3>
+      <p>Two reports from a phone, about one conversation: sometimes the voice note arrived and the text behind it never did, and a long note would stop mid-update to say "that is as much as a voice note can carry". The first was Telegram's 4,096-character ceiling: the text is sent after the note, with the usage line appended, and a long report went over — Telegram rejected it and the only trace was a line in a log. The second was two leftover phrases on paths the earlier fix had not reached.</p>
+      <ul>
+        <li><b>Long replies are never lost.</b> Anything over the limit is split at a paragraph and sent as several messages, on every path — including <code>abs send</code>, which used to trim to the first 4,096 characters with a warning.</li>
+        <li><b>Nothing is trimmed from a voice note.</b> A long answer is split across notes, in order, and neither "as much as a note can carry" phrase exists any more. Length is a recommendation, not a limit.</li>
+        <li><b>A reply arrives as three messages:</b> the voice note, the text of exactly what it said so you can read along, and a point-wise card with fixed headings — objective, done, issues, decisions, you, me, not doing — as its own message.</li>
+        <li><b>An update opens with a heading,</b> which is spoken as the title; a bare label line above a list is no longer read aloud.</li>
+      </ul>
+      <div class="rel-cmd"><code>curl -fsSL https://agentbabysitter.com/install.sh | bash</code></div>
+      <p class="rel-note">Already installed? Just run <b>abs</b> — it offers you the update itself.</p>
+    </div>
+
+    <div class="rel">
+      <div class="rel-top">
+        <span class="rel-ver">3.6.1</span>
+        <span class="rel-date">20 Aug 2026</span>
+      </div>
+      <h3>The whole prose section, not the first paragraph</h3>
+      <p>Voice notes had been reading only the first paragraph of a reply and stopping at the first blank line, so the outcome was heard and the reasoning and the question were not. Every prose paragraph up to the first bullet, table or heading is spoken. Untagged on GitHub; it went out on <code>main</code> and is included in 3.6.2.</p>
+    </div>
+
+    <div class="rel">
+      <div class="rel-top">
+        <span class="rel-ver">3.6.0</span>
         <span class="rel-date">19 Aug 2026</span>
       </div>
       <h3>The status bar tells the truth on a Mac</h3>
@@ -227,8 +253,7 @@
         <li><b>The name on the bar follows your Claude account</b> and rechecks while the session runs, so switching accounts changes it within a minute. Pin your own with <code>abs config label &lt;name&gt;</code>.</li>
         <li><b>Installing a pinned version actually works now.</b> The documented command put the variable on the wrong side of the pipe and silently installed the current release — including for anyone rolling back after a bad one. See below for the correct form.</li>
       </ul>
-      <div class="rel-cmd"><code>curl -fsSL https://agentbabysitter.com/install.sh | bash</code></div>
-      <p class="rel-note">Already installed? Just run <b>abs</b> — it offers you the update itself.</p>
+      <div class="rel-cmd"><code>curl -fsSL https://agentbabysitter.com/install.sh | ABS_REF=v3.6.0 bash</code></div>
     </div>
 
     <div class="rel">
@@ -279,7 +304,7 @@
   </div>
 
   <div class="colophon">
-    <a href="/">← Back to home</a> &nbsp;·&nbsp; v3.6.0 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
+    <a href="/">← Back to home</a> &nbsp;·&nbsp; v3.6.2 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
   </div>
 </main>
 </body>
