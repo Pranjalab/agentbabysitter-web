@@ -214,8 +214,26 @@
 
     <div class="rel current">
       <div class="rel-top">
-        <span class="rel-ver">3.6.2</span>
+        <span class="rel-ver">3.7.1</span>
         <span class="rel-tag now">Current</span>
+        <span class="rel-date">24 Sep 2026</span>
+      </div>
+      <h3>See and edit what goes into Claude — and a fresh machine that installs cleanly</h3>
+      <p>Everything ABS says to Claude is plain text, and <code>abs prompt</code> is the page that shows all of it and lets you edit the parts that are yours: a tabbed editor for your persona, what a control phrase from Telegram injects, this repository's instructions, and what Claude Code remembers about the project. The prompt is assembled in a fixed order — bridge mechanics, then your persona, then the safety rules — and that order is the point: whatever a persona says, safety comes after it.</p>
+      <ul>
+        <li><b>Personas with names.</b> <code>abs</code> is the default; <code>ceo</code>, <code>cto</code> and <code>friend</code> ship as examples, and you can write your own. Every launch asks who to be — arrow keys, Enter to keep the last one — and the status bar shows it.</li>
+        <li><b>The launch asks in the right order:</b> is there an update, who am I, where am I working. The update check used to come after you had picked a project, and saying yes threw the pick away.</li>
+        <li><b>One voice engine, ever.</b> On a machine with no engine, replies stay text instead of an improvised, slow, wrong-voice note; with one, the same reply never arrives twice from two engines.</li>
+        <li><b>A fresh machine installs the Telegram plugin.</b> It needs the plugin marketplace, which a new machine has not got yet — ABS adds it now instead of failing with a message about a stale cache. Logging in is needed to start a session, not to install, and you are told so once.</li>
+        <li><b>Long replies arrive whole:</b> the voice note, the same words as text, then a point-wise card — nothing trimmed, nothing lost to Telegram's message limit.</li>
+      </ul>
+      <div class="rel-cmd"><code>curl -fsSL https://agentbabysitter.com/install.sh | bash</code></div>
+      <p class="rel-note">Already installed? Just run <b>abs</b> — it offers you the update itself.</p>
+    </div>
+
+    <div class="rel">
+      <div class="rel-top">
+        <span class="rel-ver">3.6.2</span>
         <span class="rel-date">16 Sep 2026</span>
       </div>
       <h3>The text behind the voice note, and a shape for updates</h3>
@@ -226,8 +244,7 @@
         <li><b>A reply arrives as three messages:</b> the voice note, the text of exactly what it said so you can read along, and a point-wise card with fixed headings — objective, done, issues, decisions, you, me, not doing — as its own message.</li>
         <li><b>An update opens with a heading,</b> which is spoken as the title; a bare label line above a list is no longer read aloud.</li>
       </ul>
-      <div class="rel-cmd"><code>curl -fsSL https://agentbabysitter.com/install.sh | bash</code></div>
-      <p class="rel-note">Already installed? Just run <b>abs</b> — it offers you the update itself.</p>
+      <div class="rel-cmd"><code>curl -fsSL https://agentbabysitter.com/install.sh | ABS_REF=v3.6.2 bash</code></div>
     </div>
 
     <div class="rel">
@@ -304,7 +321,7 @@
   </div>
 
   <div class="colophon">
-    <a href="/">← Back to home</a> &nbsp;·&nbsp; v3.6.2 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
+    <a href="/">← Back to home</a> &nbsp;·&nbsp; v3.7.1 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
   </div>
 </main>
 </body>
