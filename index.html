@@ -653,7 +653,8 @@
   .sec-head.mid .kick-c { text-align: center; }
 
   .eyebrow {
-    font-family: var(--mono); font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase;
+    display: block; font-family: var(--mono); font-size: 11.5px; font-weight: 500;
+    letter-spacing: .18em; text-transform: uppercase; line-height: 1.4;
     color: var(--violet-2); margin: 0 0 18px;
   }
   .more-link {
@@ -902,8 +903,7 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <p class="eyebrow reveal">Remote Claude Code</p>
-      <h1 class="reveal d1">Go live your life.<br>Claude Code <span class="accent">keeps working.</span></h1>
+      <h1 class="reveal d1"><span class="eyebrow">Remote-control &amp; monitor Claude Code from Telegram</span>Go live your life.<br>Claude Code <span class="accent">keeps working.</span></h1>
       <p class="lede reveal d2">Control Claude Code from Telegram. Get notified, reply, and keep your
         agent moving from anywhere.</p>
 
@@ -1212,11 +1212,8 @@
     });
 
     setTimeout(function () {
-      nodes.forEach(function (n) {
-        if (!n.classList.contains('in') && n.getBoundingClientRect().top < window.innerHeight * 1.6)
-          n.classList.add('in');
-      });
-    }, 2500);
+      nodes.forEach(function (n) { n.classList.add('in'); });
+    }, 2000);
     window.addEventListener('pagehide', function () {
       document.documentElement.classList.remove('js-reveal');
     });
