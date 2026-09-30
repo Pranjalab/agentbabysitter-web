@@ -131,6 +131,7 @@
 <style>
   /* Two small additions: the facts table an answer engine can read off, and the
      contact grid. Everything else is the shared stylesheet above. */
+  .abt > * { max-width: 860px; }
   .facts { width: 100%; border-collapse: collapse; margin: 6px 0 0; font-size: 14.5px; }
   .facts td { padding: 11px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
   .facts td:first-child { width: 190px; color: var(--muted); padding-right: 18px; }
@@ -150,7 +151,17 @@
   .abt p.note { color: var(--muted); font-size: 14px; }
   @media (max-width: 720px) {
     .reach { grid-template-columns: 1fr; }
-    .facts td:first-child { width: 132px; }
+    .facts td:first-child { width: 128px; }
+  }
+  @media (max-width: 560px) {
+    .facts, .facts tbody, .facts tr, .facts td { display: block; width: auto; }
+    .facts tr { border-bottom: 1px solid var(--line); padding: 12px 0; }
+    .facts tr:last-child { border-bottom: 0; }
+    .facts td { border-bottom: 0; padding: 0; }
+    .facts td:first-child {
+      width: auto; padding: 0 0 4px; font-family: var(--mono); font-size: 11px;
+      letter-spacing: .05em; text-transform: uppercase;
+    }
   }
 </style>
 <script type="application/ld+json">
@@ -349,8 +360,8 @@
       <a class="rcard" href="https://github.com/Pranjalab/AgentBabysitter/blob/main/SECURITY.md">
         <h3>You found a security problem</h3>
         <p>Please do not open a public issue. The security policy has the threat model and how to
-          report something sensitively — and the <a href="security.html">security page</a> sets out
-          what this does and does not protect against.</p>
+          report something sensitively; the security page sets out what this does and does not
+          protect against.</p>
         <span class="rwhen">Security policy</span>
       </a>
       <a class="rcard" href="mailto:pranjal.panda.ai@gmail.com?subject=Agent%20Babysitter">
@@ -361,8 +372,8 @@
       </a>
       <a class="rcard" href="https://github.com/Pranjalab/AgentBabysitter">
         <h3>You just want to follow along</h3>
-        <p>Star or watch the repository and you will see each release as it lands. The
-          <a href="releases.html">releases page</a> keeps the plain-English version of what changed.</p>
+        <p>Star or watch the repository and you will see each release as it lands. The releases page
+          keeps the plain-English version of what changed.</p>
         <span class="rwhen">GitHub</span>
       </a>
     </div>
