@@ -1,0 +1,44 @@
+# Agent Babysitter (abs)
+
+> Agent Babysitter remote-controls and monitors a Claude Code session from
+> Telegram. Start a task, leave your desk, and your phone gets a written summary
+> when it finishes; your reply goes straight back into the same live session.
+> Screenshots, voice notes in and out, and Claude usage limits all work from the
+> chat. One bash script plus Anthropic's official Telegram plugin — no server, no
+> webhook, no open port, and no second copy of your session.
+
+Install on Linux or macOS, with Claude Code already installed and logged in: pipe
+https://agentbabysitter.com/install.sh into bash. The exact one-line command, and
+the command for pinning any older version, is on the Releases page below.
+
+- Current version: 3.7.1. MIT licensed. Source: https://github.com/Pranjalab/AgentBabysitter
+
+## What it answers
+
+- Getting a Telegram notification when a Claude Code task finishes.
+- Replying from an iPhone or Android phone into the same live Claude Code session.
+- Running Claude Code remotely over SSH or in tmux and following it from a phone.
+- Sending a screenshot or photo that Claude reads directly.
+- Voice notes both ways, transcribed and spoken on your own machine — no cloud
+  speech vendor.
+- Checking Claude usage limits without going back to the terminal.
+- Keeping the bot private: PIN pairing, a terminal-set allowlist, and remote
+  control phrases sent as a whole message from the chat.
+- Named personas — abs, ceo, cto, friend, or your own — chosen at launch.
+
+## Pages
+
+- [Home](https://agentbabysitter.com/): what it does, the install command, and a walkthrough.
+- [Features](https://agentbabysitter.com/features.html): every feature and how each one behaves.
+- [Docs](https://agentbabysitter.com/docs.html): setup, the abs commands, and every layer it adds to a session, each linked to its source.
+- [FAQ](https://agentbabysitter.com/faq.html): code privacy, local voice, SSH, stopping Claude remotely, supported platforms.
+- [Security](https://agentbabysitter.com/security.html): how only your account can reach the bot, and what this deliberately does not protect against.
+- [Releases](https://agentbabysitter.com/releases.html): every version with its exact install command.
+
+## Honest limits
+
+- Telegram is not end-to-end encrypted, so Telegram's servers see the messages.
+  Do not use it where that matters.
+- Messages are read between turns: you can halt the plan and steer the next step,
+  not interrupt the step already running.
+- Windows is untested; WSL should work.

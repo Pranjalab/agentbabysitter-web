@@ -5,22 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0a0d17">
 
-<title>FAQ — Agent Babysitter</title>
-<meta name="description" content="Common questions about Agent Babysitter — does it expose your code, is voice local, does it work over SSH, can you stop Claude remotely, and which platforms are supported.">
+<title>FAQ — Running Claude Code from Telegram, Answered</title>
+<meta name="description" content="Does a Telegram bot expose your code? Is voice local? Does it work over SSH? The questions people ask before wiring Claude Code to their phone, answered.">
 <link rel="canonical" href="https://agentbabysitter.com/faq.html">
-<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Agent Babysitter">
 <meta property="og:url" content="https://agentbabysitter.com/faq.html">
-<meta property="og:title" content="FAQ — Agent Babysitter">
-<meta property="og:description" content="Common questions — code privacy, local voice, SSH, stopping Claude remotely, supported platforms.">
+<meta property="og:title" content="FAQ — Running Claude Code from Telegram, Answered">
+<meta property="og:description" content="Does a Telegram bot expose your code? Is voice local? Does it work over SSH? The questions people ask before wiring Claude Code to their phone.">
 <meta property="og:image" content="https://agentbabysitter.com/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Agent Babysitter: Claude Code keeps working while you are away, reporting to Telegram on your phone and taking your reply back into the same live session.">
+<meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="FAQ — Agent Babysitter">
-<meta name="twitter:description" content="Common questions — code privacy, local voice, SSH, stopping Claude remotely, supported platforms.">
+<meta name="twitter:title" content="FAQ — Running Claude Code from Telegram, Answered">
+<meta name="twitter:description" content="Does a Telegram bot expose your code? Is voice local? Does it work over SSH? The questions people ask before wiring Claude Code to their phone.">
 <meta name="twitter:image" content="https://agentbabysitter.com/assets/og.png">
+<meta name="twitter:image:alt" content="Agent Babysitter: Claude Code keeps working while you are away, reporting to Telegram on your phone and taking your reply back into the same live session.">
 
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
@@ -127,6 +130,127 @@
   .colophon .hh { color:#f2557a; }
   @media (max-width:900px) { .nav-links { display:none; } .nav-menu { display: block; margin-left: auto; } .gh-btn { display: none; } }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "url": "https://agentbabysitter.com/faq.html",
+  "inLanguage": "en",
+  "isPartOf": {
+    "@id": "https://agentbabysitter.com/#website"
+  },
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does it expose my code?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It is your own private bot, and only your paired account can reach it. One honest caveat: Telegram itself sees the messages — they are not end-to-end encrypted — so do not use it for work where that matters."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can anyone else message my bot?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Unpaired accounts are dropped before Claude ever sees them. See Security for exactly how the allowlist works."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does voice processing stay local?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Transcription and speech both run on your machine — no cloud speech vendor is involved. The audio still travels over Telegram, like any message."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I run multiple projects at once?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. One bot per project, via profiles — abs --profile work. Each runs its own Claude Code session and reports to the same phone without fighting over messages."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work over SSH or on a server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Telegram is polled outbound, so no public IP, open port, or webhook is needed. Run it in tmux on a VPS or a home box and close the laptop."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it require a server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It runs anywhere Claude Code runs — a laptop, over SSH, or a headless box. A server is one option, not a requirement."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I stop Claude remotely?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Partly. Messages are read between turns, so you can halt the plan and steer the next step from your phone, but not interrupt the step that is already running."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which platforms are supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Linux and macOS, both tested — including macOS's bash 3.2, with no Homebrew or GNU coreutils needed. Windows via WSL should work but is untested."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I see and change what it tells Claude?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, all of it. abs prompt opens a tabbed page over every layer — the persona, the wording of each remote command, this project's CLAUDE.md, your global one, and what Claude has remembered. Edit what is yours, reset any part back to the shipped text, and the bridge mechanics stay read-only so personalising it can never break it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will it commit or push my code on its own?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Finished work waits in the working tree until you say so, because you may still want to change it. Nothing is committed to tidy up and nothing is pushed as a side effect of another task — push, deploy and tag each ask one plain question and wait for your yes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can it have a different personality?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Four ship — abs itself, plus ceo, cto and friend — and you can write your own. You pick one at launch and it shows in the status bar. A persona changes the voice and the priorities; it can never change the safety rules, which are appended after it."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Agent Babysitter",
+      "item": "https://agentbabysitter.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "FAQ",
+      "item": "https://agentbabysitter.com/faq.html"
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <div class="orb orb-1"></div><div class="orb orb-2"></div>
@@ -134,12 +258,12 @@
 <header>
   <div class="nav-wrap nav">
     <a class="brand" href="/">
-      <img class="mark" src="assets/mascot.png" alt="Agent Babysitter mascot">
+      <img class="mark" src="assets/mascot-160.png" alt="Agent Babysitter mascot" width="36" height="36" decoding="async">
       <span>Agent <b class="accent">Babysitter</b></span>
     </a>
     <nav class="nav-links">
       <a href="features.html">Features</a>
-      <a href="index.html#whats-next">What's next</a>
+      <a href="index.html#whats-next">What's new</a>
       <a href="docs.html">Docs</a>
       <a href="releases.html">Releases</a>
       <a href="security.html">Security</a>
@@ -155,7 +279,7 @@
       </summary>
       <nav class="nav-menu-panel">
         <a href="features.html">Features</a>
-        <a href="index.html#whats-next">What's next</a>
+        <a href="index.html#whats-next">What's new</a>
         <a href="docs.html">Docs</a>
         <a href="releases.html">Releases</a>
       <a href="security.html">Security</a>
@@ -205,12 +329,24 @@
 
       <details>
         <summary>Can I stop Claude remotely?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
-        <div class="answer"><p><span class="tag soon">NOT YET</span>Messages are read between turns, so you can steer the next step but not interrupt the current one.</p></div>
+        <div class="answer"><p><span class="tag soon">PARTLY</span>Messages are read between turns, so you can halt the plan and steer the next step from your phone, but not interrupt the step that is already running.</p></div>
       </details>
 
       <details>
         <summary>Which platforms are supported?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
         <div class="answer"><p>Linux and macOS, both tested — including macOS's ancient bash 3.2, with no Homebrew or GNU coreutils needed. Windows via WSL should work but is untested; reports welcome.</p></div>
+      </details>
+      <details>
+        <summary>Can I see and change what it tells Claude?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p><span class="tag yes">YES</span>All of it. <code>abs prompt</code> opens a tabbed page over every layer — the persona, the wording of each remote command, this project's <code>CLAUDE.md</code>, your global one, and what Claude has remembered. Edit what is yours, reset any part back to the shipped text, and the bridge mechanics stay read-only so personalising it can never break it.</p></div>
+      </details>
+      <details>
+        <summary>Will it commit or push my code on its own?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p><span class="tag no">NO</span>Finished work waits in the working tree until you say so, because you may still want to change it. Nothing is committed to tidy up and nothing is pushed as a side effect of another task — push, deploy and tag each ask one plain question and wait for your yes.</p></div>
+      </details>
+      <details>
+        <summary>Can it have a different personality?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p><span class="tag yes">YES</span>Four ship — <code>abs</code> itself, plus <code>ceo</code>, <code>cto</code> and <code>friend</code> — and you can write your own. You pick one at launch and it shows in the status bar. A persona changes the voice and the priorities; it can never change the safety rules, which are appended after it.</p></div>
       </details>
     </div>
 

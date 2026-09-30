@@ -1,3 +1,6 @@
+# Agent Babysitter — control and monitor Claude Code from Telegram.
+# Everything here is public documentation; crawl it all, including the assistants
+# that answer "how do I control Claude Code from my phone?".
 User-agent: *
 Allow: /
 

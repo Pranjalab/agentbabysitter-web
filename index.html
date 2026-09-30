@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0a0d17">
 
-<title>Agent Babysitter — Remote-Control Claude Code from Telegram</title>
-<meta name="description" content="Get a Telegram message when Claude Code finishes a task. Reply from your phone into the same live session, send screenshots, use voice, and check usage.">
+<title>Control Claude Code from Telegram — Agent Babysitter</title>
+<meta name="description" content="Claude Code messages your phone on Telegram when a task finishes. Reply from anywhere and it lands in the same live session — plus screenshots, voice, usage.">
 <link rel="canonical" href="https://agentbabysitter.com/">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 
@@ -15,20 +15,20 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Agent Babysitter">
 <meta property="og:url" content="https://agentbabysitter.com/">
-<meta property="og:title" content="Agent Babysitter — Remote-Control Claude Code from Telegram">
-<meta property="og:description" content="Get a Telegram message when Claude Code finishes a task. Reply from your phone into the same live session, send screenshots, use voice, and check usage.">
+<meta property="og:title" content="Control Claude Code from Telegram — Agent Babysitter">
+<meta property="og:description" content="Claude Code messages your phone on Telegram when a task finishes. Reply from anywhere and it lands in the same live session — plus screenshots, voice, usage.">
 <meta property="og:image" content="https://agentbabysitter.com/assets/og.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Agent Babysitter: go live your life, Claude Code keeps working. A Telegram chat shows a task-completed report and a reply going back into the session.">
+<meta property="og:image:alt" content="Agent Babysitter: Claude Code keeps working while you are away, reporting to Telegram on your phone and taking your reply back into the same live session.">
 <meta property="og:locale" content="en_US">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Agent Babysitter — Remote-Control Claude Code from Telegram">
-<meta name="twitter:description" content="Get a Telegram message when Claude Code finishes a task. Reply from your phone into the same live session, send screenshots, use voice, and check usage.">
+<meta name="twitter:title" content="Control Claude Code from Telegram — Agent Babysitter">
+<meta name="twitter:description" content="Claude Code messages your phone on Telegram when a task finishes. Reply from anywhere and it lands in the same live session — plus screenshots, voice, usage.">
 <meta name="twitter:image" content="https://agentbabysitter.com/assets/og.png">
-<meta name="twitter:image:alt" content="Agent Babysitter: go live your life, Claude Code keeps working. A Telegram chat shows a task-completed report and a reply going back into the session.">
+<meta name="twitter:image:alt" content="Agent Babysitter: Claude Code keeps working while you are away, reporting to Telegram on your phone and taking your reply back into the same live session.">
 
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
@@ -42,29 +42,53 @@
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
+  "@id": "https://agentbabysitter.com/#software",
   "name": "Agent Babysitter",
-  "alternateName": "abs",
+  "alternateName": [
+    "abs",
+    "AgentBabysitter"
+  ],
   "applicationCategory": "DeveloperApplication",
+  "applicationSubCategory": "Command-line tool for Claude Code",
   "operatingSystem": "Linux, macOS",
-  "softwareVersion": "2.6.0",
+  "softwareVersion": "3.7.1",
+  "softwareRequirements": "Claude Code, a Telegram account, bash",
   "url": "https://agentbabysitter.com/",
   "downloadUrl": "https://agentbabysitter.com/install.sh",
+  "installUrl": "https://agentbabysitter.com/releases.html",
+  "softwareHelp": "https://agentbabysitter.com/docs.html",
+  "releaseNotes": "https://agentbabysitter.com/releases.html",
   "codeRepository": "https://github.com/Pranjalab/AgentBabysitter",
+  "sameAs": "https://github.com/Pranjalab/AgentBabysitter",
   "license": "https://opensource.org/licenses/MIT",
-  "description": "Agent Babysitter remote-controls and monitors a Claude Code session from Telegram. It messages your phone when a task finishes, takes your reply back into the same live session, and supports screenshots, voice notes, and usage reports.",
+  "isAccessibleForFree": true,
+  "keywords": "Claude Code, Telegram, control Claude Code from your phone, Claude Code notifications, remote Claude Code, mobile AI coding agent, Claude Code voice, Claude Code usage limits",
+  "description": "Agent Babysitter remote-controls and monitors a Claude Code session from Telegram. It messages your phone when a task finishes, takes your reply back into the same live session, and supports screenshots, voice notes spoken and transcribed on your own machine, and usage reports. No server, no webhook, no open port.",
   "image": "https://agentbabysitter.com/assets/og.png",
-  "author": { "@type": "Person", "name": "Pranjal" },
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "screenshot": "https://agentbabysitter.com/assets/og.png",
+  "author": {
+    "@type": "Person",
+    "name": "Pranjal"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock"
+  },
   "featureList": [
-    "Telegram notifications when a Claude Code task finishes",
-    "Reply from your phone into the same live session",
+    "Telegram notification with a written summary when a Claude Code task finishes",
+    "Reply from your phone straight into the same live Claude Code session",
     "Auto-silent: mutes reports while you are at the desk, resumes when you step away",
-    "Live status dot and usage glance in Claude Code's status bar",
-    "Send screenshots Claude reads directly",
-    "Voice notes in and out, transcribed and spoken locally",
+    "Persona and live status in Claude Code's own status bar",
+    "Send a screenshot or photo from your phone that Claude reads directly",
+    "Voice notes both ways, transcribed and spoken on your own machine",
     "Check Claude usage limits from Telegram",
-    "PIN-paired private bot with an allowlist",
-    "Multiple projects via profiles"
+    "PIN-paired private bot with an allowlist, and a remote kill ladder",
+    "Named personas you choose at launch — abs, ceo, cto, friend, or your own",
+    "abs prompt: read and edit every layer abs puts in front of Claude, including its memory",
+    "Commits and pushes wait for your word; shipping asks one plain question first",
+    "Several projects at once through profiles, locally or over SSH in tmux"
   ]
 }
 </script>
@@ -456,7 +480,7 @@
   .colophon { text-align: center; padding: 26px 0 40px; font-size: 13px; color: var(--muted); }
   .colophon .hh { color: #f2557a; }
 
-  /* ---------- what's coming next + waitlist ---------- */
+  /* ---------- what shipped + waitlist ---------- */
   /* the header is sticky, so an anchor jump would otherwise land under it */
   #whats-next { scroll-margin-top: 76px; }
   .wl-tag.shipped { color:#0a0d17; background:var(--green); }
@@ -521,9 +545,32 @@
     .foot-panel { grid-template-columns: 1fr; }
     .foot-actions { text-align: left; }
     .btn-row { justify-content: flex-start; }
+    .qa { grid-template-columns: 1fr; gap: 22px; }
     .panel { padding: 30px 20px; }
   }
+
+  /* The questions people actually type into Google before they find this. Real
+     answers, short, each one a door into the page that covers it properly. */
+  .qa { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px 34px; }
+  .qa h3 { font-size: 16px; font-weight: 650; margin: 0 0 8px; letter-spacing: -.01em; }
+  .qa p { margin: 0; font-size: 14.5px; line-height: 1.62; color: var(--muted); }
+  .qa a { color: var(--violet-2); text-decoration: none; border-bottom: 1px solid rgba(167,139,250,.3); }
+  .qa a:hover { border-bottom-color: var(--violet-2); }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://agentbabysitter.com/#website",
+  "url": "https://agentbabysitter.com/",
+  "name": "Agent Babysitter",
+  "description": "Control and monitor Claude Code from Telegram.",
+  "inLanguage": "en",
+  "about": {
+    "@id": "https://agentbabysitter.com/#software"
+  }
+}
+</script>
 </head>
 <body>
 <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
@@ -531,12 +578,12 @@
 <header>
   <div class="wrap nav">
     <a class="brand" href="#top">
-      <img class="mark" src="assets/mascot.png" alt="Agent Babysitter mascot">
+      <img class="mark" src="assets/mascot-160.png" alt="Agent Babysitter mascot" width="36" height="36" decoding="async">
       <span>Agent <b class="accent">Babysitter</b></span>
     </a>
     <nav class="nav-links">
       <a href="features.html">Features</a>
-      <a href="#whats-next">What's next</a>
+      <a href="#whats-next">What's new</a>
       <a href="docs.html">Docs</a>
       <a href="releases.html">Releases</a>
       <a href="security.html">Security</a>
@@ -552,7 +599,7 @@
       </summary>
       <nav class="nav-menu-panel">
         <a href="features.html">Features</a>
-        <a href="#whats-next">What's next</a>
+        <a href="#whats-next">What's new</a>
         <a href="docs.html">Docs</a>
         <a href="releases.html">Releases</a>
       <a href="security.html">Security</a>
@@ -620,14 +667,14 @@
         </div>
       </div>
 
-      <div class="connector"><img src="assets/mascot.png" alt=""></div>
+      <div class="connector"><img src="assets/mascot-160.png" alt="" width="72" height="72" loading="lazy" decoding="async"></div>
 
       <div class="phone">
         <div class="phone-screen">
           <span class="notch"></span>
           <div class="tg-header">
             <span class="back"><svg viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 1 1 7l6 6"/></svg></span>
-            <img class="av" src="assets/mascot.png" alt="">
+            <img class="av" src="assets/mascot-160.png" alt="" width="30" height="30" loading="lazy" decoding="async">
             <div class="who"><div class="nm">Agent Babysitter Bot</div><div class="st">online</div></div>
             <span class="menu"><svg viewBox="0 0 4 16" fill="currentColor"><circle cx="2" cy="2" r="1.7"/><circle cx="2" cy="8" r="1.7"/><circle cx="2" cy="14" r="1.7"/></svg></span>
           </div>
@@ -704,12 +751,62 @@
   </div>
 </section>
 
+<!-- Written for the searches that bring people here — "can I run Claude Code from
+     my phone", "notification when Claude Code finishes", "does it need a server".
+     Every heading is a real question and every answer is true; if one stops being
+     true, fix the answer rather than the heading. -->
+<section class="block" id="questions">
+  <div class="wrap">
+    <div class="panel">
+      <h2 class="sec-title">Straight <span class="accent">answers</span></h2>
+      <div class="qa">
+        <div>
+          <h3>Can I run Claude Code from my phone?</h3>
+          <p>The session stays on your own machine — Telegram is the window into it. You read what Claude did and send the next instruction from an iPhone or Android, and it lands in the <b>same live session</b> rather than starting a new one.</p>
+        </div>
+        <div>
+          <h3>How do I get a notification when Claude Code finishes a task?</h3>
+          <p>That is the default. When a task lands you get a Telegram message with a written summary of what changed, so you know where things stand before you open the laptop. <a href="features.html">See how the reports are shaped</a>.</p>
+        </div>
+        <div>
+          <h3>Does it need a server, a webhook, or an open port?</h3>
+          <p>None of them. Telegram is polled outbound from your machine, so there is nothing to host and nothing to expose. It runs the same over SSH or inside <code>tmux</code> on a headless box as it does on a laptop.</p>
+        </div>
+        <div>
+          <h3>Is this the official Claude Code Telegram plugin?</h3>
+          <p>It is built <i>on</i> Anthropic's official Telegram plugin, and adds everything around it: the finish reports, voice, usage checks, named personas, quiet mode, and the rails that keep a remote message from doing something irreversible. <a href="docs.html">The docs map every layer to its source</a>.</p>
+        </div>
+        <div>
+          <h3>Can I speak to it instead of typing?</h3>
+          <p>Voice works both directions. Your voice note is transcribed and Claude's answer is spoken back — both on your own machine, with no cloud speech vendor in the path.</p>
+        </div>
+        <div>
+          <h3>Who else can message my bot?</h3>
+          <p>Nobody. Pairing is PIN-confirmed at the terminal and the allowlist can only be changed there, so a message asking to be let in gets dropped. <a href="security.html">Exactly how that is enforced, and what it does not cover</a>.</p>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:44px">
+        <a class="btn ghost" href="faq.html" style="display:inline-flex">More questions, answered
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="block" id="whats-next">
   <div class="wrap">
     <div class="panel">
-      <h2 class="sec-title">Just shipped, and <span class="accent">what's next</span></h2>
-      <p class="wl-lede">The three things that were "coming next" all landed in <b>3.3.0</b>. <code style="font-family:var(--mono);color:var(--violet-2)">abs</code> no longer needs Claude Code to be open — it listens around the clock, and you can start a session from your phone.</p>
-      <p class="wl-lede">Since then, up to <b>3.7.1</b>: a <code style="font-family:var(--mono);color:var(--violet-2)">curl</code> install became a full install with no git clone, voice arrived by default with six voices you pick by ear, reply mode became a setting the session enforces rather than something the model has to remember, the status bar now reads the same on macOS as it does on Linux, a long reply from your phone arrives whole — the note, its transcript, and a point-wise card — and <code style="font-family:var(--mono);color:var(--violet-2)">abs prompt</code> opens a page where you can read and edit everything ABS says to Claude, including named personas you pick at launch.</p>
+      <h2 class="sec-title">All of this is <span class="accent">already shipped</span></h2>
+      <p class="wl-lede">Everything below is in the release you can install right now — <b>3.7.1</b>. The
+        roadmap this section used to carry has been built: <code style="font-family:var(--mono);color:var(--violet-2)">abs</code> no longer needs
+        Claude Code to be open, you can start a session from your phone, and a session can run
+        inside a container with one folder mounted and nothing else visible.</p>
+      <p class="wl-lede">Since then: a <code style="font-family:var(--mono);color:var(--violet-2)">curl</code> install became a full install with no git clone,
+        voice arrived by default with six voices you pick by ear, a long reply from your phone
+        arrives whole — the note, the text of exactly what it said, then a point-wise card —
+        <code style="font-family:var(--mono);color:var(--violet-2)">abs prompt</code> opens a page where you read and edit everything abs says to
+        Claude, and named personas let you choose who you are working with at every launch.</p>
 
       <div class="wl-sub">Shipped</div>
 
@@ -732,30 +829,30 @@
           <h3>Sandboxed sessions</h3>
           <p>Run Claude Code inside a container with exactly one folder mounted and nothing else on your machine visible. For the work you'd rather not hand the keys to.</p>
         </div>
-      </div>
-
-      <div class="wl-sub">Being built next</div>
-
-      <div class="cards wl-cards">
         <div class="fcard">
-          <span class="wl-tag">In progress</span>
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 15v2"/></svg>
-          <h3>A restricted assistant bot</h3>
-          <p>A locked-down second bot for everyday questions and notes. It can't write code, can't touch your projects, and can't start sessions — safe to hand to anyone. The code is written and tested; it ships once it has been provisioned end to end by a human.</p>
+          <span class="wl-tag shipped">Shipped</span>
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M3 12h3M18 12h3M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3.2"/></svg>
+          <h3>Named personas, and the prompt in your hands</h3>
+          <p>Pick who you're working with at launch — <code style="font-family:var(--mono);color:var(--violet-2)">abs</code>, <code style="font-family:var(--mono);color:var(--violet-2)">ceo</code>, <code style="font-family:var(--mono);color:var(--violet-2)">cto</code>, <code style="font-family:var(--mono);color:var(--violet-2)">friend</code>, or one you wrote. <code style="font-family:var(--mono);color:var(--violet-2)">abs prompt</code> shows every layer abs puts in front of Claude, including what it remembers, and lets you edit the parts that are yours.</p>
         </div>
         <div class="fcard">
-          <span class="wl-tag">Planned</span>
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18M3 12h18M3 17h10"/><circle cx="18" cy="17" r="3"/></svg>
-          <h3>A bot per project, chosen at launch</h3>
-          <p>Run abs across several projects and their conversations currently mix unless you remember the profile flag. Instead: pick a bot the first time you start in a folder, and it remembers.</p>
+          <span class="wl-tag shipped">Shipped</span>
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="M15 9l-4 4-2-2"/></svg>
+          <h3>Your commits stay yours</h3>
+          <p>Finished work waits in the working tree. Nothing is committed to tidy up and nothing is pushed as a side effect — shipping asks one plain question and waits for your yes, because you may still want to change it first.</p>
         </div>
         <div class="fcard">
-          <span class="wl-tag">Planned</span>
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M3 12h3M18 12h3M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3.2"/></svg>
-          <h3>Your own persona, and room to extend it</h3>
-          <p>How abs writes to you is currently baked into the tool. Move it into a file you can edit, and document where a new feature belongs — so the reporting style, and the tool itself, is yours to shape.</p>
+          <span class="wl-tag shipped">Shipped</span>
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3"/><path d="M19 4h3M19 8h3"/></svg>
+          <h3>A reply you can hear and still read</h3>
+          <p>Long updates used to be cut short or lose their text entirely. Now nothing is trimmed: the voice note, the exact words it spoke, and a card of the detail — objective, what was done and how it was checked, what broke, what needs you.</p>
         </div>
       </div>
+
+      <p class="wl-lede" style="margin:44px auto 0">One thing is written but deliberately not
+        released: a locked-down second bot for everyday questions that can't write code, touch a
+        project, or start a session. It is complete and unit-tested, and it ships when it has been
+        provisioned end to end by hand rather than on a promise here.</p>
 
       <div class="wl-signup">
         <h3>Want the email when the next one lands?</h3>
