@@ -33,6 +33,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
+
   :root {
     --bg:#0a0d17; --bg-2:#0f1320; --bg-3:#141a2b; --line:#212842; --line-2:#2c3450;
     --violet:#8b5cf6; --violet-2:#a78bfa; --tg:#29a9ea; --green:#34d399; --orange:#f5a623; --cyan:#22d3ee;
@@ -132,6 +133,39 @@
   .colophon a:hover { color:var(--violet-2); }
   .colophon .hh { color:#f2557a; }
   @media (max-width:900px) { .nav-links { display:none; } .nav-menu { display: block; margin-left: auto; } .gh-btn { display: none; } }
+  /* A visual trust summary above the detail, so somebody deciding whether to
+     install gets the answer without reading the whole threat model. */
+  .tsum { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin: 30px 0 8px; }
+  .tsum > * { min-width: 0; }
+  .tcard {
+    background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px;
+    padding: 22px 20px;
+  }
+  .tcard .ic { width: 24px; height: 24px; margin-bottom: 14px; }
+  .tcard h3 { font-size: 15px; font-weight: 650; margin: 0 0 7px; letter-spacing: -.01em; }
+  .tcard p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--muted); }
+  .tsum-head { font-size: clamp(22px, 2.6vw, 30px); font-weight: 750; letter-spacing: -.02em; margin: 44px 0 0; }
+  @media (max-width: 900px) { .tsum { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .tsum { grid-template-columns: 1fr; } }
+  /* The orbs are fixed-position decoration, 420px and 340px wide, and on a small
+     phone the first one hung past the right edge. Shrinking them is the fix that
+     costs nothing: `overflow-x: clip` on <html> also works but makes <html> a clip
+     container, which kills `position: sticky` (measured: the docs sidebar stopped
+     sticking the moment it was added). */
+  @media (max-width: 480px) {
+    .orb-1 { width: 240px; height: 240px; top: -70px; right: 4%; }
+    .orb-2 { width: 200px; height: 200px; left: -70px; }
+  }
+  /* Narrow phones: a long install command or URL sitting in prose is one
+     unbreakable string and pushed three pages sideways. Only these — a command
+     inside .rel-cmd or .code keeps its horizontal scroll, which is deliberate. */
+  @media (max-width: 420px) {
+    p code, li code, td code, .does code, .relhelp code, .sub code { overflow-wrap: anywhere; }
+    .wrap a, .wrap code, .wrap b { overflow-wrap: anywhere; }
+    .wrap { padding-left: 20px; padding-right: 20px; }
+    .nav { gap: 10px; }
+    .brand span { font-size: 15px; }
+  }
 </style>
 <script type="application/ld+json">
 {
@@ -181,7 +215,6 @@
     </a>
     <nav class="nav-links">
       <a href="features.html">Features</a>
-      <a href="index.html#whats-next">What's new</a>
       <a href="docs.html">Docs</a>
       <a href="releases.html">Releases</a>
       <a href="security.html">Security</a>
@@ -198,7 +231,6 @@
       </summary>
       <nav class="nav-menu-panel">
         <a href="features.html">Features</a>
-        <a href="index.html#whats-next">What's new</a>
         <a href="docs.html">Docs</a>
         <a href="releases.html">Releases</a>
       <a href="security.html">Security</a>
@@ -215,6 +247,30 @@
     <div class="crumb"><a href="/">home</a> / security</div>
     <h1>Security</h1>
     <p class="sub">Agent Babysitter connects a Telegram bot to a machine where Claude Code can run commands. That's powerful, so it's worth being precise about who can reach it — and the few things it deliberately does <b>not</b> protect against.</p>
+
+    <h2 class="tsum-head">Your machine stays yours.</h2>
+    <div class="tsum">
+      <div class="tcard">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="m17 11 2 2 4-4"/></svg>
+        <h3>Paired accounts only</h3>
+        <p>Your Telegram ID goes on an allowlist after a PIN you confirm at the terminal. Everyone else is dropped before Claude sees them.</p>
+      </div>
+      <div class="tcard">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3"/></svg>
+        <h3>Local voice processing</h3>
+        <p>Speech in and out runs on your own machine. No cloud speech vendor ever receives your audio.</p>
+      </div>
+      <div class="tcard">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+        <h3>Destructive commands blocked</h3>
+        <p>A turn driven from Telegram cannot run a recursive delete, a force push, or read a credentials file. At the keyboard, nothing is blocked.</p>
+      </div>
+      <div class="tcard">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20Z"/><circle cx="12" cy="12" r="10"/></svg>
+        <h3>Transparent threat model</h3>
+        <p>What this does not cover is written down too — starting with the fact that Telegram is not end-to-end encrypted.</p>
+      </div>
+    </div>
 
     <div class="banner">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
@@ -263,7 +319,7 @@
 
     <div class="report">
       <h3>Reporting a vulnerability</h3>
-      Found something? Open an issue at <a href="https://github.com/Pranjalab/AgentBabysitter/issues">github.com/Pranjalab/AgentBabysitter/issues</a>, or for anything sensitive, describe it privately rather than in a public issue. The full threat model lives in <a href="https://github.com/Pranjalab/AgentBabysitter/blob/main/SECURITY.md">SECURITY.md</a>.
+      Anything exploitable goes through GitHub's <a href="https://github.com/Pranjalab/AgentBabysitter/security/advisories/new">private advisory form</a> — it opens a report only you and the maintainer can read, so a fix can land before the detail is public. Email works too: <a href="mailto:pranjal.panda.ai@gmail.com">pranjal.panda.ai@gmail.com</a>. Anything <i>not</i> sensitive — a hardening idea, a question about the model above — is better in the open, as an <a href="https://github.com/Pranjalab/AgentBabysitter/issues">issue</a> or a <a href="https://github.com/Pranjalab/AgentBabysitter/discussions">discussion</a>. The full policy lives in <a href="https://github.com/Pranjalab/AgentBabysitter/blob/main/SECURITY.md">SECURITY.md</a>.
     </div>
   </div>
 

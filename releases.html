@@ -33,6 +33,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
+
   :root {
     --bg:#0a0d17; --bg-2:#0f1320; --bg-3:#141a2b; --line:#212842; --line-2:#2c3450;
     --violet:#8b5cf6; --violet-2:#a78bfa; --tg:#29a9ea; --green:#34d399; --orange:#f5a623; --cyan:#22d3ee;
@@ -163,6 +164,71 @@
   .relhelp h2 { font-size:20px; color:var(--text); margin:0 0 10px; letter-spacing:-.01em; }
   .relhelp p { color:var(--body); line-height:1.7; max-width:70ch; margin:0 0 14px; }
   .relhelp code { font-family:var(--mono); font-size:.9em; color:var(--text); background:var(--bg-3); padding:2px 6px; border-radius:5px; }
+
+  /* Release-notification signup, moved here from the home page on 30 Sep:
+     the person who wants telling about the next version is already reading
+     this page, and on the home page it interrupted the product story. */
+  .wl-tag.shipped { color:#0a0d17; background:var(--green); }
+  .wl-sub { font-family:var(--mono); font-size:12px; letter-spacing:.11em; text-transform:uppercase;
+            color:var(--muted); margin:34px 0 14px; display:flex; align-items:center; gap:12px; }
+  .wl-sub::after { content:""; flex:1; height:1px; background:var(--line); }
+  .wl-lede { text-align: center; max-width: 58ch; margin: -30px auto 40px; font-size: 15px; color: var(--body); }
+  .wl-cards { grid-template-columns: repeat(2, 1fr); }
+  .wl-cards .fcard { display: flex; flex-direction: column; }
+  .wl-tag {
+    display: inline-flex; align-items: center; gap: 6px; align-self: flex-start;
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--orange); border: 1px solid rgba(245,166,35,.3); background: rgba(245,166,35,.07);
+    border-radius: 999px; padding: 3px 9px; margin-bottom: 14px;
+  }
+  .wl-tag::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); }
+  .wl-signup {
+    margin-top: 34px; padding: 34px; text-align: center;
+    background: var(--bg); border: 1px solid var(--line-2); border-radius: 16px;
+  }
+  .wl-signup h3 { font-size: 19px; font-weight: 800; margin: 0 0 8px; }
+  .wl-sub { margin: 0 auto 22px; font-size: 14px; color: var(--body); max-width: 54ch; }
+  .wl-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .wl-form input[type="email"] {
+    flex: 1 1 300px; max-width: 360px; min-width: 0;
+    background: #070a12; border: 1px solid var(--line); border-radius: 10px;
+    padding: 12px 14px; font-family: var(--sans); font-size: 14px; color: var(--text);
+  }
+  .wl-form input[type="email"]::placeholder { color: var(--muted); }
+  .wl-form input[type="email"]:focus { outline: none; border-color: var(--violet); }
+  .wl-form input[type="email"]:disabled { opacity: .5; }
+  .wl-form button { flex: none; cursor: pointer; font-family: var(--sans); }
+  .wl-form button[disabled] { opacity: .55; cursor: not-allowed; }
+  .wl-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .wl-msg { min-height: 20px; margin: 15px 0 0; font-size: 13.5px; color: var(--body); }
+  .wl-msg.ok { color: var(--green); }
+  .wl-msg.err { color: #f2557a; }
+  .wl-fallback { color: var(--violet-2); border-bottom: 1px solid rgba(167,139,250,.4); white-space: nowrap; }
+  .wl-fallback:hover { color: var(--text); border-bottom-color: var(--text); }
+  .wl-fine { margin: 8px 0 0; font-size: 12.5px; color: var(--muted); }
+  .wl-lede { margin-top: -18px; }
+  .wl-signup { padding: 24px 18px; }
+  .wl-form input[type="email"] { max-width: none; }
+  .wl-signup { margin-top: 44px; }
+  /* The orbs are fixed-position decoration, 420px and 340px wide, and on a small
+     phone the first one hung past the right edge. Shrinking them is the fix that
+     costs nothing: `overflow-x: clip` on <html> also works but makes <html> a clip
+     container, which kills `position: sticky` (measured: the docs sidebar stopped
+     sticking the moment it was added). */
+  @media (max-width: 480px) {
+    .orb-1 { width: 240px; height: 240px; top: -70px; right: 4%; }
+    .orb-2 { width: 200px; height: 200px; left: -70px; }
+  }
+  /* Narrow phones: a long install command or URL sitting in prose is one
+     unbreakable string and pushed three pages sideways. Only these — a command
+     inside .rel-cmd or .code keeps its horizontal scroll, which is deliberate. */
+  @media (max-width: 420px) {
+    p code, li code, td code, .does code, .relhelp code, .sub code { overflow-wrap: anywhere; }
+    p a, li a, .sub a, .does a { overflow-wrap: anywhere; }
+    .wrap { padding-left: 20px; padding-right: 20px; }
+    .nav { gap: 10px; }
+    .brand span { font-size: 15px; }
+  }
 </style>
 <script type="application/ld+json">
 {
@@ -212,7 +278,6 @@
     </a>
     <nav class="nav-links">
       <a href="features.html">Features</a>
-      <a href="index.html#whats-next">What's new</a>
       <a href="docs.html">Docs</a>
       <a href="releases.html">Releases</a>
       <a href="security.html">Security</a>
@@ -229,7 +294,6 @@
       </summary>
       <nav class="nav-menu-panel">
         <a href="features.html">Features</a>
-        <a href="index.html#whats-next">What's new</a>
         <a href="docs.html">Docs</a>
         <a href="releases.html">Releases</a>
       <a href="security.html">Security</a>
@@ -361,9 +425,112 @@
     </div>
   </div>
 
+  <div id="notify">
+      <div class="wl-signup">
+        <h3>Want the email when the next one lands?</h3>
+        <p class="wl-sub">Drop your address and we'll save it. One email when the next release is out — no newsletter, and nothing in between.</p>
+        <form class="wl-form" id="wl-form" novalidate>
+          <span class="wl-hp" aria-hidden="true"><label>Leave this empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label></span>
+          <input type="email" id="wl-email" name="email" required autocomplete="email" placeholder="you@example.com" aria-label="Your email address">
+          <button class="btn primary" type="submit" id="wl-submit">Notify me
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="m4 6 8 6 8-6"/></svg>
+          </button>
+        </form>
+        <p class="wl-msg" id="wl-msg" role="status" aria-live="polite"></p>
+        <p class="wl-fine">One email, for this release only. No newsletter, and your address is never shared.</p>
+      </div>
+  </div>
+
   <div class="colophon">
     <a href="/">← Back to home</a> &nbsp;·&nbsp; v3.7.1 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; <a href="about.html#contact">About &amp; contact</a> &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
   </div>
 </main>
+<script>
+  /* ---- waitlist ----------------------------------------------------------
+     Posts to a serverless function that holds the MongoDB credential — the
+     connection string can never live in this file, since it is public. Source
+     and deploy notes: agentbabysitter-api/README.md.
+
+     Set this to '' to disable the form; it then says so plainly rather than
+     pretending to accept an address it has nowhere to put. --------------- */
+  (function () {
+    var WAITLIST_ENDPOINT = 'https://agentbabysitter-api.vercel.app/api/waitlist';
+
+    var form  = document.getElementById('wl-form');
+    if (!form) return;
+    var email = document.getElementById('wl-email');
+    var btn   = document.getElementById('wl-submit');
+    var msg   = document.getElementById('wl-msg');
+
+    function say(text, cls) {
+      msg.textContent = text;
+      msg.className = 'wl-msg' + (cls ? ' ' + cls : '');
+    }
+
+    // If the endpoint is down, don't leave the visitor at a dead end — hand them
+    // a mailto that achieves the same thing. Built with createElement rather than
+    // innerHTML so a server-supplied message can never inject markup.
+    function sayWithFallback(text) {
+      say(text + ' ', 'err');
+      var a = document.createElement('a');
+      a.href = 'mailto:pranjal.panda.ai@gmail.com'
+             + '?subject=' + encodeURIComponent('Notify me when Agent Babysitter v3 ships')
+             + '&body='    + encodeURIComponent('Please add this address to the release list.');
+      a.textContent = 'Email me instead →';
+      a.className = 'wl-fallback';
+      msg.appendChild(a);
+    }
+
+    if (!WAITLIST_ENDPOINT) {
+      email.disabled = true;
+      btn.disabled = true;
+      say('Signups open shortly — this list isn’t live yet. Watch the GitHub repo in the meantime.');
+      return;
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var value = email.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) {
+        say('That doesn’t look like an email address.', 'err');
+        email.focus();
+        return;
+      }
+      btn.disabled = true;
+      say('Saving…');
+
+      fetch(WAITLIST_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: value,
+          source: 'website-wishlist',
+          website: form.elements.website ? form.elements.website.value : ''
+        })
+      })
+        .then(function (r) {
+          return r.json().catch(function () { return {}; })
+                  .then(function (d) { return { ok: r.ok, data: d }; });
+        })
+        .then(function (res) {
+          if (res.ok && res.data.ok) {
+            form.style.display = 'none';
+            say('You’re on the list. One email the day it ships — nothing else.', 'ok');
+          } else if (res.data && res.data.error && String(res.data.error).indexOf('email address') !== -1) {
+            // A validation complaint is the visitor's to fix — no fallback needed.
+            say(res.data.error, 'err');
+            btn.disabled = false;
+          } else {
+            sayWithFallback((res.data && res.data.error) || 'Couldn’t save that.');
+            btn.disabled = false;
+          }
+        })
+        .catch(function () {
+          sayWithFallback('Couldn’t reach the signup server.');
+          btn.disabled = false;
+        });
+    });
+  })();
+</script>
 </body>
 </html>

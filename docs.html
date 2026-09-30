@@ -36,6 +36,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
+
   :root {
     --bg:#0a0d17; --bg-2:#0f1320; --bg-3:#141a2b; --line:#212842; --line-2:#2c3450;
     --violet:#8b5cf6; --violet-2:#a78bfa; --tg:#29a9ea; --green:#34d399; --orange:#f5a623; --cyan:#22d3ee;
@@ -281,6 +282,45 @@
   /* commands table */
   .cmd-name { font-family:var(--mono); font-size:12.5px; color:var(--violet-2); white-space:nowrap; }
   .cmd-name b { color:var(--cyan); font-weight:600; }
+  /* Docs is allowed to be dense — but it is one long page, and a chip row at the
+     very top is no use once you have scrolled past it. Sticky sidebar on wide
+     screens; the chip row remains the mobile navigation. */
+  .docgrid { display: block; }
+  .docnav { display: none; }
+  @media (min-width: 1040px) {
+    .docgrid { display: grid; grid-template-columns: 208px minmax(0, 1fr); gap: 52px; align-items: start; }
+    .docnav { display: block; position: sticky; top: 28px; }
+    .docnav .grp {
+      font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--muted); margin: 22px 0 9px;
+    }
+    .docnav .grp:first-child { margin-top: 0; }
+    .docnav a {
+      display: block; padding: 6px 0 6px 12px; font-size: 13.5px; color: var(--body);
+      text-decoration: none; border-left: 1px solid var(--line); transition: color .15s, border-color .15s;
+    }
+    .docnav a:hover { color: var(--text); border-left-color: var(--violet); }
+    .docgrid .jump { display: none; }
+  }
+  /* The orbs are fixed-position decoration, 420px and 340px wide, and on a small
+     phone the first one hung past the right edge. Shrinking them is the fix that
+     costs nothing: `overflow-x: clip` on <html> also works but makes <html> a clip
+     container, which kills `position: sticky` (measured: the docs sidebar stopped
+     sticking the moment it was added). */
+  @media (max-width: 480px) {
+    .orb-1 { width: 240px; height: 240px; top: -70px; right: 4%; }
+    .orb-2 { width: 200px; height: 200px; left: -70px; }
+  }
+  /* Narrow phones: a long install command or URL sitting in prose is one
+     unbreakable string and pushed three pages sideways. Only these — a command
+     inside .rel-cmd or .code keeps its horizontal scroll, which is deliberate. */
+  @media (max-width: 420px) {
+    p code, li code, td code, .does code, .relhelp code, .sub code { overflow-wrap: anywhere; }
+    p a, li a, .sub a, .does a { overflow-wrap: anywhere; }
+    .wrap { padding-left: 20px; padding-right: 20px; }
+    .nav { gap: 10px; }
+    .brand span { font-size: 15px; }
+  }
 </style>
 <script type="application/ld+json">
 {
@@ -337,7 +377,6 @@
     </a>
     <nav class="nav-links">
       <a href="features.html">Features</a>
-      <a href="index.html#whats-next">What's new</a>
       <a href="docs.html">Docs</a>
       <a href="releases.html">Releases</a>
       <a href="security.html">Security</a>
@@ -354,7 +393,6 @@
       </summary>
       <nav class="nav-menu-panel">
         <a href="features.html">Features</a>
-        <a href="index.html#whats-next">What's new</a>
         <a href="docs.html">Docs</a>
         <a href="releases.html">Releases</a>
       <a href="security.html">Security</a>
@@ -369,8 +407,29 @@
 <main>
   <div class="wrap">
     <div class="crumb"><a href="/">home</a> / docs</div>
+
+    <div class="docgrid">
+    <aside class="docnav">
+      <div class="grp">Getting started</div>
+      <a href="#anatomy">What abs adds</a>
+      <a href="#map">Project map</a>
+      <div class="grp">Make it yours</div>
+      <a href="#model">Swap the model</a>
+      <a href="#persona">Persona &amp; tone</a>
+      <a href="#prompt">The prompt page</a>
+      <a href="#phrases">Your own phrases</a>
+      <a href="#voice">Voice engine</a>
+      <a href="#silent">Auto-silent</a>
+      <a href="#statusbar">Status bar</a>
+      <a href="#command">Add a command</a>
+      <div class="grp">Reference</div>
+      <a href="#commands">Every command</a>
+      <a href="security.html">Security model</a>
+      <a href="faq.html">FAQ</a>
+    </aside>
+    <div class="doccontent">
     <h1>Build on <span class="accent">abs</span></h1>
-    <p class="sub">Two things on one page: a map of <b>what abs adds to Claude Code and where each piece lives in the source</b>, and short how-tos for making it your own. Every code chip and source link is pinned to the <code>v2.1.4</code> tag.</p>
+    <p class="sub">Two things on one page: a map of <b>what abs adds to Claude Code and where each piece lives in the source</b>, and short how-tos for making it your own. Every source link is pinned to the <code>v3.7.1</code> tag, so the line it opens is the line that shipped.</p>
 
     <div class="jump">
       <a href="#anatomy">What it adds</a>
@@ -688,6 +747,15 @@ hello) cmd_hello ;;</pre></div>
           <tr><td class="cmd-name">abs reset</td><td class="does">Remove this profile's token, allowlist, and state.</td></tr>
           <tr><td class="cmd-name">abs version | help</td><td class="does">The installed version; the full list.</td></tr>
 
+          <tr><td class="cmd-name" colspan="2" style="padding-top:22px"><b>From Telegram — send as a whole message</b></td></tr>
+          <tr><td class="cmd-name" colspan="2" style="padding:2px 0 14px"><span class="does" style="display:block">A session hook acts on these itself, before the model sees them — so they work even if a message tries to talk the model out of them. Anything else you type is simply said to Claude. The wording each one injects, and phrases of your own, live in <b>abs prompt</b>.</span></td></tr>
+          <tr><td class="cmd-name">ABS MUTE / ABS UNMUTE</td><td class="does">Pause or resume the proactive reports. Inbound keeps working.</td></tr>
+          <tr><td class="cmd-name">ABS STOP</td><td class="does">Halt the current plan at the next step and wait for you.</td></tr>
+          <tr><td class="cmd-name">ABS OFF</td><td class="does">Cut all Telegram, in and out — the session keeps working locally. Terminal-only to re-enable.</td></tr>
+          <tr><td class="cmd-name">ABS EXIT</td><td class="does">Close the Claude session; it confirms first if it is mid-task.</td></tr>
+          <tr><td class="cmd-name">ABS BLOCK</td><td class="does">Lock the bot out until you re-pair at the terminal.</td></tr>
+          <tr><td class="cmd-name">/usage</td><td class="does">Post your full Claude usage limits back into the chat.</td></tr>
+
           <tr><td class="cmd-name" colspan="2" style="padding-top:22px"><b>Persona &amp; what it tells Claude</b></td></tr>
           <tr><td class="cmd-name">abs prompt</td><td class="does">The tabbed page: persona, hook wording, project and global <b>CLAUDE.md</b>, memory. Read the locked layers, edit yours.</td></tr>
           <tr><td class="cmd-name">abs prompt show|edit|diff|reset &lt;part&gt;</td><td class="does">The same, without the page — for a machine without Textual, or a script.</td></tr>
@@ -697,6 +765,15 @@ hello) cmd_hello ;;</pre></div>
           <tr><td class="cmd-name">abs --persona cto</td><td class="does">Just this session, skipping the picker at launch.</td></tr>
           <tr><td class="cmd-name">abs config persona-menu on|off</td><td class="does">Ask which persona at every launch. On by default.</td></tr>
           <tr><td class="cmd-name">abs config commits ask|auto</td><td class="does"><b>ask</b> (default): nothing is committed until you say so. <b>auto</b>: commit each finished task — pushing still waits for your word either way.</td></tr>
+
+          <tr><td class="cmd-name" colspan="2" style="padding-top:22px"><b>The <code>abs prompt</code> tabs — F1…F7</b></td></tr>
+          <tr><td class="cmd-name">Overview</td><td class="does">What each layer is, where it lives on disk, and how big it is.</td></tr>
+          <tr><td class="cmd-name">System</td><td class="does">The bridge mechanics abs must send. Read-only, on purpose.</td></tr>
+          <tr><td class="cmd-name">Persona</td><td class="does">Who it is and how it writes to you. Pick one, or edit it here.</td></tr>
+          <tr><td class="cmd-name">Hooks</td><td class="does">The wording each remote command injects, plus phrases of your own.</td></tr>
+          <tr><td class="cmd-name">Project</td><td class="does">This repo's <b>CLAUDE.md</b> — with a warning that it is committed.</td></tr>
+          <tr><td class="cmd-name">Global</td><td class="does">Your <b>~/.claude/CLAUDE.md</b>, which shapes every Claude session.</td></tr>
+          <tr><td class="cmd-name">Memory</td><td class="does">The facts Claude has kept about you and the work, one per entry.</td></tr>
 
           <tr><td class="cmd-name" colspan="2" style="padding-top:22px"><b>Voice</b></td></tr>
           <tr><td class="cmd-name">abs voice setup</td><td class="does">Install the local speech engines. Opt-in, and no longer needs a dev checkout.</td></tr>
@@ -756,8 +833,10 @@ hello) cmd_hello ;;</pre></div>
         Contributing guide
       </a>
     </div>
-  </div>
 
+    </div>
+    </div>
+  </div>
   <div class="colophon">
     <a href="/">← Back to home</a> &nbsp;·&nbsp; v3.7.1 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; <a href="about.html#contact">About &amp; contact</a> &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
   </div>

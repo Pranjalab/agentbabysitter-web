@@ -14,6 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+
   :root {
     --bg:#0a0d17; --bg-2:#0f1320; --bg-3:#141a2b; --line:#212842; --line-2:#2c3450;
     --violet:#8b5cf6; --violet-2:#a78bfa; --tg:#29a9ea; --green:#34d399; --orange:#f5a623; --cyan:#22d3ee;
@@ -110,6 +111,25 @@
   .colophon a:hover { color:var(--violet-2); }
   .colophon .hh { color:#f2557a; }
   @media (max-width:900px) { .nav-links { display:none; } .nav-menu { display: block; margin-left: auto; } .gh-btn { display: none; } }
+  /* The orbs are fixed-position decoration, 420px and 340px wide, and on a small
+     phone the first one hung past the right edge. Shrinking them is the fix that
+     costs nothing: `overflow-x: clip` on <html> also works but makes <html> a clip
+     container, which kills `position: sticky` (measured: the docs sidebar stopped
+     sticking the moment it was added). */
+  @media (max-width: 480px) {
+    .orb-1 { width: 240px; height: 240px; top: -70px; right: 4%; }
+    .orb-2 { width: 200px; height: 200px; left: -70px; }
+  }
+  /* Narrow phones: a long install command or URL sitting in prose is one
+     unbreakable string and pushed three pages sideways. Only these — a command
+     inside .rel-cmd or .code keeps its horizontal scroll, which is deliberate. */
+  @media (max-width: 420px) {
+    p code, li code, td code, .does code, .relhelp code, .sub code { overflow-wrap: anywhere; }
+    p a, li a, .sub a, .does a { overflow-wrap: anywhere; }
+    .wrap { padding-left: 20px; padding-right: 20px; }
+    .nav { gap: 10px; }
+    .brand span { font-size: 15px; }
+  }
 </style>
 <style>
   .nf { padding: 90px 0 40px; text-align: center; }
@@ -136,7 +156,6 @@
     </a>
     <nav class="nav-links">
       <a href="/features.html">Features</a>
-      <a href="/#whats-next">What's new</a>
       <a href="/docs.html">Docs</a>
       <a href="/releases.html">Releases</a>
       <a href="/security.html">Security</a>
@@ -153,7 +172,6 @@
       </summary>
       <nav class="nav-menu-panel">
         <a href="/features.html">Features</a>
-        <a href="/#whats-next">What's new</a>
         <a href="/docs.html">Docs</a>
         <a href="/releases.html">Releases</a>
       <a href="/security.html">Security</a>

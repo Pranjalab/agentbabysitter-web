@@ -93,6 +93,7 @@
 }
 </script>
 <style>
+
   :root {
     --bg:      #0a0d17;
     --bg-2:    #0f1320;
@@ -199,7 +200,7 @@
 
   /* ---------- hero ---------- */
   .hero { padding: 92px 0 72px; }
-  .hero-grid { display: grid; grid-template-columns: 1fr 1.08fr; gap: 52px; align-items: center; }
+  .hero-grid { display: grid; grid-template-columns: 1.16fr 1fr; gap: 48px; align-items: center; }
   .hero-grid > * { min-width: 0; }
   h1 {
     font-size: clamp(30px, 3.3vw, 42px);
@@ -283,13 +284,13 @@
   .plat svg { width: 15px; height: 15px; }
 
   /* ---------- hero visual ---------- */
-  .stage { position: relative; min-height: 430px; }
+  .stage { position: relative; min-height: 468px; }
   .card {
     background: var(--bg-2); border: 1px solid var(--line-2);
     border-radius: 13px; overflow: hidden;
     box-shadow: 0 24px 60px -30px rgba(0,0,0,.8);
   }
-  .term { position: absolute; left: 0; top: 12px; z-index: 1; width: 262px; }
+  .term { position: absolute; left: 0; top: 12px; z-index: 1; width: 320px; }
   .term .bar {
     display: flex; align-items: center; gap: 7px;
     padding: 10px 14px; border-bottom: 1px solid var(--line);
@@ -581,6 +582,25 @@
   .qa p { margin: 0; font-size: 14.5px; line-height: 1.62; color: var(--muted); }
   .qa a { color: var(--violet-2); text-decoration: none; border-bottom: 1px solid rgba(167,139,250,.3); }
   .qa a:hover { border-bottom-color: var(--violet-2); }
+  /* The orbs are fixed-position decoration, 420px and 340px wide, and on a small
+     phone the first one hung past the right edge. Shrinking them is the fix that
+     costs nothing: `overflow-x: clip` on <html> also works but makes <html> a clip
+     container, which kills `position: sticky` (measured: the docs sidebar stopped
+     sticking the moment it was added). */
+  @media (max-width: 480px) {
+    .orb-1 { width: 240px; height: 240px; top: -70px; right: 4%; }
+    .orb-2 { width: 200px; height: 200px; left: -70px; }
+  }
+  /* Narrow phones: a long install command or URL sitting in prose is one
+     unbreakable string and pushed three pages sideways. Only these — a command
+     inside .rel-cmd or .code keeps its horizontal scroll, which is deliberate. */
+  @media (max-width: 420px) {
+    p code, li code, td code, .does code, .relhelp code, .sub code { overflow-wrap: anywhere; }
+    p a, li a, .sub a, .does a { overflow-wrap: anywhere; }
+    .wrap { padding-left: 20px; padding-right: 20px; }
+    .nav { gap: 10px; }
+    .brand span { font-size: 15px; }
+  }
 </style>
 <script type="application/ld+json">
 {
@@ -600,8 +620,139 @@
 }
 </script>
 </head>
+
+<style>
+  /* ============================================================================
+     Marketing layer, rebuilt for the 30 Sep UX review: the page was 1,278 words
+     and thirteen consecutive blocks of prose. It is ~320 now. Where copy was cut,
+     it moved to /features, /docs, /about, /releases or the landing page — the
+     site stays information-rich, the front door stops being documentation.
+
+     Three things do the work that paragraphs used to: room, type size, and the
+     product demo. Hence no .panel on any marketing section — boxes around boxes
+     is what made it read like a wiki.
+     ========================================================================== */
+  .sec { padding-block: clamp(60px, 7vw, 104px); }
+  .sec-head { max-width: 620px; margin: 0 0 clamp(30px, 3.2vw, 44px); }
+  .sec-head.mid { margin-inline: auto; text-align: center; }
+  .sec-head h2 {
+    font-size: clamp(30px, 4vw, 46px); font-weight: 800; letter-spacing: -.025em;
+    line-height: 1.1; margin: 0;
+  }
+  .sec-head p { margin: 16px 0 0; font-size: 17px; line-height: 1.6; color: var(--muted); max-width: 54ch; }
+  .sec-head.mid p { margin-inline: auto; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--violet-2); margin: 0 0 20px;
+  }
+  .more-link {
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 34px;
+    font-size: 15px; font-weight: 550; color: var(--violet-2); text-decoration: none;
+  }
+  .more-link:hover { color: var(--text); }
+
+  /* hero ------------------------------------------------------------------- */
+  .hero { padding: clamp(56px, 7vw, 92px) 0 clamp(48px, 6vw, 80px); }
+  h1 { font-size: clamp(32px, 4.2vw, 56px); line-height: 1.06; letter-spacing: -.03em; text-wrap: balance; }
+  .hero .lede { max-width: 30ch; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.55; margin-top: 26px; }
+
+  /* benefits — three ideas, no boxes ---------------------------------------- */
+  .bens { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(28px, 3.4vw, 52px); }
+  .ben .ic { width: 30px; height: 30px; margin-bottom: 20px; }
+  .ben h3 { font-size: clamp(19px, 1.7vw, 23px); font-weight: 700; letter-spacing: -.015em; margin: 0 0 10px; }
+  .ben p { margin: 0; font-size: 15.5px; line-height: 1.6; color: var(--muted); max-width: 30ch; }
+
+  /* how it works — a diagram, not prose ------------------------------------- */
+  .flow4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; position: relative; }
+  .stp { position: relative; padding-top: 26px; }
+  .stp::before {
+    content: ''; position: absolute; top: 5px; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, var(--line-2), rgba(139,92,246,.22));
+  }
+  .stp:last-child::before { background: var(--line); }
+  .stp .n {
+    position: absolute; top: -5px; left: 0; width: 22px; height: 22px; border-radius: 50%;
+    display: grid; place-items: center; background: var(--bg); border: 1px solid var(--line-2);
+    font-family: var(--mono); font-size: 10.5px; color: var(--violet-2);
+  }
+  .stp h3 { font-size: 16.5px; font-weight: 650; margin: 0 0 7px; }
+  .stp p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--muted); }
+  .flow-note {
+    margin: clamp(38px, 4vw, 56px) 0 0; font-size: 16px; line-height: 1.6;
+    color: var(--body); max-width: 52ch;
+  }
+
+  /* showcases — alternating, visual-led ------------------------------------- */
+  .show { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(36px, 5vw, 80px); align-items: center; }
+  .show + .show { margin-top: clamp(64px, 7vw, 108px); }
+  .show.flip .show-copy { order: 2; }
+  .show-copy h3 { font-size: clamp(23px, 2.5vw, 32px); font-weight: 750; letter-spacing: -.02em; line-height: 1.15; margin: 0 0 14px; }
+  .show-copy p { margin: 0; font-size: 16px; line-height: 1.65; color: var(--muted); max-width: 38ch; }
+  .show-copy .more-link { margin-top: 24px; }
+  .show-art {
+    border: 1px solid var(--line); border-radius: 18px; background: var(--bg-2);
+    padding: 26px 24px; min-height: 210px; display: flex; flex-direction: column; justify-content: center; gap: 12px;
+  }
+
+  /* install ----------------------------------------------------------------- */
+  .inst-wrap { max-width: 720px; margin-inline: auto; text-align: center; }
+  .inst-wrap .install-card { text-align: left; margin-top: 8px; }
+  .inst-after { margin: 22px 0 0; font-size: 15px; color: var(--muted); }
+  .inst-meta {
+    margin: 14px 0 0; font-family: var(--mono); font-size: 11.5px; letter-spacing: .05em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  /* release strip — one line, not a chapter --------------------------------- */
+  .relstrip {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 16px 28px; padding: 26px 30px; border: 1px solid var(--line); border-radius: 16px;
+    background: linear-gradient(180deg, var(--bg-2), rgba(15,19,32,.35));
+  }
+  .relstrip h2 { font-size: 19px; font-weight: 700; margin: 0 0 6px; letter-spacing: -.015em; }
+  .relstrip .bits { font-family: var(--mono); font-size: 12.5px; color: var(--muted); }
+  .relstrip .bits b { color: var(--violet-2); font-weight: 500; }
+  .relstrip .more-link { margin-top: 0; white-space: nowrap; }
+
+  /* final call -------------------------------------------------------------- */
+  .fin { text-align: center; padding-block: clamp(80px, 10vw, 150px); }
+  .fin h2 {
+    font-size: clamp(28px, 3.9vw, 46px); font-weight: 800; letter-spacing: -.025em;
+    line-height: 1.12; margin: 0 auto; max-width: 18ch;
+  }
+  .fin .btn-row { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 34px; }
+  .fin .meta { margin: 30px 0 0; font-size: 13.5px; color: var(--muted); }
+  .fin .meta a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line-2); }
+  .fin .meta a:hover { color: var(--text); }
+
+  .foot {
+    border-top: 1px solid var(--line); padding: 28px 0 40px;
+    display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; justify-content: center;
+    font-size: 13px; color: var(--muted); text-align: center;
+  }
+  .foot a { color: var(--muted); text-decoration: none; }
+  .foot a:hover { color: var(--text); }
+
+  /* Grid items default to min-width:auto and will not shrink below their content —
+     the monospace status-bar line in the third showcase pushed the page 26px past a
+     390px viewport because of it. */
+  .show > *, .bens > *, .flow4 > * { min-width: 0; }
+  .show-art .sb-strip { flex-wrap: wrap; }
+
+  @media (max-width: 900px) {
+    .bens { grid-template-columns: 1fr; gap: 34px; }
+    .flow4 { grid-template-columns: repeat(2, 1fr); gap: 30px 18px; }
+    .show, .show.flip .show-copy { grid-template-columns: 1fr; order: 0; }
+    .show-art { order: 2; }
+  }
+  @media (max-width: 560px) {
+    .flow4 { grid-template-columns: 1fr; gap: 26px; }
+    .relstrip { padding: 22px 20px; }
+    .ben p, .show-copy p, .flow-note { max-width: none; }
+  }
+</style>
 <body>
-<div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+<div class="orb orb-1"></div><div class="orb orb-2"></div>
 
 <header>
   <div class="wrap nav">
@@ -611,7 +762,6 @@
     </a>
     <nav class="nav-links">
       <a href="features.html">Features</a>
-      <a href="#whats-next">What's new</a>
       <a href="docs.html">Docs</a>
       <a href="releases.html">Releases</a>
       <a href="security.html">Security</a>
@@ -628,7 +778,6 @@
       </summary>
       <nav class="nav-menu-panel">
         <a href="features.html">Features</a>
-        <a href="#whats-next">What's new</a>
         <a href="docs.html">Docs</a>
         <a href="releases.html">Releases</a>
       <a href="security.html">Security</a>
@@ -645,60 +794,22 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <h1><span class="h1-kick">Remote-control &amp; monitor Claude Code from Telegram</span>Go live your life.<br>Claude Code <span class="accent">keeps working.</span></h1>
-      <p class="lede">Hit the gym, have dinner, see the people you love — go. You'll get a ping on Telegram the moment a task lands, and you can <b>steer the next move right from your phone.</b></p>
-
-      <p class="entity"><b>Agent Babysitter (abs)</b> is an open-source remote control for
-        <b>Claude Code</b>: it monitors a running session on your own machine, messages your phone
-        on <b>Telegram</b> when a task finishes, and takes your reply straight back into that same
-        live session. You can send screenshots it reads directly, speak to it and be spoken back
-        to, check your Claude usage limits, and start or resume a session — all from the chat. It
-        runs on macOS and Linux with no server, no webhook and no open port.</p>
+      <p class="eyebrow">Remote Claude Code</p>
+      <h1>Go live your life.<br>Claude Code <span class="accent">keeps working.</span></h1>
+      <p class="lede">Control Claude Code from Telegram. Get notified, reply, and send voice or
+        screenshots — from anywhere.</p>
 
       <div class="hero-cta">
-        <a class="btn primary" href="#install" style="display:inline-flex">Install it
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>
-        </a>
-        <a class="btn ghost" href="https://github.com/Pranjalab/AgentBabysitter" style="display:inline-flex">
-          <svg viewBox="0 0 16 16" fill="currentColor" style="width:15px;height:15px"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
-          View on GitHub
-        </a>
+        <a class="btn primary" href="#install" style="display:inline-flex">Install Agent Babysitter <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg></a>
+        <a class="btn ghost" href="https://github.com/Pranjalab/AgentBabysitter" style="display:inline-flex"><svg viewBox="0 0 16 16" fill="currentColor" style="width:15px;height:15px"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg> View on GitHub</a>
       </div>
 
       <div class="trust">
         <span><i></i>Open source</span>
-        <span><i></i>MIT licence</span>
-        <span><i></i>macOS &amp; Linux</span>
+        <span><i></i>macOS + Linux</span>
+        <span><i></i>Works over SSH</span>
         <span><i></i>No server required</span>
       </div>
-
-      <div class="icon-row">
-        <div class="icon-item">
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
-          <span>Smart<br>Notifications</span>
-        </div>
-        <div class="icon-item">
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <span>Reply<br>Anywhere</span>
-        </div>
-        <div class="icon-item">
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-          <span>Send<br>Screenshots</span>
-        </div>
-        <div class="icon-item">
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3"/></svg>
-          <span>Voice<br>Both Ways</span>
-        </div>
-        <div class="icon-item">
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg>
-          <span>Check<br>Usage</span>
-        </div>
-        <div class="icon-item">
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
-          <span>Private<br>&amp; Secure</span>
-        </div>
-      </div>
-
     </div>
 
     <div class="stage">
@@ -752,8 +863,107 @@
 
     </div>
   </div>
-  <div class="wrap install-band" id="install">
-      <div class="install">
+</section>
+
+<section class="sec" id="benefits">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Leave your desk.<br>Stay in control.</h2>
+    </div>
+    <div class="bens">
+      <div class="ben">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        <h3>Know when it's done</h3>
+        <p>Claude finishes, Telegram tells you — with a summary, not just a ping.</p>
+      </div>
+      <div class="ben">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <h3>Reply from anywhere</h3>
+        <p>Your next instruction goes into the session that's already running.</p>
+      </div>
+      <div class="ben">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13.7 21a2 2 0 0 1-3.4 0"/><path d="M18.6 13A17.9 17.9 0 0 1 18 8"/><path d="M6.3 6.3A5.9 5.9 0 0 0 6 8c0 7-3 9-3 9h14"/><path d="M18 8a6 6 0 0 0-9.3-5"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
+        <h3>Come back when you want</h3>
+        <p>It stays connected while you're away, and goes quiet when you're back.</p>
+      </div>
+    </div>
+    <a class="more-link" href="features.html">Explore all features <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </div>
+</section>
+
+<section class="sec" id="how">
+  <div class="wrap">
+    <div class="sec-head"><h2>How it works</h2></div>
+    <div class="flow4">
+      <div class="stp"><span class="n">01</span><h3>Run <code>abs</code></h3><p>Starts Claude Code and pairs your bot.</p></div>
+      <div class="stp"><span class="n">02</span><h3>Claude works</h3><p>On your machine, with your files.</p></div>
+      <div class="stp"><span class="n">03</span><h3>Telegram pings you</h3><p>A summary the moment a task lands.</p></div>
+      <div class="stp"><span class="n">04</span><h3>Reply from your phone</h3><p>It continues where it left off.</p></div>
+    </div>
+    <p class="flow-note">Same Claude Code session. Your phone simply becomes another way to
+      interact with it. <a href="claude-code-telegram/">See it end to end</a>.</p>
+  </div>
+</section>
+
+<section class="sec" id="showcase">
+  <div class="wrap">
+    <div class="show">
+      <div class="show-copy">
+        <h3>Your agent calls when it needs you.</h3>
+        <p>Completion summaries, questions and blockers — straight to Telegram.</p>
+        <a class="more-link" href="features.html#features">Notifications <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="show-art">
+        <div class="tg-msg bot" style="max-width:none">
+          <div class="hd">🎉 Task completed</div>
+          <ul><li>4 files changed</li><li>128 additions</li><li>0 errors</li></ul>
+          What would you like me to do next?
+          <span class="time">09:41</span>
+        </div>
+        <div class="tg-msg me" style="max-width:none">Ship it.<span class="time">09:42<span class="tick">✓✓</span></span></div>
+      </div>
+    </div>
+
+    <div class="show flip">
+      <div class="show-copy">
+        <h3>Type, talk, or send a screenshot.</h3>
+        <p>Continue the same session with text, images or voice — transcribed and
+          spoken on your own machine.</p>
+        <a class="more-link" href="features.html#features">Voice &amp; images <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="show-art">
+        <div class="tg-msg bot tg-voice" style="max-width:none">
+          <span class="play"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span>
+          <span class="wf"><i style="height:30%"></i><i style="height:55%"></i><i style="height:80%"></i><i style="height:45%"></i><i style="height:95%"></i><i style="height:65%"></i><i style="height:40%"></i><i style="height:85%"></i><i style="height:50%"></i><i style="height:100%"></i><i style="height:60%"></i><i style="height:35%"></i><i style="height:75%"></i><i style="height:48%"></i><i style="height:90%"></i><i style="height:55%"></i></span>
+          <span class="dur">0:08</span>
+        </div>
+        <div class="tg-msg me" style="max-width:none">Heard: “run the tests too”<span class="time">09:43<span class="tick">✓✓</span></span></div>
+      </div>
+    </div>
+
+    <div class="show">
+      <div class="show-copy">
+        <h3>It knows when you're back.</h3>
+        <p>Reports go quiet while you're at the terminal, and resume the moment you step away.</p>
+        <a class="more-link" href="features.html#glance">Auto-silent <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="show-art">
+        <div class="sb-strip" style="margin:0">
+          <span class="sb-dot"></span> abs:@pranBot <span class="sb-sep">·</span> 🎭 cto
+          <span class="sb-sep">·</span> 5h <b>1%</b> <span class="sb-sep">·</span> week <b>8%</b>
+          <span class="sb-sep">·</span> v3.7.1
+        </div>
+        <p style="margin:0;font-size:13px;color:var(--muted)">Your terminal's own status bar — who
+          it's talking to, which persona, and what's left of your limits.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="install">
+  <div class="wrap inst-wrap">
+    <div class="sec-head mid"><h2>One command. You're in.</h2></div>
+    <div class="install">
         <div class="install-card">
           <div class="head"><span class="dollar">$</span> Get started in seconds</div>
           <div class="cmd-line">
@@ -763,185 +973,49 @@
               <span>Copy</span>
             </button>
           </div>
-          <p class="install-note">Installs <code>abs</code> and asks nothing — the always-on daemon and sandboxes come with it. Then run <code>abs</code> to start. Already have it? <code>abs</code> offers you the update itself. Want an older version? <a href="releases.html">Every release stays installable</a>.</p>
-        </div>
-      </div>
-
-      <div class="platforms">
-        <span class="plat"><svg viewBox="0 0 24 24" fill="#a78bfa"><path d="M12 2a5 5 0 0 0-5 5c0 2 1 3 1 5 0 1-1 2-1 4 0 3 2 6 5 6s5-3 5-6c0-2-1-3-1-4 0-2 1-3 1-5a5 5 0 0 0-5-5Z"/></svg> Linux + macOS</span>
-        <span class="plat"><svg viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10Z"/></svg> Works over SSH</span>
-        <span class="plat"><svg viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> No server required</span>
-      </div>
-  </div>
-</section>
-
-<section class="block" id="features">
-  <div class="wrap">
-    <div class="panel">
-      <h2 class="sec-title">A few of the <span class="accent">good parts</span></h2>
-      <div class="cards">
-        <div class="fcard">
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
-          <h3>Know When It's Done</h3>
-          <p>Get a summary when Claude finishes a task, so you always know what happened.</p>
-        </div>
-        <div class="fcard">
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <h3>Reply to Steer It</h3>
-          <p>Reply from your phone and it goes straight back into the same live session.</p>
-        </div>
-        <div class="fcard">
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13.73 21a2 2 0 0 1-3.46 0"/><path d="M18.63 13A17.9 17.9 0 0 1 18 8"/><path d="M6.26 6.26A5.86 5.86 0 0 0 6 8c0 7-3 9-3 9h14"/><path d="M18 8a6 6 0 0 0-9.33-5"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
-          <h3>It Goes Quiet When You Sit Down</h3>
-          <p>Auto-silent mutes the pings while you're at the terminal, and resumes the moment you step away.</p>
-        </div>
-      </div>
-      <div style="text-align:center;margin-top:38px">
-        <a class="btn primary" href="features.html" style="display:inline-flex">See all features &amp; how it works
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
       </div>
     </div>
+    <p class="inst-after">Then run <code>abs</code> and follow the setup.</p>
+    <p class="inst-meta">macOS + Linux · Works over SSH</p>
+    <a class="more-link" href="docs.html">Installation guide <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
   </div>
 </section>
 
-<!-- Written for the searches that bring people here — "can I run Claude Code from
-     my phone", "notification when Claude Code finishes", "does it need a server".
-     Every heading is a real question and every answer is true; if one stops being
-     true, fix the answer rather than the heading. -->
-<section class="block" id="questions">
+<section class="sec" id="whats-next" style="padding-block:0">
   <div class="wrap">
-    <div class="panel">
-      <h2 class="sec-title">Straight <span class="accent">answers</span></h2>
-      <div class="qa">
-        <div>
-          <h3>Can I run Claude Code from my phone?</h3>
-          <p>The session stays on your own machine — Telegram is the window into it. You read what Claude did and send the next instruction from an iPhone or Android, and it lands in the <b>same live session</b> rather than starting a new one. <a href="claude-code-telegram/">How the Telegram side works, end to end</a>.</p>
-        </div>
-        <div>
-          <h3>How do I get a notification when Claude Code finishes a task?</h3>
-          <p>That is the default. When a task lands you get a Telegram message with a written summary of what changed, so you know where things stand before you open the laptop. <a href="features.html">See how the reports are shaped</a>.</p>
-        </div>
-        <div>
-          <h3>Does it need a server, a webhook, or an open port?</h3>
-          <p>None of them. Telegram is polled outbound from your machine, so there is nothing to host and nothing to expose. It runs the same over SSH or inside <code>tmux</code> on a headless box as it does on a laptop.</p>
-        </div>
-        <div>
-          <h3>Is this the official Claude Code Telegram plugin?</h3>
-          <p>It is built <i>on</i> Anthropic's official Telegram plugin, and adds everything around it: the finish reports, voice, usage checks, named personas, quiet mode, and the rails that keep a remote message from doing something irreversible. <a href="docs.html">The docs map every layer to its source</a>.</p>
-        </div>
-        <div>
-          <h3>Can I speak to it instead of typing?</h3>
-          <p>Voice works both directions. Your voice note is transcribed and Claude's answer is spoken back — both on your own machine, with no cloud speech vendor in the path.</p>
-        </div>
-        <div>
-          <h3>Who else can message my bot?</h3>
-          <p>Nobody. Pairing is PIN-confirmed at the terminal and the allowlist can only be changed there, so a message asking to be let in gets dropped. <a href="security.html">Exactly how that is enforced, and what it does not cover</a>.</p>
-        </div>
-      </div>
-      <div style="text-align:center;margin-top:44px">
-        <a class="btn ghost" href="faq.html" style="display:inline-flex">More questions, answered
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="block" id="whats-next">
-  <div class="wrap">
-    <div class="panel">
-      <h2 class="sec-title">All of this is <span class="accent">already shipped</span></h2>
-      <p class="wl-lede">Everything below is in the release you can install right now — <b>3.7.1</b>. The
-        roadmap this section used to carry has been built: <code style="font-family:var(--mono);color:var(--violet-2)">abs</code> no longer needs
-        Claude Code to be open, you can start a session from your phone, and a session can run
-        inside a container with one folder mounted and nothing else visible.</p>
-      <p class="wl-lede">Since then: a <code style="font-family:var(--mono);color:var(--violet-2)">curl</code> install became a full install with no git clone,
-        voice arrived by default with six voices you pick by ear, a long reply from your phone
-        arrives whole — the note, the text of exactly what it said, then a point-wise card —
-        <code style="font-family:var(--mono);color:var(--violet-2)">abs prompt</code> opens a page where you read and edit everything abs says to
-        Claude, and named personas let you choose who you are working with at every launch.</p>
-
-
-      <div class="cards wl-cards">
-        <div class="fcard">
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.9 4.9l2.9 2.9M16.2 16.2l2.9 2.9M2 12h4M18 12h4M4.9 19.1l2.9-2.9M16.2 7.8l2.9-2.9"/></svg>
-          <h3>Always on, even when nothing's running</h3>
-          <p>A background daemon keeps your bot awake around the clock. Message it at 2am with no terminal open and it's still there — nothing gets dropped while you're away.</p>
-        </div>
-        <div class="fcard">
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M12 18h.01"/><path d="m9 9 3 3-3 3"/></svg>
-          <h3>Start a session from your phone</h3>
-          <p>Pick a project, tap resume, and Claude Code starts on your machine — from Telegram. Messages you sent while it was idle are offered back as the opening prompt.</p>
-        </div>
-        <div class="fcard">
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v8a2 2 0 0 1-1 1.73l-7 4a2 2 0 0 1-2 0l-7-4A2 2 0 0 1 3 16V8a2 2 0 0 1 1-1.73l7-4a2 2 0 0 1 2 0l7 4A2 2 0 0 1 21 8Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg>
-          <h3>Sandboxed sessions</h3>
-          <p>Run Claude Code inside a container with exactly one folder mounted and nothing else on your machine visible. For the work you'd rather not hand the keys to.</p>
-        </div>
-        <div class="fcard">
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M3 12h3M18 12h3M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3.2"/></svg>
-          <h3>Named personas, and the prompt in your hands</h3>
-          <p>Pick who you're working with at launch — <code style="font-family:var(--mono);color:var(--violet-2)">abs</code>, <code style="font-family:var(--mono);color:var(--violet-2)">ceo</code>, <code style="font-family:var(--mono);color:var(--violet-2)">cto</code>, <code style="font-family:var(--mono);color:var(--violet-2)">friend</code>, or one you wrote. <code style="font-family:var(--mono);color:var(--violet-2)">abs prompt</code> shows every layer abs puts in front of Claude, including what it remembers, and lets you edit the parts that are yours.</p>
-        </div>
-        <div class="fcard">
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="M15 9l-4 4-2-2"/></svg>
-          <h3>Your commits stay yours</h3>
-          <p>Finished work waits in the working tree. Nothing is committed to tidy up and nothing is pushed as a side effect — shipping asks one plain question and waits for your yes, because you may still want to change it first.</p>
-        </div>
-        <div class="fcard">
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3"/><path d="M19 4h3M19 8h3"/></svg>
-          <h3>A reply you can hear and still read</h3>
-          <p>Long updates used to be cut short or lose their text entirely. Now nothing is trimmed: the voice note, the exact words it spoke, and a card of the detail — objective, what was done and how it was checked, what broke, what needs you.</p>
-        </div>
-      </div>
-
-      <p class="wl-lede" style="margin:44px auto 0">One thing is written but deliberately not
-        released: a locked-down second bot for everyday questions that can't write code, touch a
-        project, or start a session. It is complete and unit-tested, and it ships when it has been
-        provisioned end to end by hand rather than on a promise here.</p>
-
-      <div class="wl-signup">
-        <h3>Want the email when the next one lands?</h3>
-        <p class="wl-sub">Drop your address and we'll save it. One email when the next release is out — no newsletter, and nothing in between.</p>
-        <form class="wl-form" id="wl-form" novalidate>
-          <span class="wl-hp" aria-hidden="true"><label>Leave this empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label></span>
-          <input type="email" id="wl-email" name="email" required autocomplete="email" placeholder="you@example.com" aria-label="Your email address">
-          <button class="btn primary" type="submit" id="wl-submit">Notify me
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="m4 6 8 6 8-6"/></svg>
-          </button>
-        </form>
-        <p class="wl-msg" id="wl-msg" role="status" aria-live="polite"></p>
-        <p class="wl-fine">One email, for this release only. No newsletter, and your address is never shared.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="block">
-  <div class="wrap">
-    <div class="panel foot-panel">
+    <div class="relstrip">
       <div>
-        <svg class="foot-heart" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/><path d="m8 12 2.5 2.5L16 9"/></svg>
-        <h3>Open source. Built for <span style="color:var(--green)">the community</span>.</h3>
-        <p>Agent Babysitter is open source under the MIT License. Use it, improve it, share it.</p>
+        <h2>Built fast. Getting better.</h2>
+        <div class="bits">v<b>3.7.1</b> · abs prompt · Named personas · Always-on daemon · Sandboxed sessions</div>
       </div>
-      <div class="foot-actions">
-        <div class="q">Found a bug, or want it to do something?</div>
-        <div class="sub">Open an issue — the templates ask for what actually helps — or send a
-          pull request. Security problems go through the
-          <a href="https://github.com/Pranjalab/AgentBabysitter/blob/main/SECURITY.md">security policy</a>,
-          not a public issue.</div>
-        <div class="btn-row">
-          <a class="btn ghost" href="https://github.com/Pranjalab/AgentBabysitter"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg> View on GitHub</a>
-          <a class="btn primary" href="https://github.com/Pranjalab/AgentBabysitter/blob/main/CONTRIBUTING.md"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg> Contribute</a>
-        </div>
-        <div class="foot-mail">Prefer email? Feedback, questions, or just hello — <a href="mailto:pranjal.panda.ai@gmail.com?subject=Agent%20Babysitter%20feedback">pranjal.panda.ai@gmail.com</a>. Every way to reach us is on the <a href="about.html#contact">about page</a>.</div>
-      </div>
+      <a class="more-link" href="releases.html">See what's new <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
-    <div class="colophon">v3.7.1 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; <a href="about.html#contact">About &amp; contact</a> &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users</div>
   </div>
 </section>
+
+<section class="fin">
+  <div class="wrap">
+    <h2>Let Claude work without keeping you at your desk.</h2>
+    <div class="btn-row">
+      <a class="btn primary" href="#install" style="display:inline-flex">Install Agent Babysitter <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg></a>
+      <a class="btn ghost" href="https://github.com/Pranjalab/AgentBabysitter" style="display:inline-flex"><svg viewBox="0 0 16 16" fill="currentColor" style="width:15px;height:15px"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg> View on GitHub</a>
+    </div>
+    <p class="meta">MIT licensed · <a href="https://github.com/Pranjalab/AgentBabysitter">Open source on GitHub</a> ·
+      <a href="https://github.com/Pranjalab/AgentBabysitter/blob/main/CONTRIBUTING.md">Contributions welcome</a></p>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="foot">
+    <span>v3.7.1</span>
+    <a href="about.html">About</a>
+    <a href="about.html#contact">Contact</a>
+    <a href="faq.html">FAQ</a>
+    <a href="security.html">Security</a>
+    <a href="releases.html#notify">Want release updates?</a>
+    <span>Made with <span class="hh">♥</span> for Claude Code users</span>
+  </div>
+</div>
 
 <script>
   document.querySelectorAll('.copy-btn').forEach(function (b) {
@@ -955,95 +1029,9 @@
     });
   });
 
-  /* ---- waitlist ----------------------------------------------------------
-     Posts to a serverless function that holds the MongoDB credential — the
-     connection string can never live in this file, since it is public. Source
-     and deploy notes: agentbabysitter-api/README.md.
-
-     Set this to '' to disable the form; it then says so plainly rather than
-     pretending to accept an address it has nowhere to put. --------------- */
-  (function () {
-    var WAITLIST_ENDPOINT = 'https://agentbabysitter-api.vercel.app/api/waitlist';
-
-    var form  = document.getElementById('wl-form');
-    if (!form) return;
-    var email = document.getElementById('wl-email');
-    var btn   = document.getElementById('wl-submit');
-    var msg   = document.getElementById('wl-msg');
-
-    function say(text, cls) {
-      msg.textContent = text;
-      msg.className = 'wl-msg' + (cls ? ' ' + cls : '');
-    }
-
-    // If the endpoint is down, don't leave the visitor at a dead end — hand them
-    // a mailto that achieves the same thing. Built with createElement rather than
-    // innerHTML so a server-supplied message can never inject markup.
-    function sayWithFallback(text) {
-      say(text + ' ', 'err');
-      var a = document.createElement('a');
-      a.href = 'mailto:pranjal.panda.ai@gmail.com'
-             + '?subject=' + encodeURIComponent('Notify me when Agent Babysitter v3 ships')
-             + '&body='    + encodeURIComponent('Please add this address to the release list.');
-      a.textContent = 'Email me instead →';
-      a.className = 'wl-fallback';
-      msg.appendChild(a);
-    }
-
-    if (!WAITLIST_ENDPOINT) {
-      email.disabled = true;
-      btn.disabled = true;
-      say('Signups open shortly — this list isn’t live yet. Watch the GitHub repo in the meantime.');
-      return;
-    }
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var value = email.value.trim();
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) {
-        say('That doesn’t look like an email address.', 'err');
-        email.focus();
-        return;
-      }
-      btn.disabled = true;
-      say('Saving…');
-
-      fetch(WAITLIST_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: value,
-          source: 'website-wishlist',
-          website: form.elements.website ? form.elements.website.value : ''
-        })
-      })
-        .then(function (r) {
-          return r.json().catch(function () { return {}; })
-                  .then(function (d) { return { ok: r.ok, data: d }; });
-        })
-        .then(function (res) {
-          if (res.ok && res.data.ok) {
-            form.style.display = 'none';
-            say('You’re on the list. One email the day it ships — nothing else.', 'ok');
-          } else if (res.data && res.data.error && String(res.data.error).indexOf('email address') !== -1) {
-            // A validation complaint is the visitor's to fix — no fallback needed.
-            say(res.data.error, 'err');
-            btn.disabled = false;
-          } else {
-            sayWithFallback((res.data && res.data.error) || 'Couldn’t save that.');
-            btn.disabled = false;
-          }
-        })
-        .catch(function () {
-          sayWithFallback('Couldn’t reach the signup server.');
-          btn.disabled = false;
-        });
-    });
-  })();
-
-  // The mobile menu works without this — <details> needs no script. But this is
-  // the one page whose menu links include a same-page anchor, and an open panel
-  // would sit over the section it just jumped to.
+  // The mobile menu works without this — <details> needs no script. But this page's
+  // menu includes same-page anchors, and an open panel would sit over the section it
+  // just jumped to.
   (function () {
     var menu = document.querySelector('.nav-menu');
     if (!menu) return;
