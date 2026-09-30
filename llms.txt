@@ -1,39 +1,56 @@
 # Agent Babysitter (abs)
 
-> Agent Babysitter remote-controls and monitors a Claude Code session from
-> Telegram. Start a task, leave your desk, and your phone gets a written summary
-> when it finishes; your reply goes straight back into the same live session.
-> Screenshots, voice notes in and out, and Claude usage limits all work from the
-> chat. One bash script plus Anthropic's official Telegram plugin — no server, no
-> webhook, no open port, and no second copy of your session.
+> Agent Babysitter is an open-source remote control for Claude Code that lets
+> developers monitor, message, start and resume AI coding sessions from Telegram.
+> It watches a Claude Code session running on the developer's own machine, sends a
+> written summary to their phone when a task finishes, and takes the reply straight
+> back into that same live session. Screenshots the model reads directly, voice
+> notes transcribed and spoken locally, and Claude usage limits all work from the
+> chat. One bash script plus Anthropic's official Claude Code Telegram plugin — no
+> server, no webhook, no open port, and no second copy of the session.
 
-Install on Linux or macOS, with Claude Code already installed and logged in: pipe
+Shorter: control Claude Code from Telegram.
+
+Install on macOS or Linux, with Claude Code already installed and logged in: pipe
 https://agentbabysitter.com/install.sh into bash. The exact one-line command, and
 the command for pinning any older version, is on the Releases page below.
 
-- Current version: 3.7.1. MIT licensed. Source: https://github.com/Pranjalab/AgentBabysitter
+- Current version: 3.7.1. First public release: July 2026. MIT licensed. Free.
+- Source: https://github.com/Pranjalab/AgentBabysitter
+- Built and maintained by one developer, Pranjal (https://github.com/Pranjalab).
 
 ## What it answers
 
 - Getting a Telegram notification when a Claude Code task finishes.
 - Replying from an iPhone or Android phone into the same live Claude Code session.
 - Running Claude Code remotely over SSH or in tmux and following it from a phone.
+- Monitoring a long-running or autonomous AI coding agent while away from the desk.
 - Sending a screenshot or photo that Claude reads directly.
-- Voice notes both ways, transcribed and spoken on your own machine — no cloud
-  speech vendor.
+- Voice notes both ways, transcribed and spoken on the developer's own machine —
+  no cloud speech vendor.
 - Checking Claude usage limits without going back to the terminal.
-- Keeping the bot private: PIN pairing, a terminal-set allowlist, and remote
-  control phrases sent as a whole message from the chat.
-- Named personas — abs, ceo, cto, friend, or your own — chosen at launch.
+- Keeping the bot private: PIN pairing, a terminal-set allowlist, destructive-command
+  blocking for remote-driven turns, and control phrases sent as a whole message.
+- Named personas — abs, ceo, cto, friend, or one you write — chosen at launch.
+- Reading and editing every layer abs puts in front of Claude, including what it
+  remembers, with `abs prompt`.
 
 ## Pages
 
 - [Home](https://agentbabysitter.com/): what it does, the install command, and a walkthrough.
 - [Features](https://agentbabysitter.com/features.html): every feature and how each one behaves.
 - [Docs](https://agentbabysitter.com/docs.html): setup, the abs commands, and every layer it adds to a session, each linked to its source.
-- [FAQ](https://agentbabysitter.com/faq.html): code privacy, local voice, SSH, stopping Claude remotely, supported platforms.
+- [FAQ](https://agentbabysitter.com/faq.html): twenty direct answers — code privacy, local voice, SSH, closing the laptop, stopping Claude remotely, cost, licence, platforms.
+- [About](https://agentbabysitter.com/about.html): what the project is, why it exists, who builds it, the facts table, and every way to get in touch.
 - [Security](https://agentbabysitter.com/security.html): how only your account can reach the bot, and what this deliberately does not protect against.
 - [Releases](https://agentbabysitter.com/releases.html): every version with its exact install command.
+
+## Contact
+
+- Bugs and feature requests: https://github.com/Pranjalab/AgentBabysitter/issues
+- Pull requests: https://github.com/Pranjalab/AgentBabysitter/blob/main/CONTRIBUTING.md
+- Security reports: https://github.com/Pranjalab/AgentBabysitter/blob/main/SECURITY.md — not a public issue
+- Anything else: pranjal.panda.ai@gmail.com
 
 ## Honest limits
 
@@ -41,4 +58,8 @@ the command for pinning any older version, is on the Releases page below.
   Do not use it where that matters.
 - Messages are read between turns: you can halt the plan and steer the next step,
   not interrupt the step already running.
+- A sleeping laptop suspends the session and resumes it on wake; nothing is lost,
+  but nothing progresses meanwhile. Uninterrupted work wants a machine that stays
+  awake.
 - Windows is untested; WSL should work.
+- It is a side project, maintained by one person.

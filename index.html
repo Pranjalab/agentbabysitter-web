@@ -211,6 +211,29 @@
   }
   .lede b { color: var(--text); font-weight: 600; }
 
+  /* The H1 used to be the marketing line alone, which says nothing a search engine
+     can match. The kicker carries "Claude Code" and "Telegram" INSIDE the h1, above
+     the line people actually read — so the page keeps its voice and stops being
+     invisible to anyone who hasn't heard the name. */
+  .h1-kick {
+    display: block; font-size: 15px; font-weight: 600; letter-spacing: .01em;
+    line-height: 1.35; color: var(--violet-2); margin: 0 0 12px; text-wrap: balance;
+  }
+  /* The one paragraph that answers "what is this?" in full sentences — for a reader
+     skimming, and for the engines that need a definition they can quote. */
+  .entity {
+    margin: 20px 0 0; max-width: 54ch; font-size: 14.5px; line-height: 1.66;
+    color: var(--muted);
+  }
+  .entity b { color: var(--body); font-weight: 600; }
+  .trust {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px;
+    margin: 22px 0 0; font-family: var(--mono); font-size: 11.5px;
+    letter-spacing: .04em; text-transform: uppercase; color: var(--muted);
+  }
+  .trust span { display: inline-flex; align-items: center; gap: 7px; }
+  .trust i { width: 5px; height: 5px; border-radius: 50%; background: var(--green); font-style: normal; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin: 26px 0 0; }
   .icon-row { display: flex; flex-wrap: wrap; gap: 20px 10px; margin: 42px 0 0; }
   .icon-item { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 70px; text-align: center; }
   .icon-item .ic { width: 26px; height: 26px; }
@@ -546,6 +569,8 @@
     .foot-actions { text-align: left; }
     .btn-row { justify-content: flex-start; }
     .qa { grid-template-columns: 1fr; gap: 22px; }
+    .h1-kick { font-size: 13.5px; }
+    .trust { font-size: 10.5px; gap: 6px 12px; }
     .panel { padding: 30px 20px; }
   }
 
@@ -568,6 +593,9 @@
   "inLanguage": "en",
   "about": {
     "@id": "https://agentbabysitter.com/#software"
+  },
+  "publisher": {
+    "@id": "https://agentbabysitter.com/#org"
   }
 }
 </script>
@@ -588,6 +616,7 @@
       <a href="releases.html">Releases</a>
       <a href="security.html">Security</a>
       <a href="faq.html">FAQ</a>
+        <a href="about.html">About</a>
     </nav>
     <a class="gh-btn" href="https://github.com/Pranjalab/AgentBabysitter">
       <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
@@ -604,6 +633,7 @@
         <a href="releases.html">Releases</a>
       <a href="security.html">Security</a>
         <a href="faq.html">FAQ</a>
+        <a href="about.html">About</a>
         <a class="nav-menu-gh" href="https://github.com/Pranjalab/AgentBabysitter">GitHub</a>
       </nav>
     </details>
@@ -615,8 +645,32 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <h1>Go live your life.<br>Claude Code <span class="accent">keeps working.</span></h1>
+      <h1><span class="h1-kick">Remote-control &amp; monitor Claude Code from Telegram</span>Go live your life.<br>Claude Code <span class="accent">keeps working.</span></h1>
       <p class="lede">Hit the gym, have dinner, see the people you love — go. You'll get a ping on Telegram the moment a task lands, and you can <b>steer the next move right from your phone.</b></p>
+
+      <p class="entity"><b>Agent Babysitter (abs)</b> is an open-source remote control for
+        <b>Claude Code</b>: it monitors a running session on your own machine, messages your phone
+        on <b>Telegram</b> when a task finishes, and takes your reply straight back into that same
+        live session. You can send screenshots it reads directly, speak to it and be spoken back
+        to, check your Claude usage limits, and start or resume a session — all from the chat. It
+        runs on macOS and Linux with no server, no webhook and no open port.</p>
+
+      <div class="hero-cta">
+        <a class="btn primary" href="#install" style="display:inline-flex">Install it
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>
+        </a>
+        <a class="btn ghost" href="https://github.com/Pranjalab/AgentBabysitter" style="display:inline-flex">
+          <svg viewBox="0 0 16 16" fill="currentColor" style="width:15px;height:15px"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+          View on GitHub
+        </a>
+      </div>
+
+      <div class="trust">
+        <span><i></i>Open source</span>
+        <span><i></i>MIT licence</span>
+        <span><i></i>macOS &amp; Linux</span>
+        <span><i></i>No server required</span>
+      </div>
 
       <div class="icon-row">
         <div class="icon-item">
@@ -698,7 +752,7 @@
 
     </div>
   </div>
-  <div class="wrap install-band">
+  <div class="wrap install-band" id="install">
       <div class="install">
         <div class="install-card">
           <div class="head"><span class="dollar">$</span> Get started in seconds</div>
@@ -762,7 +816,7 @@
       <div class="qa">
         <div>
           <h3>Can I run Claude Code from my phone?</h3>
-          <p>The session stays on your own machine — Telegram is the window into it. You read what Claude did and send the next instruction from an iPhone or Android, and it lands in the <b>same live session</b> rather than starting a new one.</p>
+          <p>The session stays on your own machine — Telegram is the window into it. You read what Claude did and send the next instruction from an iPhone or Android, and it lands in the <b>same live session</b> rather than starting a new one. <a href="claude-code-telegram/">How the Telegram side works, end to end</a>.</p>
         </div>
         <div>
           <h3>How do I get a notification when Claude Code finishes a task?</h3>
@@ -880,16 +934,19 @@
         <p>Agent Babysitter is open source under the MIT License. Use it, improve it, share it.</p>
       </div>
       <div class="foot-actions">
-        <div class="q">Found a bug or have an idea?</div>
-        <div class="sub">Open an issue or submit a pull request.</div>
+        <div class="q">Found a bug, or want it to do something?</div>
+        <div class="sub">Open an issue — the templates ask for what actually helps — or send a
+          pull request. Security problems go through the
+          <a href="https://github.com/Pranjalab/AgentBabysitter/blob/main/SECURITY.md">security policy</a>,
+          not a public issue.</div>
         <div class="btn-row">
           <a class="btn ghost" href="https://github.com/Pranjalab/AgentBabysitter"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg> View on GitHub</a>
           <a class="btn primary" href="https://github.com/Pranjalab/AgentBabysitter/blob/main/CONTRIBUTING.md"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg> Contribute</a>
         </div>
-        <div class="foot-mail">Prefer email? Feedback, questions, or just hello — <a href="mailto:pranjal.panda.ai@gmail.com?subject=Agent%20Babysitter%20feedback">pranjal.panda.ai@gmail.com</a></div>
+        <div class="foot-mail">Prefer email? Feedback, questions, or just hello — <a href="mailto:pranjal.panda.ai@gmail.com?subject=Agent%20Babysitter%20feedback">pranjal.panda.ai@gmail.com</a>. Every way to reach us is on the <a href="about.html#contact">about page</a>.</div>
       </div>
     </div>
-    <div class="colophon">v3.7.1 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users</div>
+    <div class="colophon">v3.7.1 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; <a href="about.html#contact">About &amp; contact</a> &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users</div>
   </div>
 </section>
 

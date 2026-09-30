@@ -142,6 +142,14 @@
   "mainEntity": [
     {
       "@type": "Question",
+      "name": "What is Agent Babysitter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Agent Babysitter (abs) is an open-source remote control for Claude Code. It watches a session running on your own machine, messages your phone on Telegram when a task finishes, and takes your reply straight back into that same live session. Screenshots, voice notes and Claude usage limits all work from the chat. It is one bash script plus Anthropic's official Telegram plugin, on macOS and Linux."
+      }
+    },
+    {
+      "@type": "Question",
       "name": "Does it expose my code?",
       "acceptedAnswer": {
         "@type": "Answer",
@@ -227,8 +235,73 @@
         "@type": "Answer",
         "text": "Yes. Four ship — abs itself, plus ceo, cto and friend — and you can write your own. You pick one at launch and it shows in the status bar. A persona changes the voice and the priorities; it can never change the safety rules, which are appended after it."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "How is it different from just using Claude Code?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Claude Code does the work; this is the part that lets you leave. On its own, Claude Code needs you at the terminal to see that a task finished and to say what happens next. Agent Babysitter reports to your phone, carries your answer back into the same session rather than starting a new one, and adds the things that only matter when you are away — a written summary, voice, usage checks, and rails so a message from a phone cannot trigger something irreversible."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Claude Code send notifications to Telegram?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — that is the core of it. When a task finishes or the session is blocked on you, a message arrives on Telegram with a written summary of what happened, not just \"done\". Reports go quiet on their own while you are typing at the terminal and resume when you step away, and abs quiet on mutes them without cutting anything inbound."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I run Claude Code with my laptop closed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Only if the machine stays awake. A sleeping laptop suspends the session and picks it up on wake; messages you sent meanwhile are pooled and offered back, so nothing is lost, but no work happens while it sleeps. For work that genuinely continues while you are out, run it over SSH in tmux on a desktop or a small VPS, or stop your laptop sleeping on mains power."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I send screenshots or photos?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Attach an image in the chat and Claude reads it directly — a failing screen, a stack trace you photographed, a design to match. It becomes part of the instruction, exactly as if you had described it, with no copy-paste through the terminal."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I talk to it instead of typing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Send a voice note and it is transcribed, then repeated back to you before anything is acted on, so a mis-heard word gets caught early. Replies come back spoken as well as written, with six voices to pick from by ear. Both directions run on your own machine, with no cloud speech vendor."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Agent Babysitter open source?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. It is MIT licensed, and the whole thing is one readable bash script plus two small Python helpers, with no framework and no build step. The repository is public and the docs link every feature straight to the line of source that implements it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is it free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Agent Babysitter costs nothing and there is no account to create. You need a Claude Code subscription — the one you already have — and a free Telegram bot, which takes about a minute to create. Nothing runs on our servers, because there are none."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is it secure?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Your bot is private to you: pairing is confirmed with a PIN at the terminal, and the allowlist can only be changed there, so a message asking to be let in is dropped. Destructive commands are blocked when the instruction came from Telegram rather than the keyboard, and five control phrases can mute, halt or cut the bridge entirely. The honest limits are documented as well — Telegram is not end-to-end encrypted."
+      }
     }
-  ]
+  ],
+  "name": "Agent Babysitter FAQ — running Claude Code from Telegram"
 }
 </script>
 <script type="application/ld+json">
@@ -268,6 +341,7 @@
       <a href="releases.html">Releases</a>
       <a href="security.html">Security</a>
       <a href="faq.html">FAQ</a>
+        <a href="about.html">About</a>
     </nav>
     <a class="gh-btn" href="https://github.com/Pranjalab/AgentBabysitter">
       <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
@@ -284,6 +358,7 @@
         <a href="releases.html">Releases</a>
       <a href="security.html">Security</a>
         <a href="faq.html">FAQ</a>
+        <a href="about.html">About</a>
         <a class="nav-menu-gh" href="https://github.com/Pranjalab/AgentBabysitter">GitHub</a>
       </nav>
     </details>
@@ -297,6 +372,11 @@
     <p class="sub">The things people ask before they trust a bot with their terminal.</p>
 
     <div class="faq">
+      <details>
+        <summary>What is Agent Babysitter?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p>Agent Babysitter — <code>abs</code> — is an open-source remote control for Claude Code. It watches a session running on your own machine, messages your phone on Telegram when a task finishes, and takes your reply straight back into that same live session. Screenshots, voice notes and Claude usage limits all work from the chat. It is one bash script plus Anthropic's official Telegram plugin, on macOS and Linux.</p></div>
+      </details>
+
       <details open>
         <summary>Does it expose my code?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
         <div class="answer"><p><span class="tag no">NO</span>It's your own private bot, and only your paired account can reach it. One honest caveat: Telegram itself sees the messages (they're not end-to-end encrypted), so don't use it for work where that matters.</p></div>
@@ -348,13 +428,53 @@
         <summary>Can it have a different personality?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
         <div class="answer"><p><span class="tag yes">YES</span>Four ship — <code>abs</code> itself, plus <code>ceo</code>, <code>cto</code> and <code>friend</code> — and you can write your own. You pick one at launch and it shows in the status bar. A persona changes the voice and the priorities; it can never change the safety rules, which are appended after it.</p></div>
       </details>
+      <details>
+        <summary>How is it different from just using Claude Code?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p>Claude Code does the work; this is the part that lets you leave. On its own, Claude Code needs you at the terminal to see that a task finished and to say what happens next. Agent Babysitter reports to your phone, carries your answer back into the same session rather than starting a new one, and adds the things that only matter when you are away — a written summary, voice, usage checks, and rails so a message from a phone cannot trigger something irreversible.</p></div>
+      </details>
+
+      <details>
+        <summary>Can Claude Code send notifications to Telegram?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p><span class="tag yes">YES</span>That is the core of it. When a task finishes or the session is blocked on you, a message arrives with a written summary of what happened — not just "done". Reports go quiet on their own while you are typing at the terminal and resume when you step away, and <code>abs quiet on</code> mutes them without cutting anything inbound.</p></div>
+      </details>
+
+      <details>
+        <summary>Can I run Claude Code with my laptop closed?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p><span class="tag soon">DEPENDS</span>Only if the machine stays awake. A sleeping laptop suspends the session and picks it up on wake; messages you sent meanwhile are pooled and offered back, so nothing is lost, but no work happens while it sleeps. For work that genuinely continues while you are out, run it over SSH in <code>tmux</code> on a desktop or a small VPS, or stop your laptop sleeping on mains power.</p></div>
+      </details>
+
+      <details>
+        <summary>Can I send screenshots or photos?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p><span class="tag yes">YES</span>Attach an image in the chat and Claude reads it directly — a failing screen, a stack trace you photographed, a design to match. It becomes part of the instruction, exactly as if you had described it, with no copy-paste through the terminal.</p></div>
+      </details>
+
+      <details>
+        <summary>Can I talk to it instead of typing?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p><span class="tag yes">YES</span>Send a voice note and it is transcribed, then repeated back to you before anything is acted on, so a mis-heard word gets caught early. Replies come back spoken as well as written, with six voices to pick from by ear. Both directions run on your own machine — no cloud speech vendor.</p></div>
+      </details>
+
+      <details>
+        <summary>Is Agent Babysitter open source?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p><span class="tag yes">YES</span>MIT licensed, and the whole thing is one readable bash script plus two small Python helpers — no framework and no build step. The <a href="https://github.com/Pranjalab/AgentBabysitter">repository</a> is public, and the <a href="docs.html">docs</a> link every feature straight to the line of source that implements it.</p></div>
+      </details>
+
+      <details>
+        <summary>Is it free?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p><span class="tag yes">YES</span>Agent Babysitter costs nothing and there is no account to make with us. You need a Claude Code subscription — the one you already have — and a free Telegram bot, which takes about a minute to create. Nothing runs on our servers, because there are none.</p></div>
+      </details>
+
+      <details>
+        <summary>Is it secure?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p>Your bot is private to you: pairing is confirmed with a PIN at the terminal, and the allowlist can only be changed there, so a message asking to be let in is dropped. Destructive commands are blocked when the instruction came from Telegram rather than the keyboard, and five control phrases can mute, halt or cut the bridge entirely. The honest limits are written down too — Telegram is not end-to-end encrypted. <a href="security.html">The full threat model</a>.</p></div>
+      </details>
+
     </div>
 
-    <p class="more">Still curious? The <a href="docs.html">docs</a> map every feature to its source, or ask in a <a href="https://github.com/Pranjalab/AgentBabysitter/issues">GitHub issue</a>.</p>
+    <p class="more">Still curious? <a href="claude-code-telegram/">How the Telegram integration works end to end</a>, the <a href="docs.html">docs</a> map every feature to its source, or ask in a <a href="https://github.com/Pranjalab/AgentBabysitter/issues">GitHub issue</a>.</p>
   </div>
 
   <div class="colophon">
-    <a href="/">← Back to home</a> &nbsp;·&nbsp; v3.7.1 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
+    <a href="/">← Back to home</a> &nbsp;·&nbsp; v3.7.1 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; <a href="about.html#contact">About &amp; contact</a> &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
   </div>
 </main>
 </body>

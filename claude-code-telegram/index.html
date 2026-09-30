@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0d17">
+<title>Claude Code Telegram Integration — Control Claude Code From Your Phone</title>
+<meta name="description" content="How to control Claude Code from Telegram: get a message when a task finishes, reply into the same live session, send screenshots and voice notes, and check usage — from any phone.">
+<link rel="canonical" href="https://agentbabysitter.com/claude-code-telegram/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Agent Babysitter">
+<meta property="og:url" content="https://agentbabysitter.com/claude-code-telegram/">
+<meta property="og:title" content="Claude Code Telegram Integration — Control Claude Code From Your Phone">
+<meta property="og:description" content="Get a Telegram message when a Claude Code task finishes, reply into the same live session, and send screenshots or voice notes from any phone.">
+<meta property="og:image" content="https://agentbabysitter.com/assets/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Agent Babysitter: Claude Code keeps working while you are away, reporting to Telegram on your phone and taking your reply back into the same live session.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Claude Code Telegram Integration — Control Claude Code From Your Phone">
+<meta name="twitter:description" content="Get a Telegram message when a Claude Code task finishes, reply into the same live session, and send screenshots or voice notes from any phone.">
+<meta name="twitter:image" content="https://agentbabysitter.com/assets/og.png">
+<meta name="twitter:image:alt" content="Agent Babysitter: Claude Code keeps working while you are away, reporting to Telegram on your phone and taking your reply back into the same live session.">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0a0d17; --bg-2:#0f1320; --bg-3:#141a2b; --line:#212842; --line-2:#2c3450;
+    --violet:#8b5cf6; --violet-2:#a78bfa; --tg:#29a9ea; --green:#34d399; --orange:#f5a623; --cyan:#22d3ee;
+    --text:#eef1f8; --body:#aab3c8; --muted:#6b7590;
+    --sans:"Inter", system-ui, sans-serif; --mono:"JetBrains Mono", ui-monospace, monospace; --maxw:1120px;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.5; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  a { color:inherit; text-decoration:none; }
+  .accent { color:var(--violet-2); }
+  body::before { content:""; position:fixed; inset:0; z-index:-2; pointer-events:none; background:radial-gradient(60rem 40rem at 82% -6%, rgba(139,92,246,.10), transparent 60%); }
+  .orb { position:fixed; border-radius:50%; filter:blur(72px); z-index:-1; pointer-events:none; }
+  .orb-1 { width:420px; height:420px; background:rgba(139,92,246,.20); top:-120px; right:2%; }
+  .orb-2 { width:320px; height:320px; background:rgba(41,169,234,.13); bottom:6%; left:-120px; }
+  .wrap { max-width:820px; margin:0 auto; padding:0 24px; }
+
+  header { position:sticky; top:0; z-index:50; background:rgba(10,13,23,.72); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+  .nav-wrap { max-width:var(--maxw); margin:0 auto; padding:0 24px; }
+  .nav { display:flex; align-items:center; gap:20px; height:64px; }
+  .brand { display:flex; align-items:center; gap:10px; font-weight:700; font-size:19px; }
+  .brand .mark { width:36px; height:36px; flex:none; border-radius:50%; object-fit:cover; }
+  .brand b { font-weight:800; }
+  .nav-links { display:flex; gap:24px; margin-left:auto; font-size:14px; color:var(--body); }
+  .nav-links a:hover { color:var(--text); }
+  .gh-btn { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line-2); border-radius:9px; padding:8px 14px; font-size:14px; font-weight:500; background:var(--bg-2); }
+  .gh-btn:hover { border-color:var(--violet); }
+  .gh-btn svg { width:16px; height:16px; }
+
+  /* Mobile menu. The links are hidden below 900px, so they need somewhere to
+     go — <details> gives a disclosure with no JS, which suits a site whose CSS
+     is inlined per page. */
+  .nav-menu { display: none; position: relative; }
+  .nav-menu > summary {
+    list-style: none; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 38px; height: 38px;
+    border: 1px solid var(--line-2); border-radius: 9px;
+    background: var(--bg-2); color: var(--body);
+  }
+  .nav-menu > summary::-webkit-details-marker { display: none; }
+  .nav-menu > summary svg { width: 18px; height: 18px; }
+  .nav-menu[open] > summary,
+  .nav-menu > summary:hover { border-color: var(--violet); color: var(--text); }
+  .nav-menu-panel {
+    position: absolute; right: 0; top: calc(100% + 10px);
+    display: flex; flex-direction: column; min-width: 200px;
+    padding: 8px; gap: 2px;
+    background: var(--bg-2); border: 1px solid var(--line-2); border-radius: 12px;
+    box-shadow: 0 18px 44px rgba(0,0,0,.55);
+  }
+  .nav-menu-panel a {
+    padding: 11px 12px; border-radius: 8px; font-size: 15px; color: var(--body);
+  }
+  .nav-menu-panel a:hover { background: var(--bg-3); color: var(--text); }
+  .nav-menu-gh { margin-top: 4px; border-top: 1px solid var(--line); padding-top: 12px; }
+
+  main { padding:60px 0 40px; }
+  .crumb { font-size:13px; color:var(--muted); font-family:var(--mono); margin-bottom:16px; }
+  .crumb a:hover { color:var(--violet-2); }
+  h1 { font-size:clamp(28px,3.6vw,40px); font-weight:800; letter-spacing:-.02em; margin:0 0 12px; line-height:1.1; }
+  .sub { color:var(--body); font-size:16px; margin:0 0 30px; }
+
+  .faq { display:flex; flex-direction:column; gap:12px; }
+  details {
+    background:linear-gradient(180deg, var(--bg-2), rgba(15,19,32,.35));
+    border:1px solid var(--line); border-radius:13px; overflow:hidden;
+    transition:border-color .15s;
+  }
+  details[open] { border-color:var(--line-2); }
+  summary {
+    list-style:none; cursor:pointer; padding:18px 20px; font-size:15.5px; font-weight:600;
+    color:var(--text); display:flex; align-items:center; gap:12px;
+  }
+  summary::-webkit-details-marker { display:none; }
+  summary .chevron { margin-left:auto; flex:none; color:var(--muted); transition:transform .2s; }
+  summary .chevron svg { width:16px; height:16px; display:block; }
+  details[open] summary .chevron { transform:rotate(90deg); color:var(--violet-2); }
+  .answer { padding:0 20px 18px; font-size:14.5px; color:var(--body); line-height:1.6; }
+  .answer p { margin:0; }
+  .answer a { color:var(--violet-2); }
+  .answer a:hover { text-decoration:underline; }
+  .answer code { font-family:var(--mono); font-size:.9em; color:var(--violet-2); background:rgba(139,92,246,.08); padding:1px 5px; border-radius:4px; }
+  .answer .tag { display:inline-block; font-size:12px; font-weight:700; font-family:var(--mono); padding:1px 7px; border-radius:5px; margin-right:8px; }
+  .tag.yes { color:var(--green); background:rgba(52,211,153,.12); }
+  .tag.no  { color:#f7869e; background:rgba(242,85,122,.12); }
+  .tag.soon{ color:var(--orange); background:rgba(245,166,35,.12); }
+
+  .more { margin-top:34px; text-align:center; font-size:14px; color:var(--body); }
+  .more a { color:var(--violet-2); }
+  .more a:hover { text-decoration:underline; }
+
+  .colophon { text-align:center; padding:34px 0 44px; font-size:13px; color:var(--muted); border-top:1px solid var(--line); margin-top:44px; }
+  .colophon a:hover { color:var(--violet-2); }
+  .colophon .hh { color:#f2557a; }
+  @media (max-width:900px) { .nav-links { display:none; } .nav-menu { display: block; margin-left: auto; } .gh-btn { display: none; } }
+</style>
+<style>
+  .lp h2 { font-size: 22px; font-weight: 700; letter-spacing: -.01em; margin: 48px 0 12px; }
+  .lp h3 { font-size: 16px; font-weight: 650; margin: 28px 0 8px; }
+  .lp p { font-size: 15px; line-height: 1.72; color: var(--body); margin: 0 0 14px; max-width: 68ch; }
+  .lp p.note { color: var(--muted); font-size: 14px; }
+  .lp ol, .lp ul { max-width: 68ch; color: var(--body); font-size: 15px; line-height: 1.72; padding-left: 22px; }
+  .lp li { margin: 0 0 9px; }
+  .flowbox {
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.9; color: var(--muted);
+    background: var(--bg); border: 1px solid var(--line); border-radius: 14px;
+    padding: 22px 24px; margin: 8px 0 22px; overflow-x: auto; white-space: pre;
+  }
+  .flowbox b { color: var(--violet-2); font-weight: 600; }
+  .cmdbox {
+    font-family: var(--mono); font-size: 13px; color: var(--text);
+    background: var(--bg); border: 1px solid var(--line-2); border-radius: 12px;
+    padding: 16px 18px; margin: 8px 0 18px; overflow-x: auto; white-space: pre;
+  }
+  .cmdbox .p { color: var(--green); }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "url": "https://agentbabysitter.com/claude-code-telegram/",
+  "headline": "Claude Code Telegram integration: control Claude Code from your phone",
+  "description": "Get a Telegram message when a Claude Code task finishes, reply into the same live session, and send screenshots or voice notes from any phone.",
+  "inLanguage": "en",
+  "dateModified": "2026-09-30",
+  "author": {
+    "@type": "Person",
+    "name": "Pranjal",
+    "url": "https://github.com/Pranjalab"
+  },
+  "publisher": {
+    "@id": "https://agentbabysitter.com/#org"
+  },
+  "isPartOf": {
+    "@id": "https://agentbabysitter.com/#website"
+  },
+  "about": {
+    "@id": "https://agentbabysitter.com/#software"
+  },
+  "proficiencyLevel": "Beginner"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "url": "https://agentbabysitter.com/claude-code-telegram/",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I connect Claude Code to Telegram?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Install Agent Babysitter, then run abs. On first run it walks you through creating a bot with Telegram's BotFather, pastes the token in, and pairs your account with a PIN you confirm at the terminal. After that, every session you start with abs reports to that chat."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does my reply go into the session that is already running?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. That is the point of it. The message is delivered into the live Claude Code session between turns, so it continues with your instruction instead of starting a new conversation that has lost all the context."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need a server or a webhook?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Telegram is polled outbound from your own machine, so there is no public IP, no open port and no webhook to host. It works the same on a laptop, over SSH, or in tmux on a headless box."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use the official Claude Code Telegram plugin on its own?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can, and Agent Babysitter is built on it. The plugin gives you the channel; Agent Babysitter adds what you need when you are actually away — a written summary when a task finishes, auto-silence while you are at the desk, voice both ways, usage checks, personas, and rails so a message from a phone cannot trigger something destructive."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is it safe to let a Telegram bot reach my terminal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Only your paired account can reach it: pairing is PIN-confirmed at the terminal and the allowlist can only be changed there, so a message asking to be let in is dropped. Destructive commands are blocked when the turn came from Telegram rather than the keyboard. The honest caveat is that Telegram is not end-to-end encrypted, so its servers see the messages."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Agent Babysitter",
+      "item": "https://agentbabysitter.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Claude Code Telegram integration",
+      "item": "https://agentbabysitter.com/claude-code-telegram/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="orb orb-1"></div><div class="orb orb-2"></div>
+
+<header>
+  <div class="nav-wrap nav">
+    <a class="brand" href="/">
+      <img class="mark" src="/assets/mascot-160.png" alt="Agent Babysitter mascot" width="36" height="36" decoding="async">
+      <span>Agent <b class="accent">Babysitter</b></span>
+    </a>
+    <nav class="nav-links">
+      <a href="/features.html">Features</a>
+      <a href="/#whats-next">What's new</a>
+      <a href="/docs.html">Docs</a>
+      <a href="/releases.html">Releases</a>
+      <a href="/security.html">Security</a>
+      <a href="/faq.html">FAQ</a>
+        <a href="/about.html">About</a>
+    </nav>
+    <a class="gh-btn" href="https://github.com/Pranjalab/AgentBabysitter">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      GitHub
+    </a>
+    <details class="nav-menu">
+      <summary aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </summary>
+      <nav class="nav-menu-panel">
+        <a href="/features.html">Features</a>
+        <a href="/#whats-next">What's new</a>
+        <a href="/docs.html">Docs</a>
+        <a href="/releases.html">Releases</a>
+      <a href="/security.html">Security</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/about.html">About</a>
+        <a class="nav-menu-gh" href="https://github.com/Pranjalab/AgentBabysitter">GitHub</a>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<main>
+  <div class="wrap lp">
+    <div class="crumb"><a href="/">home</a> / claude code telegram integration</div>
+    <h1>Claude Code Telegram integration</h1>
+    <p class="sub">Control Claude Code from your phone — the session stays on your machine.</p>
+
+    <p>Claude Code will work on its own for twenty minutes at a stretch. The awkward part is that
+      you have to be at the terminal to find out it finished, and to say what happens next. This
+      page is about closing that gap with <b>Telegram</b>: a message on your phone when a task
+      lands, and a reply that goes back into the <b>same running session</b>.</p>
+    <p>The tool that does it is <a href="/about.html">Agent Babysitter</a> (<code>abs</code>) — open
+      source, MIT licensed, macOS and Linux. It is a bash script around Anthropic's own Claude Code
+      Telegram plugin, so there is no server anywhere and no second copy of your session.</p>
+
+    <h2>How the connection works</h2>
+    <div class="flowbox">  your machine                         your phone
+
+  Claude Code session
+        │
+        ├── <b>abs</b> watches it, and appends
+        │   the reporting rules to the session
+        │
+        └── Telegram plugin ──── polls out ────▶ Telegram ────▶ <b>your private bot</b>
+                  ▲                                                    │
+                  └──────────── your reply, into the SAME session ──────┘</div>
+    <p>Two things follow from that shape, and they are the reasons it behaves better than a bot that
+      shells out to Claude for each message:</p>
+    <ul>
+      <li><b>Nothing is hosted.</b> Telegram is polled <i>outbound</i> from your machine, so no
+        public IP, no open port and no webhook. It works unchanged over SSH, and in
+        <code>tmux</code> on a VPS or a home box.</li>
+      <li><b>Your reply keeps the context.</b> The message is handed to the session that is already
+        running, between turns — so Claude continues with everything it already knows, rather than
+        starting again from nothing.</li>
+    </ul>
+
+    <h2>Setting it up</h2>
+    <p>Two commands and one walkthrough. You need Claude Code installed and logged in first.</p>
+    <div class="cmdbox"><span class="p">$</span> curl -fsSL https://agentbabysitter.com/install.sh | bash
+<span class="p">$</span> abs</div>
+    <ol>
+      <li><b>The installer</b> puts <code>abs</code> on your PATH, adds the Claude Code plugin
+        marketplace if this machine has never needed it, and installs the Telegram plugin.</li>
+      <li><b>First run</b> walks you through <a href="https://t.me/BotFather">BotFather</a>: send
+        <code>/newbot</code>, pick a name, and paste the token back. The bot is yours — nobody
+        else's server is involved.</li>
+      <li><b>Pairing</b> shows a PIN in your terminal. Send it to the bot, and your Telegram account
+        ID is written to an allowlist. Anyone else who finds the bot gets silence.</li>
+      <li><b>Then just work.</b> Every session you start with <code>abs</code> reports to that chat.</li>
+    </ol>
+    <p class="note">Older versions stay installable, and <code>abs</code> offers you the update
+      itself at launch — see <a href="/releases.html">releases</a>.</p>
+
+    <h2>What arrives on your phone</h2>
+    <h3>A summary, not a ping</h3>
+    <p>When a task finishes you get what happened, written out: what changed, how it was checked,
+      what broke, and anything waiting on a decision from you. A long update arrives as a voice
+      note, the exact text of what was spoken, and a point-wise card — so you can listen walking
+      down the street or read it at a glance.</p>
+    <h3>It goes quiet when you sit down</h3>
+    <p>Reports mute themselves while you are typing at the terminal and resume when you step away,
+      because a notification for something you are watching happen is just noise.
+      <code>abs quiet on</code> mutes them by hand without cutting anything inbound.</p>
+    <h3>Usage, without going back to the desk</h3>
+    <p>Send <code>/usage</code> and your Claude limits come back — the five-hour window, the week,
+      and how much of the session's context is left. The same numbers glance live in Claude Code's
+      own status bar.</p>
+
+    <h2>What you can send back</h2>
+    <ul>
+      <li><b>An instruction.</b> Anything you type is delivered to the session as your next turn.</li>
+      <li><b>A screenshot or photo.</b> Attach it and Claude reads the image directly — a failing
+        screen, a stack trace you photographed, a design to match.</li>
+      <li><b>A voice note.</b> It is transcribed on your machine, repeated back to you so a
+        mis-heard word gets caught, and then acted on. Replies are spoken back with a voice you
+        pick by ear. No cloud speech vendor is involved in either direction.</li>
+      <li><b>A control phrase.</b> <code>ABS MUTE</code>, <code>ABS STOP</code>,
+        <code>ABS OFF</code> and two more are acted on by a session hook rather than by the model,
+        so they work even if a message tries to talk the model out of them.</li>
+    </ul>
+
+    <h2>Starting and resuming sessions from the chat</h2>
+    <p>A background daemon keeps the bot awake when no session is running, so a message at 2am is
+      not lost. Pick a project from the chat, resume or start fresh, and the messages you sent while
+      it was idle are offered back as the opening prompt. Several projects run side by side through
+      profiles — one bot each, so their conversations never mix.</p>
+
+    <h2>Is it safe?</h2>
+    <p>This is a bot with a line into a machine where Claude can run commands, so the model is
+      worth stating plainly:</p>
+    <ul>
+      <li><b>Only your account reaches it.</b> Pairing is PIN-confirmed at the terminal, and the
+        allowlist can only be changed there. A message asking to be added is exactly what an attack
+        would look like, so it is refused.</li>
+      <li><b>A remote turn is lower-trust than your keyboard.</b> Destructive commands — recursive
+        deletes, force pushes, reading credential files — are blocked when the instruction arrived
+        over Telegram. At the terminal, nothing is blocked.</li>
+      <li><b>Deploys and pushes are never a side effect.</b> Finished work waits until you say so,
+        and shipping asks one plain question first.</li>
+      <li><b>The honest caveat:</b> Telegram is not end-to-end encrypted, so Telegram's servers can
+        see the messages. If that matters for your work, this is not the right tool.</li>
+    </ul>
+    <p><a href="/security.html">The full threat model</a> says what else it does and does not cover.</p>
+
+    <h2>Questions</h2>
+    <div class="faq">
+      <details open>
+        <summary>How do I connect Claude Code to Telegram?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p>Install Agent Babysitter, then run abs. On first run it walks you through creating a bot with Telegram's BotFather, pastes the token in, and pairs your account with a PIN you confirm at the terminal. After that, every session you start with abs reports to that chat.</p></div>
+      </details>
+
+      <details>
+        <summary>Does my reply go into the session that is already running?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p>Yes. That is the point of it. The message is delivered into the live Claude Code session between turns, so it continues with your instruction instead of starting a new conversation that has lost all the context.</p></div>
+      </details>
+
+      <details>
+        <summary>Do I need a server or a webhook?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p>No. Telegram is polled outbound from your own machine, so there is no public IP, no open port and no webhook to host. It works the same on a laptop, over SSH, or in tmux on a headless box.</p></div>
+      </details>
+
+      <details>
+        <summary>Can I use the official Claude Code Telegram plugin on its own?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p>You can, and Agent Babysitter is built on it. The plugin gives you the channel; Agent Babysitter adds what you need when you are actually away — a written summary when a task finishes, auto-silence while you are at the desk, voice both ways, usage checks, personas, and rails so a message from a phone cannot trigger something destructive.</p></div>
+      </details>
+
+      <details>
+        <summary>Is it safe to let a Telegram bot reach my terminal?<span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></summary>
+        <div class="answer"><p>Only your paired account can reach it: pairing is PIN-confirmed at the terminal and the allowlist can only be changed there, so a message asking to be let in is dropped. Destructive commands are blocked when the turn came from Telegram rather than the keyboard. The honest caveat is that Telegram is not end-to-end encrypted, so its servers see the messages.</p></div>
+      </details>
+
+    </div>
+
+    <h2>Get it</h2>
+    <p>One line on macOS or Linux — the command is at the top of this page, and the
+      <a href="/">home page</a> has the walkthrough. The source is on
+      <a href="https://github.com/Pranjalab/AgentBabysitter">GitHub</a>, the <a href="/docs.html">docs</a> link every feature to the line
+      that implements it, and the <a href="/faq.html">FAQ</a> has twenty more answers.</p>
+  </div>
+
+  <div class="colophon">
+    <a href="/">← Back to home</a> &nbsp;·&nbsp; v3.7.1 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; <a href="/about.html#contact">About &amp; contact</a> &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
+  </div>
+</main>
+</body>
+</html>
