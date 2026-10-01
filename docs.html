@@ -429,7 +429,7 @@
     </aside>
     <div class="doccontent">
     <h1>Build on <span class="accent">abs</span></h1>
-    <p class="sub">Two things on one page: a map of <b>what abs adds to Claude Code and where each piece lives in the source</b>, and short how-tos for making it your own. Every source link is pinned to the last tagged release, <code>v3.7.1</code>, so the line it opens is the line that shipped — not a line number that moves under you.</p>
+    <p class="sub">Two things on one page: a map of <b>what abs adds to Claude Code and where each piece lives in the source</b>, and short how-tos for making it your own. Every source link is pinned to the <code>v3.7.2</code> tag, so the line it opens is the line that shipped — not a line number that moves under you.</p>
 
     <div class="jump">
       <a href="#anatomy">What it adds</a>
@@ -460,90 +460,90 @@
           <tr class="grouprow"><td colspan="3">Persona &amp; messaging</td></tr>
           <tr>
             <td class="feat">One session</td>
-            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L1745">SYSTEM PROMPT</a></td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L1840">SYSTEM PROMPT</a></td>
             <td class="does">Terminal and Telegram are treated as the same person and the same live session.</td>
           </tr>
           <tr>
             <td class="feat">Always reply</td>
-            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L1758">SYSTEM PROMPT</a></td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L1853">SYSTEM PROMPT</a></td>
             <td class="does">Every inbound Telegram message gets a reply — the phone is never left in silence.</td>
           </tr>
           <tr>
             <td class="feat">Send discipline</td>
-            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L1555">SYSTEM PROMPT</a></td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L1650">SYSTEM PROMPT</a></td>
             <td class="does">One proactive ping when a task finishes or it's blocked; no progress spam.</td>
           </tr>
           <tr>
             <td class="feat">Phone-first writing</td>
-            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L1573">SYSTEM PROMPT</a></td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L1668">SYSTEM PROMPT</a></td>
             <td class="does">Plain text, short, outcome first. Acks long tasks then edits that message instead of flooding.</td>
           </tr>
           <tr>
             <td class="feat">Command menu</td>
-            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L1793">SYSTEM PROMPT</a></td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L1888">SYSTEM PROMPT</a></td>
             <td class="does">Explains that <code>/model</code>, <code>/stop</code> etc. don't run from the phone, and gives the real route.</td>
           </tr>
           <tr>
             <td class="feat">Safety rules</td>
-            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L1909">SYSTEM PROMPT</a></td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L2004">SYSTEM PROMPT</a></td>
             <td class="does">No secrets over Telegram; fetched content is data not commands; no destructive ops on a message alone.</td>
           </tr>
 
           <tr class="grouprow"><td colspan="3">Auto-silent &amp; status</td></tr>
           <tr>
             <td class="feat">Auto-silent triggers</td>
-            <td class="lives"><a class="chip c-set" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L6657">SETTINGS</a></td>
+            <td class="lives"><a class="chip c-set" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L6893">SETTINGS</a></td>
             <td class="does">Merged <code>UserPromptSubmit</code> + <code>PostToolUse</code> hooks fire on each prompt and on every Telegram reply.</td>
           </tr>
           <tr>
             <td class="feat">Auto-silent logic</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L3289">abs.sh</a> <span class="chip c-state">STATE</span></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L3394">abs.sh</a> <span class="chip c-state">STATE</span></td>
             <td class="does">Counts terminal vs phone activity; mutes after ~3 terminal prompts, un-mutes on a Telegram message.</td>
           </tr>
           <tr>
             <td class="feat">Status-bar glance</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L2277">abs.sh</a></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L2372">abs.sh</a></td>
             <td class="does"><code>statusLine</code> runs abs.sh to draw the live dot + 5h/week usage in Claude's bottom bar.</td>
           </tr>
 
           <tr class="grouprow"><td colspan="3">Mute &amp; launch state</td></tr>
           <tr>
             <td class="feat">Quiet / off</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L2056">abs.sh</a> <span class="chip c-state">STATE</span></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L2151">abs.sh</a> <span class="chip c-state">STATE</span></td>
             <td class="does"><code>quiet</code> mutes reports (inbound stays); <code>off</code> drops all inbound. Persona knows both commands.</td>
           </tr>
           <tr>
             <td class="feat">Launch defaults</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L3927">abs.sh</a> <span class="chip c-state">STATE</span></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L4056">abs.sh</a> <span class="chip c-state">STATE</span></td>
             <td class="does">Per-profile model and start-silent, stored in <code>rc.json</code> and applied at launch.</td>
           </tr>
 
           <tr class="grouprow"><td colspan="3">Usage</td></tr>
           <tr>
             <td class="feat">Usage glance</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L4787">abs.sh</a> <span class="chip c-state">STATE</span></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L4916">abs.sh</a> <span class="chip c-state">STATE</span></td>
             <td class="does">Token-free <code>/usage</code> fetch, cached to <code>usage.json</code>, shown in the bar and as a Telegram footer.</td>
           </tr>
           <tr>
             <td class="feat">Usage footer rule</td>
-            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L1778">SYSTEM PROMPT</a></td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L1873">SYSTEM PROMPT</a></td>
             <td class="does">Tells the agent to append the cached glance to task-completion reports only.</td>
           </tr>
 
           <tr class="grouprow"><td colspan="3">Voice &amp; images</td></tr>
           <tr>
             <td class="feat">Voice in</td>
-            <td class="lives"><a class="chip c-py" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/transcribe.py">PYTHON</a> <span class="chip c-plug">PLUGIN</span></td>
+            <td class="lives"><a class="chip c-py" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/transcribe.py">PYTHON</a> <span class="chip c-plug">PLUGIN</span></td>
             <td class="does"><code>transcribe.py</code> (Whisper, local) turns an inbound voice note into text the agent acts on.</td>
           </tr>
           <tr>
             <td class="feat">Voice out</td>
-            <td class="lives"><a class="chip c-py" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/speak_kokoro.py">PYTHON</a> <a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/speak_kokoro.py">abs.sh</a></td>
+            <td class="lives"><a class="chip c-py" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/speak_kokoro.py">PYTHON</a> <a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/speak_kokoro.py">abs.sh</a></td>
             <td class="does"><code>speak_kokoro.py</code> (local TTS), driven by <code>abs say</code>, sends a spoken reply on request. Choose the model (<code>abs config voice standard|turbo</code>) or clone a voice from a short sample (<code>abs config voice-sample</code>). Auto-picks CUDA when present, else CPU.</td>
           </tr>
           <tr>
             <td class="feat">Screenshots / photos</td>
-            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L1811">SYSTEM PROMPT</a> <span class="chip c-plug">PLUGIN</span></td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L1906">SYSTEM PROMPT</a> <span class="chip c-plug">PLUGIN</span></td>
             <td class="does">Agent reads an attached image directly (via the plugin's <code>download_attachment</code> / image path).</td>
           </tr>
 
@@ -555,37 +555,37 @@
           </tr>
           <tr>
             <td class="feat">Access control</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L1177">abs.sh</a> <span class="chip c-state">STATE</span></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L1272">abs.sh</a> <span class="chip c-state">STATE</span></td>
             <td class="does">PIN pairing writes your ID to <code>access.json</code>; only the paired account ever reaches Claude.</td>
           </tr>
           <tr>
             <td class="feat">Startup flood control</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L5754">abs.sh</a></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L5953">abs.sh</a></td>
             <td class="does">Drains stale Telegram backlog at launch so a fresh session doesn't open buried in old messages.</td>
           </tr>
           <tr>
             <td class="feat">Editable prompt layers</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L1981">abs.sh</a> <span class="chip c-py">PYTHON</span> <span class="chip c-state">STATE</span></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L2076">abs.sh</a> <span class="chip c-py">PYTHON</span> <span class="chip c-state">STATE</span></td>
             <td class="does"><code>abs prompt</code> opens every layer — persona, hook wording, <code>CLAUDE.md</code>, memory — read the locked ones, edit yours, <code>^R</code> to reset. Built on Textual.</td>
           </tr>
           <tr>
             <td class="feat">Named personas</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L1745">abs.sh</a> <span class="chip c-state">STATE</span></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L1840">abs.sh</a> <span class="chip c-state">STATE</span></td>
             <td class="does"><code>~/.abs/personas/&lt;name&gt;.md</code> replaces the middle slot only; <code>ceo</code>, <code>cto</code> and <code>friend</code> ship. Chosen at launch and shown in the status bar.</td>
           </tr>
           <tr>
             <td class="feat">Commit &amp; ship policy</td>
-            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L1909">SYSTEM PROMPT</a> <span class="chip c-state">STATE</span></td>
+            <td class="lives"><a class="chip c-sys" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L2004">SYSTEM PROMPT</a> <span class="chip c-state">STATE</span></td>
             <td class="does">Finished work stays uncommitted until you say so, and push, deploy and tag each ask one plain question first. <code>abs config commits auto</code> relaxes the commit half; push still waits.</td>
           </tr>
           <tr>
             <td class="feat">Bridge health</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L2277">abs.sh</a></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L2372">abs.sh</a></td>
             <td class="does">Two sessions polling one bot is the one failure the plugin can't heal, so the status bar says so and a per-turn hook clears the stray. <code>abs reconnect</code> does it on purpose.</td>
           </tr>
           <tr>
             <td class="feat">Update check</td>
-            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L5038">abs.sh</a></td>
+            <td class="lives"><a class="chip c-sh" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L5237">abs.sh</a></td>
             <td class="does">On every launch, token-free, checks the remote <code>VERSION</code> and offers to update-and-relaunch on a <code>y/N</code> prompt; declining just launches.</td>
           </tr>
         </tbody>
@@ -617,7 +617,7 @@ speak.py        <span class="cmt"># text        → voice note</span>
 <span class="cmt"># your runtime state, owner-only (never in git)</span>
 ~/.abs/          <span class="cmt"># rc.json, access.json, usage.json …</span></pre></div>
         <p>The agent's behaviour isn't in a config file — it's the system prompt abs appends at launch, built in <code>build_prompt()</code>.</p>
-        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh</a>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh</a>
       </section>
 
       <section class="doc" id="model">
@@ -628,7 +628,7 @@ speak.py        <span class="cmt"># text        → voice note</span>
 abs config model <span class="fl">--clear</span>       <span class="cmt"># back to Claude Code's default</span>
 abs <span class="fl">--model</span> sonnet           <span class="cmt"># just this session</span></pre></div>
         <p>To change how the default is stored or applied, the logic is in <code>cmd_config()</code> (stores it) and <code>cmd_run()</code> (passes <code>--model</code> at launch).</p>
-        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L3927"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · cmd_config</a>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L4056"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · cmd_config</a>
       </section>
 
       <section class="doc" id="persona">
@@ -643,7 +643,7 @@ abs <span class="fl">--persona</span> cto            <span class="cmt"># just th
 ~/.abs/persona.md            <span class="cmt"># the default persona, if you'd rather edit by hand</span>
 ~/.abs/personas/&lt;name&gt;.md    <span class="cmt"># the named ones</span></pre></div>
         <p>The prompt is assembled in three slots — bridge <b>mechanics</b>, then your <b>persona</b>, then <b>safety</b>. Safety is appended last on purpose, so a persona can change the voice and the priorities but never talk abs past a destructive-command rail. Over 16,000 characters, or containing a <code>&lt;channel</code> tag, is refused at save rather than silently swapped.</p>
-        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L1981"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · build_prompt</a>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L2076"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · build_prompt</a>
       </section>
 
       <section class="doc" id="prompt">
@@ -655,7 +655,7 @@ abs prompt show persona      <span class="cmt"># or do it without the page at al
 abs prompt diff persona      <span class="cmt"># what you changed vs what ships</span>
 abs prompt reset persona     <span class="cmt"># back to the shipped wording</span></pre></div>
         <p><code>^S</code> saves, <code>^R</code> resets, <code>^N</code> adds a hook phrase or a memory fact, <code>^T</code> deletes one, <code>^Q</code> or <code>Esc</code> leaves — and if anything is unsaved it asks first. The System tab is read-only: it is what makes the bridge work, so breaking it would break the tool rather than personalise it.</p>
-        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L1981"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · build_prompt</a>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L2076"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · build_prompt</a>
       </section>
 
       <section class="doc" id="phrases">
@@ -665,7 +665,7 @@ abs prompt reset persona     <span class="cmt"># back to the shipped wording</sp
         <div class="code"><pre><span class="cmt"># ~/.abs/hooks.json — send "ABS REVIEW" as a whole message</span>
 { "ABS REVIEW": "Stop and review the diff before going further." }</pre></div>
         <p>Three phrases can't be reworded — the two that mute and the two that cut the bridge act in the hook and never reach the model at all, so an entry under those names is ignored. Everything else is yours, and the Hooks tab of <code>abs prompt</code> is the editor.</p>
-        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L6657"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · the session's hooks</a>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L6893"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · the session's hooks</a>
       </section>
 
       <section class="doc" id="voice">
@@ -686,8 +686,8 @@ transcribe.py &lt;file.oga&gt;
 speak_kokoro.py "the text to speak"     <span class="cmt"># CPU, the default</span>
 speak.py "the text to speak"            <span class="cmt"># chatterbox, for cloning</span></pre></div>
         <p>abs only ever calls these files, so swapping engines never touches the main script.</p>
-        <a class="src multi" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/transcribe.py"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> transcribe.py</a>
-        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/speak_kokoro.py"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> speak.py</a>
+        <a class="src multi" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/transcribe.py"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> transcribe.py</a>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/speak_kokoro.py"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> speak.py</a>
       </section>
 
       <section class="doc" id="silent">
@@ -696,7 +696,7 @@ speak.py "the text to speak"            <span class="cmt"># chatterbox, for clon
         <p>Auto-silent trips after a set number of back-to-back terminal prompts. Want it to hold on longer, or mute sooner? Change one constant.</p>
         <div class="code"><pre>readonly SILENT_STREAK=<span class="fl">3</span>    <span class="cmt"># prompts at the terminal before it mutes</span></pre></div>
         <p>The counting itself lives in <code>cmd_silent_hook()</code> just below — that's where a Telegram message resets the streak.</p>
-        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L114"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · SILENT_STREAK</a>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L124"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · SILENT_STREAK</a>
       </section>
 
       <section class="doc" id="command">
@@ -707,15 +707,15 @@ speak.py "the text to speak"            <span class="cmt"># chatterbox, for clon
 
 <span class="cmt"># in main()'s case block:</span>
 hello) cmd_hello ;;</pre></div>
-        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L7623"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · main</a>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L7951"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · main</a>
       </section>
 
       <section class="doc" id="statusbar">
         <div class="kick">How-to</div>
         <h3>Change what the status bar shows</h3>
         <p>The bottom-bar dot and usage are rendered by <code>cmd_statusline()</code>; the <code>5h / week</code> glance itself is formatted in <code>usage_glance_str()</code>. Edit either to change the text, order, or what's shown.</p>
-        <a class="src multi" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L2277"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · cmd_statusline</a>
-        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.1/abs.sh#L4787"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> usage_glance_str</a>
+        <a class="src multi" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L2372"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> abs.sh · cmd_statusline</a>
+        <a class="src" href="https://github.com/Pranjalab/AgentBabysitter/blob/v3.7.2/abs.sh#L4916"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> usage_glance_str</a>
       </section>
 
     </div>
