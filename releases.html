@@ -319,8 +319,25 @@
 
     <div class="rel current">
       <div class="rel-top">
-        <span class="rel-ver">3.7.2</span>
+        <span class="rel-ver">3.7.4</span>
         <span class="rel-tag now">Current</span>
+        <span class="rel-date">1 Oct 2026</span>
+      </div>
+      <h3>Two bots on one machine, and a warning that was wrong about it</h3>
+      <p>All of this came out of one afternoon running two bots on one server — which is the thing ABS itself had just recommended. Two hotfixes, folded together.</p>
+      <ul>
+        <li><b>Two bots is not a conflict.</b> Starting a second one made both sessions show <code>telegram conflict</code>. Nothing was conflicting: the detector counted polling processes across the whole machine and called two of them a clash, which only holds if the machine runs one bot. Running several, one per project, is a feature. A real conflict is two pollers on the <i>same</i> bot, and that is what it looks for now.</li>
+        <li><b>The background check no longer acts on a guess.</b> The false warning exposed a worse one: a routine turn could have ended a <i>working</i> connection when it could not identify who owned it. Not knowing is not evidence. It now acts only on the unambiguous case, and <code>abs reconnect</code> — which you run deliberately — still handles the rest.</li>
+        <li><b>The way to a second bot, said the right way round.</b> A profile name you have never used sets up a new bot and launches it, with nothing to install. The message had implied the opposite, and pointed first at the automated command, which needs the v3 source.</li>
+        <li><b>A tidy-up (3.7.3):</b> dead code removed after an audit — a function orphaned when voice-note trimming was dropped, and two constants whose comment claimed they enforced a rule they did not. No behaviour changed.</li>
+      </ul>
+      <div class="rel-cmd"><code>curl -fsSL https://agentbabysitter.com/install.sh | bash</code></div>
+      <p class="rel-note">Already installed? Just run <b>abs</b> — it offers you the update itself.</p>
+    </div>
+
+    <div class="rel">
+      <div class="rel-top">
+        <span class="rel-ver">3.7.2</span>
         <span class="rel-date">1 Oct 2026</span>
       </div>
       <h3>Four dead ends, and a voice that stopped without saying so</h3>
@@ -460,7 +477,7 @@
   </div>
 
   <div class="colophon">
-    <a href="/">← Back to home</a> &nbsp;·&nbsp; v3.7.2 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; <a href="about.html#contact">About &amp; contact</a> &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
+    <a href="/">← Back to home</a> &nbsp;·&nbsp; v3.7.4 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; <a href="about.html#contact">About &amp; contact</a> &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
   </div>
 </main>
 <script>
