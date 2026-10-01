@@ -15,7 +15,7 @@ Install on macOS or Linux, with Claude Code already installed and logged in: pip
 https://agentbabysitter.com/install.sh into bash. The exact one-line command, and
 the command for pinning any older version, is on the Releases page below.
 
-- Current version: 3.7.1. First public release: July 2026. MIT licensed. Free.
+- Current version: 3.7.2. First public release: July 2026. MIT licensed. Free.
 - Source: https://github.com/Pranjalab/AgentBabysitter
 - Built and maintained by one developer, Pranjal (https://github.com/Pranjalab).
 

@@ -319,8 +319,26 @@
 
     <div class="rel current">
       <div class="rel-top">
-        <span class="rel-ver">3.7.1</span>
+        <span class="rel-ver">3.7.2</span>
         <span class="rel-tag now">Current</span>
+        <span class="rel-date">1 Oct 2026</span>
+      </div>
+      <h3>Four dead ends, and a voice that stopped without saying so</h3>
+      <p>Every fix here is the same shape: ABS noticed something was wrong and then left you with nowhere to go. A refusal that is <i>correct</i> is still a bug if it does not tell you what to do next — and four of these five were hit on a live machine before they were found in a test.</p>
+      <ul>
+        <li><b>A resume only resumes something that exists.</b> A session nobody spoke in leaves a history file with no messages in it, so <code>--continue</code> refused and the launch died at a shell prompt. The menu checks for a real message first and starts fresh in that folder instead, saying why.</li>
+        <li><b>A Telegram conflict is visible, and gets cleared.</b> A dropped connection heals itself; two sessions polling one bot does not — the plugin gives up after eight tries and stays alive but deaf, with replies still going out. The status bar now says so while it can still be fixed, a stray poller is ended automatically, and <code>abs reconnect</code> does it on purpose. A poller a live session owns is never touched.</li>
+        <li><b>A stuck update tells you what is stuck.</b> On a server, <code>git pull --ff-only</code> refused over a locally-edited file and said only "resolve it by hand" — over SSH, with no idea what had changed. That machine sat a fortnight behind. It now names the files, shows the diff, and offers to stash and retry, which keeps your changes and prints how to get them back. Never without a yes, never without a terminal.</li>
+        <li><b>You can make a second bot while the first is working.</b> With a session live on one bot, the one command that creates another refused for the same reason — so there was no way to get a second bot without ending the session you were using. Making one collides with nothing: the live bot only relays the new bot's PIN.</li>
+        <li><b>Voice no longer dies silently on a shared GPU host.</b> A root-owned CUDA MPS daemon makes every other user's CUDA init hang for ever, so the speech engine blocked for hours and not one voice note went out. ABS now steers the client away from it before anything can load torch.</li>
+      </ul>
+      <div class="rel-cmd"><code>curl -fsSL https://agentbabysitter.com/install.sh | bash</code></div>
+      <p class="rel-note">Already installed? Just run <b>abs</b> — it offers you the update itself.</p>
+    </div>
+
+    <div class="rel">
+      <div class="rel-top">
+        <span class="rel-ver">3.7.1</span>
         <span class="rel-date">24 Sep 2026</span>
       </div>
       <h3>See and edit what goes into Claude — and a fresh machine that installs cleanly</h3>
@@ -442,7 +460,7 @@
   </div>
 
   <div class="colophon">
-    <a href="/">← Back to home</a> &nbsp;·&nbsp; v3.7.1 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; <a href="about.html#contact">About &amp; contact</a> &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
+    <a href="/">← Back to home</a> &nbsp;·&nbsp; v3.7.2 &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; <a href="about.html#contact">About &amp; contact</a> &nbsp;·&nbsp; Made with <span class="hh">♥</span> for Claude Code users
   </div>
 </main>
 <script>
